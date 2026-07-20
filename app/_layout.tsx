@@ -1,4 +1,5 @@
 import {
+  Newsreader_400Regular,
   Newsreader_400Regular_Italic,
   Newsreader_500Medium,
   Newsreader_500Medium_Italic,
@@ -24,6 +25,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
+    Newsreader_400Regular,
     Newsreader_400Regular_Italic,
     Newsreader_500Medium,
     Newsreader_500Medium_Italic,
@@ -50,6 +52,14 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="onboarding" options={{ headerShown: false, animation: 'fade' }} />
         <Stack.Screen name="paywall" options={{ headerShown: false, animation: 'fade' }} />
+        <Stack.Screen
+          name="player"
+          options={{ headerShown: false, animation: 'slide_from_bottom' }}
+        />
+        <Stack.Screen
+          name="letter"
+          options={{ headerShown: false, animation: 'slide_from_bottom' }}
+        />
       </Stack>
     </>
   );

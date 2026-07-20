@@ -45,6 +45,7 @@ export const fonts = {
   serifItalic: 'Newsreader_500Medium_Italic',
   serifItalicLight: 'Newsreader_400Regular_Italic',
   serifMedium: 'Newsreader_500Medium', // upright — stat numerals, plan prices
+  serif: 'Newsreader_400Regular', // upright body — story text, letter
   // Body/UI is system sans (SF Pro on iOS): leave fontFamily unset.
 } as const;
 
