@@ -1,5 +1,6 @@
 import {
   Newsreader_400Regular_Italic,
+  Newsreader_500Medium,
   Newsreader_500Medium_Italic,
 } from '@expo-google-fonts/newsreader';
 import { useFonts } from 'expo-font';
@@ -24,6 +25,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     Newsreader_400Regular_Italic,
+    Newsreader_500Medium,
     Newsreader_500Medium_Italic,
   });
 
@@ -46,6 +48,7 @@ export default function RootLayout() {
       <StatusBar style="dark" />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="onboarding" options={{ headerShown: false, animation: 'fade' }} />
       </Stack>
     </>
   );

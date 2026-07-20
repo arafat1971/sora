@@ -44,6 +44,7 @@ export const fonts = {
   // Headlines & emotional copy — Newsreader italic, weight 450–500
   serifItalic: 'Newsreader_500Medium_Italic',
   serifItalicLight: 'Newsreader_400Regular_Italic',
+  serifMedium: 'Newsreader_500Medium', // upright — stat numerals, plan prices
   // Body/UI is system sans (SF Pro on iOS): leave fontFamily unset.
 } as const;
 

@@ -1,8 +1,15 @@
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 
 import { SoraTabBar } from '@/components/SoraTabBar';
+import { useOnboarding } from '@/store/onboarding';
 
 export default function TabLayout() {
+  const hydrated = useOnboarding((s) => s.hydrated);
+  const completed = useOnboarding((s) => s.completed);
+
+  if (!hydrated) return null;
+  if (!completed) return <Redirect href="/onboarding" />;
+
   return (
     <Tabs
       tabBar={(props) => <SoraTabBar {...props} />}
