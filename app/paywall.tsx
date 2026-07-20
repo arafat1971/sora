@@ -6,8 +6,10 @@ import { Animated, Easing, Pressable, ScrollView, StyleSheet, Text, View } from 
 import { Orb } from '@/components/Orb';
 import { Screen } from '@/components/Screen';
 import { colors, fonts, gradients } from '@/constants/theme';
+import { scheduleTrialReminder, syncRitualReminders } from '@/lib/notifications';
 import { PlanId, usePurchases } from '@/lib/purchases';
 import { useOnboarding } from '@/store/onboarding';
+import { useReminders } from '@/store/reminders';
 
 // Reference: Sora Paywall v2.dc.html (canonical layout) + the wired paywall in
 // Sora Prototype.dc.html (dynamic name/voice copy). Annual pre-selected.
@@ -58,6 +60,11 @@ export default function PaywallScreen() {
 
   const onStart = async () => {
     await startTrial(selected);
+    // Begin the trust timeline: day-5 reminder + daily rituals (Dev Handoff §5).
+    const reminders = useReminders.getState();
+    reminders.startTrial();
+    scheduleTrialReminder(new Date().toISOString());
+    syncRitualReminders(reminders.rem);
     complete();
     router.replace('/(tabs)');
   };

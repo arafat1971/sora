@@ -5,13 +5,24 @@ import {
   Newsreader_500Medium_Italic,
 } from '@expo-google-fonts/newsreader';
 import { useFonts } from 'expo-font';
+import * as Notifications from 'expo-notifications';
 import { Stack } from 'expo-router';
-
-import { Toast } from '@/components/Toast';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+
+import { Toast } from '@/components/Toast';
+
+// Show scheduled reminders while the app is foregrounded.
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export {
   // Catch any errors thrown by the Layout component.

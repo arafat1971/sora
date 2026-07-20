@@ -10,11 +10,14 @@ import {
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
+import { RemindersSheet } from '@/components/RemindersSheet';
 import { Screen } from '@/components/Screen';
+import { TrialReminderSheet } from '@/components/TrialReminderSheet';
 import { VoiceSheet } from '@/components/VoiceSheet';
 import { colors, fonts, spacing } from '@/constants/theme';
 import { useOnboarding } from '@/store/onboarding';
 import { useProfile } from '@/store/profile';
+import { remindersOnCount, useReminders } from '@/store/reminders';
 import { useToast } from '@/store/toast';
 
 // Reference: Profile in Sora Prototype.dc.html. Deleting a memory fact
@@ -44,6 +47,9 @@ export default function ProfileScreen() {
   const [know, setKnow] = useState('');
   const [pronounce, setPronounce] = useState('');
   const [voiceSheet, setVoiceSheet] = useState(false);
+  const [remindersSheet, setRemindersSheet] = useState(false);
+  const [trialSheet, setTrialSheet] = useState(false);
+  const rem = useReminders((s) => s.rem);
 
   return (
     <Screen>
@@ -191,10 +197,10 @@ export default function ProfileScreen() {
         {/* Daily rhythm */}
         <SectionLabel>DAILY RHYTHM</SectionLabel>
         <View style={styles.cardTight}>
-          <Pressable style={styles.settingRow}>
+          <Pressable onPress={() => setRemindersSheet(true)} style={styles.settingRow}>
             <Text style={styles.settingKey}>Reminders</Text>
             <View style={styles.settingValRow}>
-              <Text style={styles.settingVal}>2 of 3 on</Text>
+              <Text style={styles.settingVal}>{remindersOnCount(rem)} of 3 on</Text>
               <Chevron />
             </View>
           </Pressable>
@@ -228,10 +234,10 @@ export default function ProfileScreen() {
         <View style={[styles.cardTight, { marginTop: 20 }]}>
           <View style={styles.settingRow}>
             <Text style={styles.settingKey}>Subscription</Text>
-            <View style={styles.settingValRow}>
+            <Pressable onPress={() => setTrialSheet(true)} style={styles.settingValRow}>
               <Text style={styles.trialText}>Free trial · 2 days left</Text>
               <Chevron />
-            </View>
+            </Pressable>
           </View>
           <Pressable style={styles.settingRow}>
             <Text style={styles.settingKey}>Manage or cancel</Text>
@@ -244,6 +250,8 @@ export default function ProfileScreen() {
         </View>
       </ScrollView>
       {voiceSheet && <VoiceSheet onClose={() => setVoiceSheet(false)} />}
+      {remindersSheet && <RemindersSheet onClose={() => setRemindersSheet(false)} />}
+      {trialSheet && <TrialReminderSheet onClose={() => setTrialSheet(false)} />}
     </Screen>
   );
 }
