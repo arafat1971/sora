@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — Gift 7 Days</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Referral as generosity, not growth hacking. <a href="Sora Index.dc.html">← Index</a></div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:linear-gradient(175deg,#f7f0ee 0%,#eee0e4 55%,#e2d8e8 100%);color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-screen-label="Gift 7 days" style="position:absolute;inset:0;overflow:auto;padding:72px 28px 56px;box-sizing:border-box;">
+
+        <span style="font-size:11px;font-weight:600;letter-spacing:2.4px;color:rgba(46,36,64,0.45);">GIFT 7 DAYS</span>
+        <div style="margin-top:10px;font-family:'Newsreader',serif;font-style:italic;font-size:27px;line-height:1.25;color:#3b2d54;text-wrap:pretty;">Someone you love is<br>waiting for a sign.</div>
+        <div style="margin-top:10px;font-size:13.5px;line-height:1.6;color:rgba(46,36,64,0.6);">Give them a week of Sora — their own plan, their own stories. When their first sign lands, you'll both know.</div>
+
+        <!-- the gift card -->
+        <div style="margin-top:22px;border-radius:24px;overflow:hidden;position:relative;box-shadow:0 14px 36px rgba(70,50,100,0.16);">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle 26px at 76% 22%, #fff3d9 0% 46%, rgba(255,243,217,0.4) 58%, transparent 66%),linear-gradient(180deg,#d8ab9e 0%,#b18ba8 55%,#6f5d8e 100%);"></div>
+          <div style="position:relative;padding:22px 22px 20px;display:flex;flex-direction:column;gap:26px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.85);">SORA · 7-DAY PASS</span>
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;line-height:1.35;color:#fff;text-shadow:0 1px 12px rgba(40,30,60,0.35);">\u201cI want this for you.\u201d</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:11px;letter-spacing:1.2px;color:rgba(255,255,255,0.75);">FROM MAYA</span>
+              <span style="font-size:11px;letter-spacing:1.2px;color:rgba(255,255,255,0.75);">NO CARD NEEDED</span>
+            </div>
+          </div>
+        </div>
+
+        <button onClick="{{send}}" style="margin-top:18px;width:100%;height:52px;border-radius:26px;border:none;background:#503a6b;color:#fff;font-size:15px;font-weight:650;cursor:pointer;box-shadow:0 8px 22px rgba(80,58,107,0.24);">{{sendLabel}}</button>
+        <div style="margin-top:10px;font-size:11.5px;color:rgba(46,36,64,0.45);text-align:center;">They never see an ad or a countdown. Just the week.</div>
+
+        <!-- what you get -->
+        <div style="margin-top:30px;font-size:11px;font-weight:600;letter-spacing:2.4px;color:rgba(46,36,64,0.45);">WHEN THEY STAY</div>
+        <div style="margin-top:2px;display:flex;flex-direction:column;">
+          <sc-for list="{{perks}}" as="p" hint-placeholder-count="3">
+            <div style="padding:15px 2px;border-bottom:1px solid rgba(46,36,64,0.09);display:flex;gap:13px;align-items:baseline;">
+              <span style="width:8px;height:8px;border-radius:4px;background:{{p.dot}};flex-shrink:0;position:relative;top:-1px;"></span>
+              <div style="display:flex;flex-direction:column;gap:2px;">
+                <span style="font-size:14px;color:#2e2440;line-height:1.4;">{{p.t}}</span>
+                <span style="font-size:11.5px;color:rgba(46,36,64,0.5);">{{p.s}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- sent state -->
+        <sc-if value="{{sentAny}}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:26px;animation:fadeUp 0.4s ease;">
+            <div style="font-size:11px;font-weight:600;letter-spacing:2.4px;color:rgba(46,36,64,0.45);">YOUR GIFTS</div>
+            <div style="margin-top:2px;display:flex;flex-direction:column;">
+              <sc-for list="{{sentList}}" as="g" hint-placeholder-count="1">
+                <div style="padding:14px 2px;border-bottom:1px solid rgba(46,36,64,0.09);display:flex;align-items:center;gap:12px;">
+                  <span style="flex:1;font-size:13.5px;">{{g.who}}</span>
+                  <span style="font-size:11px;font-weight:700;letter-spacing:0.8px;color:{{g.fg}};">{{g.st}}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </x-import>
+  <div style="max-width:400px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">Double-sided referral framed as a gift: sender's name travels on the pass, both sides earn a month when the friend subscribes, and the \u201cno card needed\u201d promise keeps it clean. Lives in Profile + fires contextually after milestone shares.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900}}">
+class Component extends DCLogic {
+  state = { sent: 0 };
+  renderVals() {
+    const s = this.state;
+    return {
+      send: () => this.setState({ sent: s.sent + 1 }),
+      sendLabel: s.sent === 0 ? "Send the pass" : "Send another",
+      sentAny: s.sent > 0,
+      sentList: [
+        { who: "Pass sent just now", st: "WAITING", fg: "#a8712c" },
+        ...(s.sent > 1 ? [{ who: "Pass sent just now", st: "WAITING", fg: "#a8712c" }] : []),
+        { who: "Jess — opened day 3", st: "ON HER PLAN", fg: "#3e7d5a" }
+      ],
+      perks: [
+        { t: "They get a real week, not a teaser", s: "Full plan, stories, signs — no locked features.", dot: "#c98d3f" },
+        { t: "You both earn a month when they stay", s: "Applied automatically. No codes to paste.", dot: "#3e7d5a" },
+        { t: "Their goal stays theirs", s: "You never see what they're manifesting.", dot: "#503a6b" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

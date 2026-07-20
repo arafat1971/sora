@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;justify-content:center;padding:52px 24px 72px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="max-width:780px;width:100%;display:flex;flex-direction:column;gap:34px;">
+    <header style="display:flex;flex-direction:column;gap:8px;">
+      <span style="font-size:11px;font-weight:600;letter-spacing:2.6px;color:#a8712c;">SORA · LAUNCH ROADMAP</span>
+      <h1 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:38px;line-height:1.15;margin:0;text-wrap:pretty;">1M downloads. $300k MRR.<br>The path, with gates.</h1>
+      <p style="font-size:14px;line-height:1.65;color:rgba(46,36,64,0.6);margin:0;max-width:620px;">The math: $300k MRR ≈ 25–30k paying subscribers at ~$11/mo effective. At 2–4% install→paid, that's 700k–1.5M installs — the two goals are the same goal. This plan gates every dollar of growth spend behind proven retention. <a href="Sora Index.dc.html">← Index</a></p>
+    </header>
+
+    <section style="display:flex;flex-direction:column;gap:6px;">
+      <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:24px;margin:0 0 8px;">Phases</h2>
+      <sc-for list="{{phases}}" as="p" hint-placeholder-count="4">
+        <div style="display:flex;gap:20px;padding:18px 0;border-top:1px solid rgba(46,36,64,0.1);">
+          <div style="width:118px;flex-shrink:0;display:flex;flex-direction:column;gap:3px;">
+            <span style="font-family:'Newsreader',serif;font-size:20px;font-weight:500;color:#3b2d54;">{{p.t}}</span>
+            <span style="font-size:10.5px;font-weight:700;letter-spacing:1.2px;color:#a8712c;">{{p.when}}</span>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+            <sc-for list="{{p.items}}" as="i" hint-placeholder-count="3">
+              <div style="display:flex;gap:10px;align-items:baseline;">
+                <span style="width:7px;height:7px;border-radius:4px;background:{{i.dot}};flex-shrink:0;position:relative;top:-1px;"></span>
+                <span style="font-size:13.5px;line-height:1.55;color:rgba(46,36,64,0.75);">{{i.t}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:12px;">
+      <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:24px;margin:0;">The gates — no growth spend until all pass</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0;border-top:1px solid rgba(46,36,64,0.1);">
+        <sc-for list="{{gates}}" as="g" hint-placeholder-count="5">
+          <div style="padding:16px 18px 16px 0;display:flex;flex-direction:column;gap:3px;border-bottom:1px solid rgba(46,36,64,0.08);">
+            <span style="font-family:'Newsreader',serif;font-size:26px;font-weight:500;color:#3b2d54;">{{g.n}}</span>
+            <span style="font-size:11px;font-weight:600;letter-spacing:1.2px;color:rgba(46,36,64,0.5);line-height:1.4;">{{g.l}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <p style="font-size:13px;line-height:1.6;color:rgba(46,36,64,0.55);margin:0;">Fail a gate → fix the funnel stage it measures, re-test in soft-launch markets. Buying traffic into a leaky bucket is how manifestation apps die with great designs.</p>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:12px;">
+      <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:24px;margin:0;">Milestones to $300k</h2>
+      <sc-for list="{{miles}}" as="m" hint-placeholder-count="4">
+        <div style="display:flex;gap:18px;padding:13px 0;border-top:1px solid rgba(46,36,64,0.1);align-items:baseline;">
+          <span style="width:92px;flex-shrink:0;font-size:11px;font-weight:700;letter-spacing:1.2px;color:#a8712c;">{{m.when}}</span>
+          <span style="width:120px;flex-shrink:0;font-family:'Newsreader',serif;font-size:19px;font-weight:500;color:#3b2d54;">{{m.mrr}}</span>
+          <span style="flex:1;font-size:13px;line-height:1.55;color:rgba(46,36,64,0.65);">{{m.d}}</span>
+        </div>
+      </sc-for>
+      <p style="font-size:13px;line-height:1.6;color:rgba(46,36,64,0.55);margin:0;font-style:italic;">Assumes gates pass and the TikTok engine sustains ~100k organic installs/mo by month 9. Stella took ~2 years to the same number — this is aggressive but not fantasy.</p>
+    </section>
+
+    <footer style="font-size:12.5px;color:rgba(46,36,64,0.5);line-height:1.6;border-top:1px solid rgba(46,36,64,0.1);padding-top:16px;">
+      Design package: <a href="Sora Prototype.dc.html">prototype</a> · <a href="Sora Dev Handoff.dc.html">dev handoff</a> · <a href="Sora TikTok Content Kit.dc.html">TikTok engine</a> · <a href="Sora App Store Kit.dc.html">ASO kit</a>. The single biggest risk is story quality — validate the LLM→TTS pipeline before writing any app code.
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900}}">
+class Component extends DCLogic {
+  renderVals() {
+    const g = "#3e7d5a", a = "#a8712c", p = "#503a6b";
+    return {
+      phases: [
+        { t: "Validate", when: "WEEKS 0–4", items: [
+          { t: "Prototype the LLM→TTS story pipeline first — if the daily story doesn't give chills, stop and fix. Nothing downstream matters.", dot: p },
+          { t: "50 hand-recruited testers from manifestation TikTok/Reddit run 14 days on a barebones build.", dot: p },
+          { t: "Success bar: 60%+ finish the plan, unprompted 'it's working' messages.", dot: g }
+        ]},
+        { t: "Build MVP", when: "WEEKS 4–12", items: [
+          { t: "Core loop only: quiz onboarding → paywall → daily story → seal → signs. Cut Circle, Android, referral from v1.", dot: p },
+          { t: "RevenueCat, day-5 reminder, two-tap cancel — the trust promises are launch-blocking, not nice-to-have.", dot: a },
+          { t: "Ship the small widget with v1 — it's cheap and compounds retention from day one.", dot: p }
+        ]},
+        { t: "Soft launch", when: "MONTHS 3–5", items: [
+          { t: "Canada + Australia + Philippines on the App Store. Measure the gates below with real money.", dot: p },
+          { t: "Start the TikTok engine now at 1–2 posts/day — the account needs 2 months of seasoning before the US push.", dot: a },
+          { t: "Iterate paywall + quiz weekly; each 1% of trial conversion ≈ $8–12k of eventual MRR.", dot: g }
+        ]},
+        { t: "Scale", when: "MONTHS 5–12+", items: [
+          { t: "US launch + full 3–5 posts/day TikTok cadence + referral and share cards switched on.", dot: p },
+          { t: "Paid UA only after LTV > 3× CAC holds for 4 straight weeks in soft-launch data.", dot: a },
+          { t: "Android + annual-heavy pricing experiments once iOS retention is stable.", dot: p }
+        ]}
+      ],
+      gates: [
+        { n: "60%", l: "ONBOARDING COMPLETION" },
+        { n: "8%", l: "INSTALL → TRIAL START" },
+        { n: "40%", l: "TRIAL → PAID" },
+        { n: "25%", l: "DAY-7 RETENTION" },
+        { n: "2/wk", l: "SIGNS LOGGED PER USER" }
+      ],
+      miles: [
+        { when: "MONTH 5", mrr: "$10k MRR", d: "~1k subs from soft launch. Gates proven. Green light for US." },
+        { when: "MONTH 8", mrr: "$50k MRR", d: "US launch + TikTok engine at full cadence. ~150k installs total." },
+        { when: "MONTH 12", mrr: "$120k MRR", d: "Referral flywheel + paid UA layered on organic. ~500k installs." },
+        { when: "MONTH 18–24", mrr: "$300k MRR", d: "~1.2M installs, 27k subs, 60% annual mix. The compounding, not a spike." }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

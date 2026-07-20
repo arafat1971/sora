@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(80,58,107,0.25);}50%{box-shadow:0 0 0 10px rgba(80,58,107,0);}}
+@keyframes revealIn{from{opacity:0;transform:scale(0.96);}to{opacity:1;transform:scale(1);}}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — Progress · v3 (merged)</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Ritual on top, evidence below: v2's seal loop + v1's dashboard. <a href="Sora Progress UI v2.dc.html">← v2</a> · <a href="Sora Progress UI.dc.html">v1</a></div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:linear-gradient(175deg,#f7f0ee 0%,#eee0e4 55%,#e2d8e8 100%);color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-screen-label="Progress v3" style="position:absolute;inset:0;overflow:auto;padding:72px 26px 130px;box-sizing:border-box;">
+
+        <div style="display:flex;align-items:baseline;justify-content:space-between;">
+          <span style="font-size:11px;font-weight:600;letter-spacing:2.4px;color:rgba(46,36,64,0.45);">DAY {{planDay}} OF 14</span>
+          <span style="font-size:11px;font-weight:600;letter-spacing:2.4px;color:#a8712c;">{{streakLabel}}</span>
+        </div>
+
+        <!-- RITUAL: DAILY SEAL -->
+        <div style="margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;">
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:25px;line-height:1.3;color:#3b2d54;max-width:270px;text-wrap:pretty;">{{heroLine}}</div>
+          <sc-if value="{{unsealed}}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{seal}}" style="width:120px;height:120px;border-radius:50%;border:none;cursor:pointer;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 30%,#dcc4ec 60%,#a9b8ee 100%);animation:glowPulse 2.4s ease-in-out infinite;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:2px;color:#503a6b;background:rgba(255,255,255,0.75);padding:7px 13px;border-radius:14px;">HOLD TODAY</span>
+            </button>
+            <div style="font-size:12px;color:rgba(46,36,64,0.5);">One tap. Sora reads back what moved today.</div>
+          </sc-if>
+          <sc-if value="{{sealed}}" hint-placeholder-val="{{ false }}">
+            <div style="width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 30%,#dcc4ec 60%,#a9b8ee 100%);box-shadow:0 16px 38px rgba(122,104,180,0.28);display:flex;align-items:center;justify-content:center;animation:revealIn 0.4s ease;">
+              <svg width="32" height="32" viewBox="0 0 34 34"><path d="M8 18l6 6 12-14" stroke="#503a6b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+            <div style="animation:revealIn 0.5s ease 0.15s backwards;display:flex;flex-direction:column;gap:9px;align-items:center;">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:2.2px;color:rgba(46,36,64,0.45);">TODAY SORA NOTICED</div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:17px;line-height:1.5;color:#3b2d54;max-width:290px;text-wrap:pretty;">{{reward}}</div>
+              <button onClick="{{reroll}}" style="border:none;background:none;padding:6px 2px;font-size:12px;font-weight:600;color:rgba(46,36,64,0.5);cursor:pointer;border-bottom:1px solid rgba(46,36,64,0.2);">Read another</button>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- STREAK STRIP -->
+        <div style="margin-top:30px;display:flex;justify-content:space-between;border-top:1px solid rgba(46,36,64,0.1);border-bottom:1px solid rgba(46,36,64,0.1);padding:15px 2px;">
+          <sc-for list="{{week}}" as="d" hint-placeholder-count="7">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+              <span style="width:8px;height:8px;border-radius:4px;background:{{d.bg}};box-shadow:{{d.glow}};"></span>
+              <span style="font-size:9.5px;font-weight:600;letter-spacing:1px;color:{{d.lc}};">{{d.l}}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:11px;font-size:12.5px;line-height:1.55;color:rgba(46,36,64,0.55);text-align:center;">{{streakNudge}}</div>
+
+        <!-- GOAL MOMENTUM (flattened, editorial) -->
+        <div style="margin-top:34px;display:flex;align-items:baseline;justify-content:space-between;">
+          <span style="font-size:11px;font-weight:600;letter-spacing:2.4px;color:rgba(46,36,64,0.45);">GOAL MOMENTUM</span>
+          <span style="font-size:11px;color:rgba(46,36,64,0.4);">signs + sessions</span>
+        </div>
+        <div style="margin-top:4px;display:flex;flex-direction:column;">
+          <sc-for list="{{goals}}" as="g" hint-placeholder-count="3">
+            <div style="padding:15px 0;border-bottom:1px solid rgba(46,36,64,0.08);display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="flex:1;font-family:'Newsreader',serif;font-style:italic;font-size:16px;line-height:1.3;color:#3b2d54;">{{g.t}}</span>
+                <span style="flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:0.8px;color:{{g.chipFg}};">{{g.chip}}</span>
+              </div>
+              <span style="display:block;height:2px;background:rgba(80,58,107,0.1);overflow:hidden;"><span style="display:block;height:100%;width:{{g.p}}%;background:linear-gradient(90deg,#c98d3f,#b06a9a);"></span></span>
+              <div style="display:flex;gap:14px;font-size:11.5px;color:rgba(46,36,64,0.55);">
+                <span><b style="color:#2e2440;">{{g.sessions}}</b> sessions</span>
+                <span><b style="color:#3e7d5a;">{{g.signs}}</b> signs</span>
+                <span style="margin-left:auto;color:rgba(46,36,64,0.45);">{{g.last}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- SIGNS -->
+        <div style="margin-top:34px;display:flex;align-items:baseline;justify-content:space-between;">
+          <span style="font-size:11px;font-weight:600;letter-spacing:2.4px;color:rgba(46,36,64,0.45);">SIGNS IT'S WORKING</span>
+          <button style="border:none;background:none;padding:0;font-size:12.5px;font-weight:650;color:#503a6b;cursor:pointer;">+ Log a sign</button>
+        </div>
+        <div style="margin-top:4px;display:flex;flex-direction:column;">
+          <sc-for list="{{signs}}" as="sg" hint-placeholder-count="2">
+            <div style="display:flex;gap:13px;padding:14px 0;border-bottom:1px solid rgba(46,36,64,0.08);">
+              <span style="flex-shrink:0;margin-top:5px;width:8px;height:8px;border-radius:4px;background:#3e7d5a;box-shadow:0 0 0 3px rgba(94,160,124,0.18);"></span>
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <span style="font-size:13.5px;line-height:1.45;">{{sg.t}}</span>
+                <span style="font-size:11px;color:rgba(46,36,64,0.45);">{{sg.d}} · {{sg.goal}}</span>
+              </div>
+            </div>
+          </sc-for>
+          <div style="padding:13px 0;font-size:12px;line-height:1.5;color:rgba(46,36,64,0.5);">Every sign makes tomorrow's story more specific — Sora writes them in.</div>
+        </div>
+
+        <!-- INVESTMENT -->
+        <button onClick="{{addDetail}}" style="margin-top:8px;padding:16px 0;border-top:1px solid rgba(46,36,64,0.1);border-bottom:1px solid rgba(46,36,64,0.1);border-left:none;border-right:none;background:none;cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;width:100%;">
+          <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+            <span style="font-family:'Newsreader',serif;font-style:italic;font-size:17px;color:#3b2d54;">{{investLabel}}</span>
+            <span style="font-size:12px;color:rgba(46,36,64,0.5);">{{investSub}}</span>
+          </div>
+          <span style="flex-shrink:0;width:26px;height:26px;border-radius:13px;background:rgba(80,58,107,0.1);display:flex;align-items:center;justify-content:center;">
+            <svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1.5v9M1.5 6h9" stroke="#503a6b" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          </span>
+        </button>
+
+      </div>
+
+      <!-- TAB BAR -->
+      <div style="position:absolute;left:16px;right:16px;bottom:24px;height:64px;border-radius:32px;background:rgba(255,255,255,0.62);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(255,255,255,0.4);box-shadow:0 10px 32px rgba(46,36,64,0.14);display:flex;align-items:center;padding:0 6px;box-sizing:border-box;z-index:100;">
+        <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+          <div style="flex:1;height:52px;border-radius:26px;background:{{t.bg}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+            <svg width="21" height="21" viewBox="0 0 24 24"><path d="{{t.d}}" stroke="{{t.fg}}" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span style="font-size:9px;font-weight:700;letter-spacing:0.4px;color:{{t.fg}};">{{t.l}}</span>
+          </div>
+        </sc-for>
+      </div>
+
+    </div>
+  </x-import>
+  <div style="max-width:400px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">The merge: v2's ritual (seal → variable reward → invest) keeps the daily hook above the fold; v1's evidence (goal momentum, signs timeline) flattened to hairline editorial rows below. One screen, one scroll, whole loop.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900},&quot;planDay&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:6,&quot;min&quot;:1,&quot;max&quot;:14,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Plan&quot;},&quot;streak&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Plan&quot;}}">
+class Component extends DCLogic {
+  state = { sealed: false, rewardIdx: 0, invested: false };
+  rewards = [
+    "You've opened Sora before 8am four days straight — belief is becoming a reflex, not an effort.",
+    "Your last two signs both mention the flat. The story is converging on one address.",
+    "You replayed Tuesday's story three times. That scene matters — tomorrow leans into it.",
+    "Members who log a sign by day 6 are 3× more likely to write 'it happened.' You did it on day 4."
+  ];
+  renderVals() {
+    const s = this.state;
+    const day = Math.min(14, Math.max(1, this.props.planDay ?? 6));
+    const baseStreak = this.props.streak ?? 6;
+    return {
+      planDay: day,
+      unsealed: !s.sealed, sealed: s.sealed,
+      seal: () => this.setState({ sealed: true, rewardIdx: Math.floor(Math.random() * this.rewards.length) }),
+      reroll: () => this.setState({ rewardIdx: (s.rewardIdx + 1) % this.rewards.length }),
+      reward: this.rewards[s.rewardIdx],
+      heroLine: s.sealed ? "Held. Day " + day + " is yours." : "Six days held. Don't let tonight be the gap.",
+      streakLabel: (s.sealed ? baseStreak + 1 : baseStreak) + "-DAY STREAK",
+      week: ["M","T","W","T","F","S","S"].map((l, i) => {
+        const done = i < 5 || (i === 5 && s.sealed), today = i === 5 && !s.sealed;
+        return {
+          l,
+          bg: done ? "#503a6b" : today ? "rgba(80,58,107,0.25)" : "rgba(46,36,64,0.12)",
+          glow: (i === 5 && s.sealed) ? "0 0 0 3px rgba(80,58,107,0.15)" : "none",
+          lc: today ? "#503a6b" : "rgba(46,36,64,0.4)"
+        };
+      }),
+      streakNudge: s.sealed ? "Longest streak yet. Tomorrow makes it a full week." : "94% of members who reach day 7 notice a sign that same week.",
+      goals: [
+        { t: "The flat with the window seat", p: 62, sessions: 11, signs: 2, last: "story today", chip: "SURGING", chipFg: "#3e7d5a" },
+        { t: "Calm that doesn't crack under deadlines", p: 44, sessions: 7, signs: 1, last: "2 days ago", chip: "STEADY", chipFg: "#a8712c" },
+        { t: "The studio paying my rent", p: 18, sessions: 3, signs: 0, last: "5 days ago", chip: "WARMING UP", chipFg: "#503a6b" }
+      ],
+      signs: [
+        { t: "Landlord emailed back first — viewing booked for the exact street from my story.", d: "Today", goal: "The flat" },
+        { t: "Stayed calm through the launch review. Didn't even notice until after.", d: "Yesterday", goal: "Calm" }
+      ],
+      investLabel: s.invested ? "Detail added — the story just got sharper" : "Add one detail from today",
+      investSub: s.invested ? "\u201cShe mentioned the south-facing light\u201d is now in the plot." : "One line. Tomorrow's story will quote it back.",
+      addDetail: () => this.setState({ invested: true }),
+      tabs: [
+        { l: "Home", d: "M3 10.5 12 3l9 7.5M5.5 9v11h13V9", on: false },
+        { l: "Affirm", d: "M12 21s-8-5-9.2-11A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.2 4C20 16 12 21 12 21z", on: false },
+        { l: "Vision", d: "M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12zM12 14.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z", on: false },
+        { l: "Progress", d: "M4 20V10M10 20V4M16 20v-8M22 20H2", on: true },
+        { l: "Profile", d: "M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM4.5 20a7.5 7.5 0 0 1 15 0", on: false }
+      ].map(t => ({ ...t, bg: t.on ? "rgba(80,58,107,0.12)" : "transparent", fg: t.on ? "#503a6b" : "rgba(46,36,64,0.5)" }))
+    };
+  }
+}
+</script>
+</body>
+</html>
