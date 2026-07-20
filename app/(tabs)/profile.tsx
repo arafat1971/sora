@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Pressable,
@@ -36,6 +37,7 @@ function SectionLabel({ children }: { children: string }) {
 }
 
 export default function ProfileScreen() {
+  const router = useRouter();
   const name = useOnboarding((s) => s.name) || 'Julia';
   const city = useOnboarding((s) => s.city);
   const work = useOnboarding((s) => s.work);
@@ -204,7 +206,9 @@ export default function ProfileScreen() {
               <Chevron />
             </View>
           </Pressable>
-          <Pressable style={[styles.settingRow, styles.settingRowLast]}>
+          <Pressable
+            onPress={() => router.push('/widgets')}
+            style={[styles.settingRow, styles.settingRowLast]}>
             <Text style={styles.settingKey}>Widgets</Text>
             <View style={styles.settingValRow}>
               <Text style={styles.settingVal}>Lock screen & home</Text>

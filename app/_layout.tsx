@@ -67,6 +67,10 @@ export default function RootLayout() {
         <Stack.Screen name="paywall" options={{ headerShown: false, animation: 'fade' }} />
         <Stack.Screen name="welcome" options={{ headerShown: false, animation: 'fade' }} />
         <Stack.Screen
+          name="widgets"
+          options={{ headerShown: false, animation: 'slide_from_bottom' }}
+        />
+        <Stack.Screen
           name="player"
           options={{ headerShown: false, animation: 'slide_from_bottom' }}
         />
