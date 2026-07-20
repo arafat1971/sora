@@ -1,0 +1,10 @@
+{
+  "name": "sora-verify-scripts",
+  "private": true,
+  "scripts": {
+    "fetch-libs": "npm pack react@18.3.1 react-dom@18.3.1 @babel/standalone@7.29.0 && for f in *.tgz; do mkdir -p libs/$f && tar xzf $f -C libs/$f --strip-components=1 && rm $f; done"
+  },
+  "dependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}
