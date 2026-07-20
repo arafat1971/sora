@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { create } from 'zustand';
 
 // Session-only playback state for the story player (Sora Prototype.dc.html).
@@ -62,3 +63,26 @@ export const usePlayback = create<PlaybackState>()((set, get) => ({
   toggleRead: () => set({ reading: !get().reading }),
   seek: (deltaPct) => set({ prog: Math.min(100, Math.max(0, get().prog + deltaPct)) }),
 }));
+
+// Prototype tick: +0.55%·speed per 550ms while playing. Mounted once at the
+// app shell so progress advances whether the player is foreground (full
+// screen) or backgrounded (mini-player).
+export function usePlaybackTick() {
+  const playing = usePlayback((s) => s.playing);
+  useEffect(() => {
+    if (!playing) return;
+    const id = setInterval(() => {
+      const { prog, loop, speedIdx, setProg } = usePlayback.getState();
+      let p = prog + 0.55 * SPEEDS[speedIdx];
+      if (p >= 100) {
+        if (loop) p = 0;
+        else {
+          usePlayback.setState({ prog: 100, playing: false });
+          return;
+        }
+      }
+      setProg(p);
+    }, 550);
+    return () => clearInterval(id);
+  }, [playing]);
+}

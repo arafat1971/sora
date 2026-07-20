@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   ActivityIndicator,
   Pressable,
@@ -40,24 +40,8 @@ export default function PlayerScreen() {
   const [modText, setModText] = useState('');
   const [rewriting, setRewriting] = useState(false);
 
-  // Prototype tick: +0.55%·speed per 550ms while playing.
-  useEffect(() => {
-    if (!pb.playing) return;
-    const id = setInterval(() => {
-      const { prog, loop, speedIdx, setProg } = usePlayback.getState();
-      let p = prog + 0.55 * SPEEDS[speedIdx];
-      if (p >= 100) {
-        if (loop) p = 0;
-        else {
-          setProg(100);
-          usePlayback.setState({ playing: false });
-          return;
-        }
-      }
-      setProg(p);
-    }, 550);
-    return () => clearInterval(id);
-  }, [pb.playing]);
+  // The playback tick runs globally at the app shell (usePlaybackTick), so
+  // progress keeps advancing when the player is backgrounded to the mini-player.
 
   const secs = Math.round((STORY_SECONDS * pb.prog) / 100);
   const progTime = `0${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;

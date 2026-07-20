@@ -66,7 +66,7 @@ export default function PaywallScreen() {
     scheduleTrialReminder(new Date().toISOString());
     syncRitualReminders(reminders.rem);
     complete();
-    router.replace('/(tabs)');
+    router.replace('/welcome');
   };
 
   return (
