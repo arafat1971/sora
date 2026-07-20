@@ -22,8 +22,10 @@ export type OnboardingAnswers = {
 };
 
 type OnboardingState = OnboardingAnswers & {
+  reachedPaywall: boolean;
   completed: boolean;
   hydrated: boolean;
+  reachPaywall: () => void;
   setAnswer: <K extends keyof OnboardingAnswers>(key: K, value: OnboardingAnswers[K]) => void;
   toggleArea: (area: string) => void;
   complete: () => void;
@@ -60,8 +62,10 @@ export const useOnboarding = create<OnboardingState>()(
   persist(
     (set, get) => ({
       ...initialAnswers,
+      reachedPaywall: false,
       completed: false,
       hydrated: false,
+      reachPaywall: () => set({ reachedPaywall: true }),
       setAnswer: (key, value) => set({ [key]: value }),
       toggleArea: (area) => {
         const { areas } = get();
@@ -70,14 +74,15 @@ export const useOnboarding = create<OnboardingState>()(
         });
       },
       complete: () => set({ completed: true }),
-      reset: () => set({ ...initialAnswers, completed: false }),
+      reset: () => set({ ...initialAnswers, reachedPaywall: false, completed: false }),
     }),
     {
       name: 'sora-onboarding',
       storage: createJSONStorage(() =>
         typeof window === 'undefined' ? noopStorage : AsyncStorage,
       ),
-      partialize: ({ setAnswer, toggleArea, complete, reset, hydrated, ...data }) => data,
+      partialize: ({ setAnswer, toggleArea, reachPaywall, complete, reset, hydrated, ...data }) =>
+        data,
       onRehydrateStorage: () => () => {
         useOnboarding.setState({ hydrated: true });
       },

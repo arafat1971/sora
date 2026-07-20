@@ -160,8 +160,8 @@ export default function OnboardingScreen() {
       setTimeout(() => setLoadIdx(1), 1300);
       setTimeout(() => setLoadIdx(2), 2600);
       setTimeout(() => {
-        store.complete();
-        router.replace('/(tabs)');
+        store.reachPaywall();
+        router.replace('/paywall');
       }, 3900);
     } else {
       setStep(step + 1);

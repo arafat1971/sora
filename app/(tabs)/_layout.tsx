@@ -6,9 +6,10 @@ import { useOnboarding } from '@/store/onboarding';
 export default function TabLayout() {
   const hydrated = useOnboarding((s) => s.hydrated);
   const completed = useOnboarding((s) => s.completed);
+  const reachedPaywall = useOnboarding((s) => s.reachedPaywall);
 
   if (!hydrated) return null;
-  if (!completed) return <Redirect href="/onboarding" />;
+  if (!completed) return <Redirect href={reachedPaywall ? '/paywall' : '/onboarding'} />;
 
   return (
     <Tabs
