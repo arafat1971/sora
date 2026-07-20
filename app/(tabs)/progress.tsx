@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
@@ -76,6 +77,7 @@ function useRevealIn(active: boolean, delay = 0) {
 }
 
 export default function ProgressScreen() {
+  const router = useRouter();
   const store = useSeal();
   const sealed = useSeal(isSealedToday);
   const invested = useSeal(isInvestedToday);
@@ -219,7 +221,7 @@ export default function ProgressScreen() {
         {/* Signs */}
         <View style={styles.sectionHead}>
           <Text style={styles.eyebrow}>SIGNS IT'S WORKING</Text>
-          <Pressable>
+          <Pressable onPress={() => router.push('/log-sign')}>
             <Text style={styles.logSign}>+ Log a sign</Text>
           </Pressable>
         </View>

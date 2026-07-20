@@ -60,6 +60,14 @@ export default function RootLayout() {
           name="letter"
           options={{ headerShown: false, animation: 'slide_from_bottom' }}
         />
+        <Stack.Screen
+          name="log-sign"
+          options={{
+            headerShown: false,
+            presentation: 'transparentModal',
+            animation: 'fade',
+          }}
+        />
       </Stack>
     </>
   );

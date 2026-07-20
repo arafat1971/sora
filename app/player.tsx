@@ -187,7 +187,7 @@ export default function PlayerScreen() {
               You just lived it once. The world tends to echo — watch for the sign today.
             </Text>
             <View style={styles.sealBtns}>
-              <Pressable style={styles.sealBtnLight}>
+              <Pressable onPress={() => router.push('/log-sign')} style={styles.sealBtnLight}>
                 <Text style={styles.sealBtnLightText}>I noticed a sign</Text>
               </Pressable>
               <Pressable style={styles.sealBtnGhost}>
