@@ -73,6 +73,12 @@ export default function HomeScreen() {
     router.push('/player');
   };
 
+  const compose = () => {
+    if (!composeText.trim()) return;
+    router.push({ pathname: '/compose', params: { text: composeText.trim() } });
+    setComposeText('');
+  };
+
   return (
     <Screen>
       <ScrollView contentContainerStyle={styles.content}>
@@ -101,11 +107,12 @@ export default function HomeScreen() {
             <TextInput
               value={composeText}
               onChangeText={setComposeText}
+              onSubmitEditing={compose}
               placeholder="him obsessed with me…"
               placeholderTextColor="rgba(46,36,64,0.34)"
               style={styles.composerInput}
             />
-            <Pressable style={styles.composerBtn}>
+            <Pressable onPress={compose} style={styles.composerBtn}>
               <Svg width={18} height={18} viewBox="0 0 20 20">
                 <Path d="M10 16V4M10 4 5.5 8.5M10 4l4.5 4.5" stroke={colors.white} strokeWidth={2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
               </Svg>

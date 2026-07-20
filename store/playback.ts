@@ -15,6 +15,7 @@ export const CUSTOM_CAPTION = "Close your eyes. You're already there.";
 type PlaybackState = {
   title: string;
   isCustom: boolean;
+  modified: boolean;
   playing: boolean;
   prog: number; // 0–100
   loop: boolean;
@@ -22,6 +23,7 @@ type PlaybackState = {
   fav: boolean;
   reading: boolean;
   open: (title?: string) => void;
+  modify: (title: string) => void;
   togglePlay: () => void;
   setProg: (p: number) => void;
   toggleLoop: () => void;
@@ -34,6 +36,7 @@ type PlaybackState = {
 export const usePlayback = create<PlaybackState>()((set, get) => ({
   title: DEFAULT_TITLE,
   isCustom: false,
+  modified: false,
   playing: false,
   prog: 14, // prototype resume point
   loop: false,
@@ -44,10 +47,13 @@ export const usePlayback = create<PlaybackState>()((set, get) => ({
     set({
       title: title ?? DEFAULT_TITLE,
       isCustom: title != null,
+      modified: false,
       playing: true,
       prog: title != null ? 0 : get().prog >= 100 ? 0 : get().prog,
       reading: false,
     }),
+  // Modify re-renders the story: new title, restart, "Rewritten" badge.
+  modify: (title) => set({ title, modified: true, prog: 0, playing: true, reading: false }),
   togglePlay: () => set({ playing: !get().playing }),
   setProg: (prog) => set({ prog }),
   toggleLoop: () => set({ loop: !get().loop }),

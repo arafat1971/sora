@@ -1,12 +1,21 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import Svg, { Defs, Ellipse, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { Orb } from '@/components/Orb';
 import { Screen } from '@/components/Screen';
 import { VoiceSheet } from '@/components/VoiceSheet';
 import { colors, fonts } from '@/constants/theme';
+import { generateStory } from '@/lib/api';
 import { useOnboarding } from '@/store/onboarding';
 import {
   CUSTOM_CAPTION,
@@ -27,6 +36,9 @@ export default function PlayerScreen() {
   const name = useOnboarding((s) => s.name) || 'Julia';
   const voice = useOnboarding((s) => s.voice);
   const [voiceSheet, setVoiceSheet] = useState(false);
+  const [modifySheet, setModifySheet] = useState(false);
+  const [modText, setModText] = useState('');
+  const [rewriting, setRewriting] = useState(false);
 
   // Prototype tick: +0.55%·speed per 550ms while playing.
   useEffect(() => {
@@ -89,6 +101,11 @@ export default function PlayerScreen() {
         </View>
 
         <Text style={styles.title}>{pb.title}</Text>
+        {pb.modified && (
+          <View style={styles.rewrittenBadge}>
+            <Text style={styles.rewrittenText}>Rewritten with your changes — just now</Text>
+          </View>
+        )}
 
         {pb.reading ? (
           <ScrollView style={styles.readWrap} contentContainerStyle={styles.readContent}>
@@ -185,7 +202,7 @@ export default function PlayerScreen() {
           <Pressable onPress={pb.toggleRead} style={styles.linkBtn}>
             <Text style={styles.linkText}>{pb.reading ? 'Listen instead' : 'Read instead'}</Text>
           </Pressable>
-          <Pressable style={styles.linkBtn}>
+          <Pressable onPress={() => setModifySheet(true)} style={styles.linkBtn}>
             <Text style={styles.linkText}>Modify story</Text>
           </Pressable>
           <Pressable style={styles.linkBtn}>
@@ -195,6 +212,62 @@ export default function PlayerScreen() {
       </View>
 
       {voiceSheet && <VoiceSheet onClose={() => setVoiceSheet(false)} />}
+
+      {/* Modify sheet — regenerates the story around the user's change */}
+      {modifySheet && (
+        <Pressable style={styles.scrim} onPress={() => !rewriting && setModifySheet(false)}>
+          <Pressable style={styles.sheet} onPress={() => {}}>
+            <View style={styles.dragHandle} />
+            <Text style={styles.sheetTitle}>What should change?</Text>
+            <Text style={styles.sheetSub}>
+              Sora rewrites this story around your words — instantly.
+            </Text>
+            <TextInput
+              value={modText}
+              onChangeText={setModText}
+              placeholder="e.g. Make it a tiny cabin by the sea, and my sister is there…"
+              placeholderTextColor="rgba(46,36,64,0.34)"
+              multiline
+              editable={!rewriting}
+              style={styles.modInput}
+            />
+            <View style={styles.sheetBtns}>
+              <Pressable
+                onPress={() => setModifySheet(false)}
+                disabled={rewriting}
+                style={styles.sheetCancel}>
+                <Text style={styles.sheetCancelText}>Cancel</Text>
+              </Pressable>
+              <Pressable
+                onPress={async () => {
+                  if (!modText.trim() || rewriting) return;
+                  setRewriting(true);
+                  try {
+                    const result = await generateStory(
+                      { mode: 'modify', story_id: 'current', change_note: modText.trim() },
+                      '',
+                    );
+                    pb.modify(
+                      result.title ||
+                        'A quiet morning inside the little place by the sea',
+                    );
+                  } finally {
+                    setRewriting(false);
+                    setModifySheet(false);
+                    setModText('');
+                  }
+                }}
+                style={styles.sheetConfirm}>
+                {rewriting ? (
+                  <ActivityIndicator color={colors.white} />
+                ) : (
+                  <Text style={styles.sheetConfirmText}>Rewrite my story</Text>
+                )}
+              </Pressable>
+            </View>
+          </Pressable>
+        </Pressable>
+      )}
     </Screen>
   );
 }
@@ -346,4 +419,82 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(46,36,64,0.2)',
   },
   linkText: { fontSize: 12.5, fontWeight: '600', color: colors.muted },
+  rewrittenBadge: {
+    alignSelf: 'center',
+    marginTop: 10,
+    backgroundColor: 'rgba(62,125,90,0.16)',
+    borderWidth: 1,
+    borderColor: 'rgba(62,125,90,0.3)',
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+  },
+  rewrittenText: { fontSize: 11, fontWeight: '600', color: colors.green },
+  scrim: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(30,22,44,0.35)',
+    justifyContent: 'flex-end',
+    zIndex: 50,
+  },
+  sheet: {
+    backgroundColor: colors.sheet,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    paddingTop: 14,
+    paddingHorizontal: 22,
+    paddingBottom: 40,
+    shadowColor: 'rgba(30,22,44,1)',
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: -12 },
+    shadowRadius: 40,
+    elevation: 16,
+  },
+  dragHandle: {
+    width: 40,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: 'rgba(46,36,64,0.18)',
+    alignSelf: 'center',
+    marginBottom: 14,
+  },
+  sheetTitle: { fontFamily: fonts.serifItalic, fontSize: 20, textAlign: 'center', color: colors.ink },
+  sheetSub: { fontSize: 12.5, color: colors.muted, textAlign: 'center', marginTop: 4 },
+  modInput: {
+    minHeight: 84,
+    marginTop: 14,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(46,36,64,0.14)',
+    backgroundColor: colors.white,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    fontSize: 14.5,
+    lineHeight: 14.5 * 1.5,
+    color: colors.ink,
+    textAlignVertical: 'top',
+  },
+  sheetBtns: { flexDirection: 'row', gap: 10, marginTop: 12 },
+  sheetCancel: {
+    flex: 1,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: 'rgba(46,36,64,0.16)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sheetCancelText: { fontSize: 14.5, fontWeight: '600', color: colors.ink },
+  sheetConfirm: {
+    flex: 1.4,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sheetConfirmText: { fontSize: 14.5, fontWeight: '600', color: colors.white },
 });

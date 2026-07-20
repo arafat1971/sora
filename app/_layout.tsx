@@ -71,6 +71,10 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen name="journal" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="compose"
+          options={{ headerShown: false, animation: 'slide_from_bottom' }}
+        />
       </Stack>
       <Toast />
     </>
