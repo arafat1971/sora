@@ -44,7 +44,7 @@ export function SoraTabBar({ state, descriptors, navigation }: TabBarProps) {
         const { options } = descriptors[route.key];
         const label = options.title ?? route.name;
         const active = state.index === index;
-        const fg = active ? colors.white : colors.muted;
+        const fg = active ? colors.primary : colors.muted;
         return (
           <Pressable
             key={route.key}
@@ -110,8 +110,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 2,
   },
+  // README/CLAUDE.md + per-surface refs: active = 0.12 primary pill, primary fg
   tabActive: {
-    backgroundColor: colors.primary,
+    backgroundColor: 'rgba(80,58,107,0.12)',
   },
   label: {
     fontSize: 9.5,

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, ViewStyle } from 'react-native';
+import { Animated, Easing, StyleSheet, View, ViewStyle } from 'react-native';
 import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
 
 import { gradients, motion } from '@/constants/theme';
@@ -10,17 +10,22 @@ import { gradients, motion } from '@/constants/theme';
 export function Orb({
   size,
   small = false,
+  breathe = true,
   breatheDuration = motion.breathe.duration,
   style,
+  children,
 }: {
   size: number;
   small?: boolean;
+  breathe?: boolean;
   breatheDuration?: number;
   style?: ViewStyle;
+  children?: React.ReactNode;
 }) {
   const scale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    if (!breathe) return;
     const loop = Animated.loop(
       Animated.sequence([
         Animated.timing(scale, {
@@ -39,7 +44,7 @@ export function Orb({
     );
     loop.start();
     return () => loop.stop();
-  }, [scale, breatheDuration]);
+  }, [scale, breathe, breatheDuration]);
 
   const stops = small
     ? [
@@ -68,6 +73,11 @@ export function Orb({
         </Defs>
         <Circle cx={size / 2} cy={size / 2} r={size / 2} fill="url(#orb)" />
       </Svg>
+      {children != null && (
+        <View style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}>
+          {children}
+        </View>
+      )}
     </Animated.View>
   );
 }
