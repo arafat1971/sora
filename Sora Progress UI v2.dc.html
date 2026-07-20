@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(80,58,107,0.25);}50%{box-shadow:0 0 0 10px rgba(80,58,107,0);}}
+@keyframes revealIn{from{opacity:0;transform:scale(0.96);}to{opacity:1;transform:scale(1);}}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — Progress · Hooked v2</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Minimal surface, engineered loop: check in → variable reward → invest. Tap the seal. <a href="Sora Progress UI.dc.html">← v1</a> · <a href="Sora Progress UI v3.dc.html">v3 (merged) →</a></div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:linear-gradient(175deg,#f7f0ee 0%,#eee0e4 55%,#e2d8e8 100%);color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-screen-label="Progress hooked" style="position:absolute;inset:0;overflow:auto;padding:78px 28px 60px;box-sizing:border-box;">
+
+        <div style="display:flex;align-items:baseline;justify-content:space-between;">
+          <span style="font-size:11px;font-weight:600;letter-spacing:2.4px;color:rgba(46,36,64,0.45);">DAY 6 OF 14</span>
+          <span style="font-size:11px;font-weight:600;letter-spacing:2.4px;color:#a8712c;">{{streakLabel}}</span>
+        </div>
+
+        <!-- HOOK: DAILY SEAL (action) -->
+        <div style="margin-top:34px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;">
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:26px;line-height:1.3;color:#3b2d54;max-width:270px;text-wrap:pretty;">{{heroLine}}</div>
+          <sc-if value="{{unsealed}}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{seal}}" style="width:132px;height:132px;border-radius:50%;border:none;cursor:pointer;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 30%,#dcc4ec 60%,#a9b8ee 100%);animation:glowPulse 2.4s ease-in-out infinite;display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:2px;color:#503a6b;background:rgba(255,255,255,0.75);padding:7px 13px;border-radius:14px;">HOLD TODAY</span>
+            </button>
+            <div style="font-size:12px;color:rgba(46,36,64,0.5);">One tap. Sora reads back what moved today.</div>
+          </sc-if>
+          <sc-if value="{{sealed}}" hint-placeholder-val="{{ false }}">
+            <div style="width:132px;height:132px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 30%,#dcc4ec 60%,#a9b8ee 100%);box-shadow:0 16px 38px rgba(122,104,180,0.28);display:flex;align-items:center;justify-content:center;animation:revealIn 0.4s ease;">
+              <svg width="34" height="34" viewBox="0 0 34 34"><path d="M8 18l6 6 12-14" stroke="#503a6b" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </div>
+            <!-- VARIABLE REWARD -->
+            <div style="animation:revealIn 0.5s ease 0.15s backwards;display:flex;flex-direction:column;gap:10px;align-items:center;">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:2.2px;color:rgba(46,36,64,0.45);">TODAY SORA NOTICED</div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:18px;line-height:1.5;color:#3b2d54;max-width:290px;text-wrap:pretty;">{{reward}}</div>
+              <button onClick="{{reroll}}" style="border:none;background:none;padding:6px 2px;font-size:12px;font-weight:600;color:rgba(46,36,64,0.5);cursor:pointer;border-bottom:1px solid rgba(46,36,64,0.2);">Read another</button>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- STREAK STRIP -->
+        <div style="margin-top:36px;display:flex;justify-content:space-between;border-top:1px solid rgba(46,36,64,0.1);border-bottom:1px solid rgba(46,36,64,0.1);padding:16px 2px;">
+          <sc-for list="{{week}}" as="d" hint-placeholder-count="7">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:7px;">
+              <span style="width:8px;height:8px;border-radius:4px;background:{{d.bg}};box-shadow:{{d.glow}};"></span>
+              <span style="font-size:9.5px;font-weight:600;letter-spacing:1px;color:{{d.lc}};">{{d.l}}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:12px;font-size:12.5px;line-height:1.55;color:rgba(46,36,64,0.55);text-align:center;">{{streakNudge}}</div>
+
+        <!-- INVESTMENT: NEXT LOOP -->
+        <div style="margin-top:34px;font-size:11px;font-weight:600;letter-spacing:2.4px;color:rgba(46,36,64,0.45);">TONIGHT</div>
+        <div style="margin-top:4px;display:flex;flex-direction:column;">
+          <div style="padding:16px 0;border-bottom:1px solid rgba(46,36,64,0.08);display:flex;align-items:center;gap:14px;">
+            <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+              <span style="font-family:'Newsreader',serif;font-style:italic;font-size:17px;color:#3b2d54;">Tomorrow's story is being written</span>
+              <span style="font-size:12px;color:rgba(46,36,64,0.5);">It opens after the viewing — because you logged the email.</span>
+            </div>
+            <span style="flex-shrink:0;font-size:11px;font-weight:700;color:#503a6b;">{{countdown}}</span>
+          </div>
+          <button onClick="{{addDetail}}" style="padding:16px 0;border-bottom:1px solid rgba(46,36,64,0.08);display:flex;align-items:center;gap:14px;border-top:none;border-left:none;border-right:none;background:none;cursor:pointer;text-align:left;">
+            <div style="flex:1;display:flex;flex-direction:column;gap:2px;">
+              <span style="font-family:'Newsreader',serif;font-style:italic;font-size:17px;color:#3b2d54;">{{investLabel}}</span>
+              <span style="font-size:12px;color:rgba(46,36,64,0.5);">{{investSub}}</span>
+            </div>
+            <span style="flex-shrink:0;width:26px;height:26px;border-radius:13px;background:rgba(80,58,107,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1.5v9M1.5 6h9" stroke="#503a6b" stroke-width="1.8" stroke-linecap="round"></path></svg>
+            </span>
+          </button>
+        </div>
+
+        <div style="margin-top:26px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.45);font-style:italic;text-align:center;">The more you give it, the more it gives back.</div>
+
+      </div>
+    </div>
+  </x-import>
+  <div style="max-width:400px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">Full Hooked loop on one minimal screen: trigger (streak at risk) → action (one-tap seal) → variable reward ("Sora noticed…" changes every read) → investment (add a detail that improves tomorrow's story). Nothing else competes for attention.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900}}">
+class Component extends DCLogic {
+  state = { sealed: false, rewardIdx: 0, invested: false };
+  rewards = [
+    "You've opened Sora before 8am four days straight — belief is becoming a reflex, not an effort.",
+    "Your last two signs both mention the flat. The story is converging on one address.",
+    "You replayed Tuesday's story three times. That scene matters — tomorrow leans into it.",
+    "Members who log a sign by day 6 are 3× more likely to write 'it happened.' You did it on day 4."
+  ];
+  renderVals() {
+    const s = this.state;
+    return {
+      unsealed: !s.sealed, sealed: s.sealed,
+      seal: () => this.setState({ sealed: true, rewardIdx: Math.floor(Math.random() * this.rewards.length) }),
+      reroll: () => this.setState({ rewardIdx: (s.rewardIdx + 1) % this.rewards.length }),
+      reward: this.rewards[s.rewardIdx],
+      heroLine: s.sealed ? "Held. Day 6 is yours." : "Six days held. Don't let tonight be the gap.",
+      streakLabel: s.sealed ? "7-DAY STREAK" : "6-DAY STREAK",
+      week: ["M","T","W","T","F","S","S"].map((l, i) => {
+        const done = i < 5 || (i === 5 && s.sealed), today = i === 5 && !s.sealed;
+        return {
+          l,
+          bg: done ? "#503a6b" : today ? "rgba(80,58,107,0.25)" : "rgba(46,36,64,0.12)",
+          glow: (i === 5 && s.sealed) ? "0 0 0 3px rgba(80,58,107,0.15)" : "none",
+          lc: today ? "#503a6b" : "rgba(46,36,64,0.4)"
+        };
+      }),
+      streakNudge: s.sealed ? "Longest streak yet. Tomorrow makes it a full week." : "94% of members who reach day 7 notice a sign that same week.",
+      countdown: "in 9h 41m",
+      investLabel: s.invested ? "Detail added — the story just got sharper" : "Add one detail from today",
+      investSub: s.invested ? "\u201cShe mentioned the south-facing light\u201d is now in the plot." : "One line. Tomorrow's story will quote it back.",
+      addDetail: () => this.setState({ invested: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

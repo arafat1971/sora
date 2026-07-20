@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+input,textarea,button{font-family:inherit;}
+input:focus,textarea:focus{outline:none;}
+::placeholder{color:rgba(46,36,64,0.34);}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.055);}}
+@keyframes drift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUpB{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes spinSlow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+[data-grain]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.055'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Hi-fi interactive prototype · iOS · tap through everything</div>
+  </div>
+  <div style="display:flex;gap:8px;">
+    <button onClick="{{jumpOnboard}}" style="height:34px;padding:0 14px;border-radius:17px;border:1px solid rgba(46,36,64,0.14);background:{{jumpObBg}};color:{{jumpObFg}};font-size:12.5px;font-weight:600;cursor:pointer;">Onboarding</button>
+    <button onClick="{{jumpPaywall}}" style="height:34px;padding:0 14px;border-radius:17px;border:1px solid rgba(46,36,64,0.14);background:{{jumpPwBg}};color:{{jumpPwFg}};font-size:12.5px;font-weight:600;cursor:pointer;">Paywall</button>
+    <button onClick="{{jumpApp}}" style="height:34px;padding:0 14px;border-radius:17px;border:1px solid rgba(46,36,64,0.14);background:{{jumpAppBg}};color:{{jumpAppFg}};font-size:12.5px;font-weight:600;cursor:pointer;">The app</button>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:linear-gradient(168deg,#fdf0e4 0%,#f9dfe2 30%,#eaddf5 64%,#d8e0fa 100%);background-size:130% 130%;animation:drift 24s ease-in-out infinite;color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-grain="1" style="position:absolute;inset:0;z-index:150;pointer-events:none;"></div>
+
+      <!-- ══════════ ONBOARDING ══════════ -->
+      <sc-if value="{{sOnboard}}" hint-placeholder-val="{{ true }}">
+        <div data-screen-label="Onboarding" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:72px 26px 30px;box-sizing:border-box;">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <button onClick="{{obBack}}" style="width:44px;height:44px;margin-left:-12px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 20 20"><path d="M12.5 4 6.5 10l6 6" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            </button>
+            <div style="flex:1;height:3px;border-radius:2px;background:rgba(46,36,64,0.12);overflow:hidden;">
+              <div style="height:100%;border-radius:2px;background:#503a6b;width:{{obPct}}%;transition:width 0.4s ease;"></div>
+            </div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;animation:{{obAnim}};">
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:27px;line-height:1.32;font-weight:500;text-wrap:pretty;min-height:72px;">{{obQuestion}}<sc-if value="{{obTyping}}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;width:2.5px;height:22px;border-radius:1px;background:#503a6b;margin-left:4px;animation:blink 0.9s step-end infinite;"></span></sc-if></div>
+            <sc-if value="{{obSub}}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:14.5px;line-height:1.5;color:rgba(46,36,64,0.6);">{{obSub}}</div>
+            </sc-if>
+            <sc-if value="{{obBelief}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;">
+                <div style="border-radius:18px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                  <span style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:#503a6b;flex-shrink:0;">12,482</span>
+                  <span style="font-size:13px;line-height:1.45;color:rgba(46,36,64,0.7);">members wanted exactly what you just wrote</span>
+                </div>
+                <div style="border-radius:18px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                  <span style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:#3e7d5a;flex-shrink:0;">9,107</span>
+                  <span style="font-size:13px;line-height:1.45;color:rgba(46,36,64,0.7);">of them have logged it on their wall — <b>manifested</b></span>
+                </div>
+                <div style="border-radius:18px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                  <span style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;color:#a8712c;flex-shrink:0;">94%</span>
+                  <span style="font-size:13px;line-height:1.45;color:rgba(46,36,64,0.7);">notice their first sign within 14 days</span>
+                </div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14px;line-height:1.5;color:rgba(46,36,64,0.65);padding:4px 6px;">"I wrote almost the same sentence in March. It's my life now." — R, Melbourne</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{obShowChips}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;animation:{{obAnim2}};">
+                <sc-for list="{{obChips}}" as="chip" hint-placeholder-count="6">
+                  <button onClick="{{chip.pick}}" style="height:44px;padding:0 18px;border-radius:22px;border:1px solid {{chip.bd}};background:{{chip.bg}};color:{{chip.fg}};font-size:14.5px;font-weight:600;cursor:pointer;transition:all 0.15s ease;">{{chip.label}}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{obVoiceStep}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+                <div style="border-radius:18px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:13px 16px;display:flex;align-items:center;gap:12px;">
+                  <button onClick="{{pvPlay}}" style="width:44px;height:44px;border-radius:22px;border:none;background:linear-gradient(165deg,#6a4f92 0%,#503a6b 60%,#463259 100%);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 5px 14px rgba(80,58,107,0.3),inset 0 1px 0 rgba(255,255,255,0.28);">
+                    <sc-if value="{{pvOn}}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 20 20"><rect x="4.5" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect><rect x="11.9" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect></svg></sc-if>
+                    <sc-if value="{{pvOff}}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="#fff"></path></svg></sc-if>
+                  </button>
+                  <span style="font-family:'Newsreader',serif;font-style:italic;font-size:14.5px;line-height:1.55;"><sc-for list="{{pvWords}}" as="w" hint-placeholder-count="6"><span style="color:{{w.c}};transition:color 0.18s;">{{w.w}}</span></sc-for></span>
+                </div>
+                <sc-for list="{{obVoices}}" as="v" hint-placeholder-count="4">
+                  <button onClick="{{v.pick}}" style="display:flex;align-items:center;gap:13px;min-height:58px;padding:8px 16px;border-radius:18px;border:1.5px solid {{v.bd}};background:{{v.bg}};cursor:pointer;text-align:left;">
+                    <span style="width:20px;height:20px;border-radius:50%;border:2px solid {{v.dot}};background:{{v.dotBg}};box-sizing:border-box;flex-shrink:0;"></span>
+                    <span style="flex:1;display:flex;flex-direction:column;gap:1px;">
+                      <span style="font-size:15.5px;font-weight:650;color:#2e2440;">{{v.name}}</span>
+                      <span style="font-size:12.5px;color:rgba(46,36,64,0.55);">{{v.desc}}</span>
+                    </span>
+                    <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="rgba(80,58,107,0.1)"></circle><path d="M11 9.5v7l5.5-3.5z" fill="#503a6b"></path></svg>
+                  </button>
+                </sc-for>
+                <div style="font-size:12.5px;color:rgba(46,36,64,0.55);line-height:1.5;">You can change the voice anytime — it updates every story, even old ones.</div>
+              </div>
+            </sc-if>
+          </div>
+          <sc-if value="{{obShowInput}}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:10px;align-items:center;animation:{{obAnim2}};">
+              <input value="{{obText}}" onChange="{{obInput}}" onKeyDown="{{obKeyDown}}" placeholder="{{obPh}}" style="flex:1;height:52px;border-radius:26px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.72);padding:0 20px;font-size:15.5px;color:#2e2440;box-shadow:0 4px 16px rgba(80,58,107,0.07);">
+              <button onClick="{{obNext}}" style="width:52px;height:52px;border-radius:26px;border:none;background:#503a6b;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(80,58,107,0.3);">
+                <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 10h11M11 5.5 15.5 10 11 14.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </button>
+            </div>
+          </sc-if>
+          <sc-if value="{{obShowContinue}}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{obNext}}" style="height:54px;border-radius:27px;border:none;background:#503a6b;color:#fff;font-size:16px;font-weight:650;cursor:pointer;box-shadow:0 6px 18px rgba(80,58,107,0.3);">{{obContinueLabel}}</button>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ PERSONALIZING ══════════ -->
+      <sc-if value="{{sLoading}}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Personalizing" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;padding:0 44px;text-align:center;">
+          <div style="width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 20px 55px rgba(122,104,180,0.38),inset 0 -14px 30px rgba(255,255,255,0.55),inset 0 12px 26px rgba(255,255,255,0.5);animation:breathe 4.5s ease-in-out infinite;"></div>
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;line-height:1.4;color:#2e2440;">{{loadingMsg}}</div>
+          <div style="font-size:13px;color:rgba(46,36,64,0.5);">Sora is writing something only you could live.</div>
+          <div style="border-radius:16px;background:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.85);padding:12px 18px;font-size:12.5px;line-height:1.5;color:rgba(46,36,64,0.65);">While you wait: <b>2,847</b> manifestations were logged in the circle this week. Yours is next.</div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ PAYWALL ══════════ -->
+      <sc-if value="{{sPaywall}}" hint-placeholder-val="{{ false }}">
+        <div data-screen-label="Paywall" style="position:absolute;inset:0;overflow:auto;padding:66px 24px 40px;box-sizing:border-box;">
+          <div style="display:flex;flex-direction:column;gap:16px;animation:fadeUp 0.5s ease;">
+            <div style="display:flex;justify-content:center;">
+              <div style="width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 10px 28px rgba(122,104,180,0.35);animation:breathe 4.5s ease-in-out infinite;"></div>
+            </div>
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;line-height:1.25;text-align:center;text-wrap:pretty;">Your first story is ready, {{name}}.</div>
+            <div style="font-size:14.5px;line-height:1.55;color:rgba(46,36,64,0.65);text-align:center;text-wrap:pretty;">Three minutes of the morning you described — already real, already yours. It's waiting on the other side.</div>
+            <div style="border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.85);box-shadow:0 10px 30px rgba(80,58,107,0.1);padding:18px;display:flex;align-items:center;gap:14px;">
+              <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="rgba(80,58,107,0.12)"></circle><path d="M16 13.5v13l10-6.5z" fill="#503a6b"></path></svg>
+              <div style="flex:1;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:16.5px;line-height:1.3;">{{storyTitle}}</div>
+                <div style="font-size:12px;color:rgba(46,36,64,0.5);margin-top:3px;">03:12 · narrated by {{voice}}</div>
+              </div>
+              <svg width="18" height="20" viewBox="0 0 18 20"><rect x="2" y="8" width="14" height="10" rx="3" fill="none" stroke="#503a6b" stroke-width="1.8"></rect><path d="M5.5 8V5.5a3.5 3.5 0 0 1 7 0V8" fill="none" stroke="#503a6b" stroke-width="1.8"></path></svg>
+            </div>
+            <div style="border-radius:22px;background:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.8);padding:18px 18px 14px;display:flex;flex-direction:column;gap:13px;">
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="width:26px;height:26px;border-radius:13px;background:#503a6b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">1</span>
+                <div style="font-size:13.5px;line-height:1.45;"><b>Today</b> — everything unlocks. Stories, rituals, affirmations, all of it.</div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="width:26px;height:26px;border-radius:13px;background:rgba(80,58,107,0.16);color:#503a6b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">5</span>
+                <div style="font-size:13.5px;line-height:1.45;"><b>Day 5</b> — we remind you before your trial ends. No surprises, ever.</div>
+              </div>
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <span style="width:26px;height:26px;border-radius:13px;background:rgba(80,58,107,0.16);color:#503a6b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">7</span>
+                <div style="font-size:13.5px;line-height:1.45;"><b>Day 7</b> — {{price}}/week. Cancel anytime in two taps, right from your profile.</div>
+              </div>
+            </div>
+            <button onClick="{{startTrial}}" style="height:56px;border-radius:28px;border:none;background:linear-gradient(165deg,#6a4f92 0%,#503a6b 60%,#463259 100%);color:#fff;font-size:16.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(80,58,107,0.35),inset 0 1px 0 rgba(255,255,255,0.28);">Start my free week</button>
+            <div style="text-align:center;font-size:12.5px;color:rgba(46,36,64,0.55);margin-top:-6px;">7 days free, then {{price}}/week · Cancel anytime</div>
+            <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+              <span style="font-size:11px;font-weight:700;color:#503a6b;background:rgba(80,58,107,0.1);border:1px solid rgba(80,58,107,0.18);border-radius:12px;padding:5px 11px;">#1 rated in AI manifestation</span>
+              <span style="font-size:11px;font-weight:700;color:#a8712c;background:rgba(201,141,63,0.12);border:1px solid rgba(201,141,63,0.25);border-radius:12px;padding:5px 11px;">2,847 wins logged this week</span>
+              <span style="font-size:11px;font-weight:700;color:#3e7d5a;background:rgba(94,160,124,0.12);border:1px solid rgba(94,160,124,0.25);border-radius:12px;padding:5px 11px;">94% notice a sign by day 14</span>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:2px;">
+              <div style="display:flex;gap:3px;">
+                <svg width="15" height="15" viewBox="0 0 15 15"><path d="M7.5 1l1.9 4 4.4.5-3.3 3 1 4.4-4-2.3-4 2.3 1-4.4-3.3-3 4.4-.5z" fill="#c98d3f"></path></svg>
+                <svg width="15" height="15" viewBox="0 0 15 15"><path d="M7.5 1l1.9 4 4.4.5-3.3 3 1 4.4-4-2.3-4 2.3 1-4.4-3.3-3 4.4-.5z" fill="#c98d3f"></path></svg>
+                <svg width="15" height="15" viewBox="0 0 15 15"><path d="M7.5 1l1.9 4 4.4.5-3.3 3 1 4.4-4-2.3-4 2.3 1-4.4-3.3-3 4.4-.5z" fill="#c98d3f"></path></svg>
+                <svg width="15" height="15" viewBox="0 0 15 15"><path d="M7.5 1l1.9 4 4.4.5-3.3 3 1 4.4-4-2.3-4 2.3 1-4.4-3.3-3 4.4-.5z" fill="#c98d3f"></path></svg>
+                <svg width="15" height="15" viewBox="0 0 15 15"><path d="M7.5 1l1.9 4 4.4.5-3.3 3 1 4.4-4-2.3-4 2.3 1-4.4-3.3-3 4.4-.5z" fill="#c98d3f"></path></svg>
+              </div>
+              <div style="font-size:12px;color:rgba(46,36,64,0.55);">4.9 from 12,400+ dreamers</div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14px;line-height:1.5;color:rgba(46,36,64,0.72);text-align:center;max-width:280px;min-height:60px;">"{{tw}}" — {{twWho}}</div>
+              <div style="display:flex;gap:5px;">
+                <sc-for list="{{twDots}}" as="d" hint-placeholder-count="3"><span style="width:6px;height:6px;border-radius:3px;background:{{d.c}};"></span></sc-for>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:center;gap:22px;font-size:12px;color:rgba(46,36,64,0.5);"><a href="#" style="color:rgba(46,36,64,0.5);">Privacy</a><a href="#" style="color:rgba(46,36,64,0.5);">Terms</a><a href="#" style="color:rgba(46,36,64,0.5);">Restore</a></div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══════════ THE APP ══════════ -->
+      <sc-if value="{{sApp}}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;">
+
+          <!-- HOME -->
+          <sc-if value="{{tHome}}" hint-placeholder-val="{{ true }}">
+            <div data-screen-label="Home" style="position:absolute;inset:0;overflow:auto;padding:66px 22px 130px;box-sizing:border-box;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="flex:1;">
+                  <div style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;font-weight:500;">Good morning, {{name}}</div>
+                  <div style="font-size:13px;color:rgba(46,36,64,0.58);margin-top:2px;">Everything you want is already on its way.</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:5px;height:34px;padding:0 12px;border-radius:17px;background:rgba(201,141,63,0.14);border:1px solid rgba(201,141,63,0.25);">
+                  <svg width="13" height="15" viewBox="0 0 13 15"><path d="M6.5 0C7 3 10.5 4.5 10.5 8.5a4 4 0 0 1-8 0C2.5 5.5 4.5 4 4.5 1.5 5.5 2 6.3 2.6 6.5 0z" fill="#c98d3f" transform="translate(1,1) scale(0.9)"></path></svg>
+                  <span style="font-size:13px;font-weight:700;color:#a8712c;">{{streak}}</span>
+                </div>
+              </div>
+              <div style="margin-top:12px;display:flex;align-items:center;gap:8px;border-radius:16px;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);padding:9px 14px;">
+                <span style="width:7px;height:7px;border-radius:4px;background:#3e7d5a;flex-shrink:0;box-shadow:0 0 0 3px rgba(94,160,124,0.2);"></span>
+                <span style="flex:1;font-size:12px;color:rgba(46,36,64,0.7);line-height:1.4;"><b>{{tickWho}}</b> {{tickWin}}</span>
+                <span style="font-size:10.5px;color:rgba(46,36,64,0.45);flex-shrink:0;">just now</span>
+              </div>
+              <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;line-height:1.3;">What do you want to manifest?</div>
+                <div style="display:flex;gap:10px;align-items:center;">
+                  <input value="{{composeText}}" onChange="{{composeInput}}" onKeyDown="{{composeKey}}" placeholder="him obsessed with me…" style="flex:1;min-width:0;height:50px;border-radius:25px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.72);padding:0 18px;font-size:14.5px;font-style:italic;color:#2e2440;box-shadow:0 4px 16px rgba(80,58,107,0.07);">
+                  <button onClick="{{composeGo}}" style="width:50px;height:50px;border-radius:25px;border:none;background:#503a6b;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 18px rgba(80,58,107,0.3);">
+                    <svg width="18" height="18" viewBox="0 0 20 20"><path d="M10 16V4M10 4 5.5 8.5M10 4l4.5 4.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </button>
+                </div>
+                <div style="display:flex;gap:8px;overflow-x:auto;margin:0 -22px;padding:2px 22px 4px;align-items:center;">
+                  <span style="flex-shrink:0;font-size:10.5px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.45);">TRENDING</span>
+                  <sc-for list="{{trend}}" as="t" hint-placeholder-count="4">
+                    <button onClick="{{t.pick}}" style="flex-shrink:0;height:36px;padding:0 14px;border-radius:18px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.6);font-size:13px;font-weight:600;color:#2e2440;cursor:pointer;">{{t.label}}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="margin-top:14px;border-radius:26px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.7);box-shadow:0 18px 44px rgba(70,50,100,0.28),0 2px 6px rgba(46,36,64,0.08);">
+                <div style="position:absolute;inset:0;background:radial-gradient(circle 34px at 73% 30%, #fff3d9 0% 48%, rgba(255,243,217,0.45) 58%, transparent 64%),radial-gradient(150% 85% at 73% 34%, rgba(255,205,150,0.8) 0%, transparent 58%),linear-gradient(180deg, #efae86 0%, #cd88a2 46%, #7a5d9a 78%, #514178 100%);"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(40,30,60,0) 34%, rgba(40,30,60,0.52) 100%);"></div>
+                <div style="position:relative;padding:18px 20px 20px;display:flex;flex-direction:column;gap:38px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-size:10.5px;font-weight:700;letter-spacing:1.6px;color:rgba(255,255,255,0.88);text-shadow:0 1px 8px rgba(40,30,60,0.3);">TODAY'S MOMENT</span>
+                    <span style="font-size:11px;font-weight:650;color:#fff;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.32);padding:4px 10px;border-radius:11px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);">new in 14h 22m</span>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;line-height:1.3;color:#fff;text-wrap:pretty;text-shadow:0 1px 16px rgba(40,30,60,0.4);">{{storyTitle}}</div>
+                    <sc-if value="{{modified}}" hint-placeholder-val="{{ false }}">
+                      <div style="align-self:flex-start;font-size:11px;font-weight:650;color:#fff;background:rgba(62,125,90,0.55);border:1px solid rgba(255,255,255,0.3);padding:4px 10px;border-radius:11px;">Rewritten with your changes — just now</div>
+                    </sc-if>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                      <button onClick="{{openPlayer}}" style="width:54px;height:54px;border-radius:27px;border:none;background:rgba(255,255,255,0.96);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(30,22,44,0.35);flex-shrink:0;">
+                        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="#503a6b"></path></svg>
+                      </button>
+                      <span style="font-size:12px;color:rgba(255,255,255,0.82);">03:12 · narrated by {{voice}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;gap:12px;margin-top:14px;">
+                <button onClick="{{openPlayer}}" style="flex:1;border-radius:20px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:14px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+                  <span style="width:44px;height:44px;border-radius:14px;flex-shrink:0;background:radial-gradient(circle 9px at 50% 68%, #fff6e0 0 55%, transparent 64%),linear-gradient(180deg,#f5c497,#dd9cab);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.4);">
+                    <svg width="17" height="17" viewBox="0 0 26 26"><circle cx="13" cy="13" r="5" fill="none" stroke="#fff" stroke-width="1.9"></circle><path d="M13 2.5v3M13 20.5v3M2.5 13h3M20.5 13h3M5.6 5.6l2.1 2.1M18.3 18.3l2.1 2.1M20.4 5.6l-2.1 2.1M7.7 18.3l-2.1 2.1" stroke="#fff" stroke-width="1.9" stroke-linecap="round"></path></svg>
+                  </span>
+                  <span style="display:flex;flex-direction:column;"><span style="font-size:13.5px;font-weight:650;">Morning ritual</span><span style="font-size:11.5px;color:rgba(46,36,64,0.5);">2 min · rise</span></span>
+                </button>
+                <button onClick="{{openPlayer}}" style="flex:1;border-radius:20px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:14px;display:flex;align-items:center;gap:10px;cursor:pointer;text-align:left;">
+                  <span style="width:44px;height:44px;border-radius:14px;flex-shrink:0;background:radial-gradient(circle 7px at 66% 30%, #fdf3dd 0 55%, transparent 64%),linear-gradient(180deg,#9480bd,#4e3f72);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.28);">
+                    <svg width="17" height="17" viewBox="0 0 24 24"><path d="M20 13.5A8 8 0 0 1 9.5 3a8 8 0 1 0 10.5 10.5z" fill="none" stroke="#fff" stroke-width="1.9" stroke-linejoin="round"></path></svg>
+                  </span>
+                  <span style="display:flex;flex-direction:column;"><span style="font-size:13.5px;font-weight:650;">Wind-down</span><span style="font-size:11.5px;color:rgba(46,36,64,0.5);">3 min · release</span></span>
+                </button>
+              </div>
+              <div style="margin-top:14px;border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:16px 18px;display:flex;flex-direction:column;gap:9px;">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                  <span style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.55);">YOUR 14-DAY BELIEF PLAN</span>
+                  <span style="font-size:11.5px;font-weight:700;color:#3e7d5a;">Day 6 · ahead of pace</span>
+                </div>
+                <div style="height:6px;border-radius:3px;background:rgba(46,36,64,0.1);overflow:hidden;">
+                  <div style="height:100%;width:43%;border-radius:3px;background:linear-gradient(90deg,#3e7d5a,#c98d3f);"></div>
+                </div>
+                <div style="font-size:12.5px;line-height:1.5;color:rgba(46,36,64,0.65);">94% of members notice their first sign by day 14. You've already logged <b>2 signs</b> — it's moving faster for you.</div>
+              </div>
+              <button onClick="{{openLetter}}" style="width:100%;box-sizing:border-box;margin-top:14px;border-radius:22px;border:1px solid rgba(255,255,255,0.85);background:linear-gradient(135deg,rgba(255,248,238,0.9),rgba(244,230,246,0.85));padding:18px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:7px;box-shadow:0 8px 24px rgba(80,58,107,0.08);">
+                <span style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.55);">A NOTE FROM FUTURE {{nameUpper}}</span>
+                <span style="font-family:'Newsreader',serif;font-style:italic;font-size:16px;line-height:1.45;color:#2e2440;">"The flat is real. The calm became the way we live. Keep going — I'm writing this from the window seat…"</span>
+                <span style="font-size:13px;font-weight:650;color:#503a6b;">Read the letter →</span>
+              </button>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;margin-top:24px;">For you</div>
+              <div style="display:flex;gap:12px;overflow-x:auto;margin:12px -22px 0;padding:2px 22px 8px;">
+                <sc-for list="{{forYou}}" as="f" hint-placeholder-count="2">
+                  <div style="flex-shrink:0;width:196px;border-radius:22px;background:rgba(255,250,243,0.9);border:1px solid rgba(255,255,255,0.9);box-shadow:0 8px 24px rgba(80,58,107,0.1);overflow:hidden;display:flex;flex-direction:column;">
+                    <div style="height:96px;background:{{f.g}};display:flex;align-items:flex-start;padding:10px 13px;box-sizing:border-box;">
+                      <span style="font-size:9.5px;font-weight:700;letter-spacing:1.3px;color:rgba(46,36,64,0.6);">{{f.tag}} · 3 MIN</span>
+                    </div>
+                    <div style="padding:13px;display:flex;flex-direction:column;gap:11px;flex:1;">
+                      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14.5px;line-height:1.35;flex:1;">{{f.t}}</div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;">
+                        <button onClick="{{f.play}}" style="width:44px;height:44px;border-radius:22px;border:none;background:#503a6b;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                          <svg width="15" height="15" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="#fff"></path></svg>
+                        </button>
+                        <button onClick="{{f.fav}}" style="width:44px;height:44px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                          <svg width="19" height="17" viewBox="0 0 24 22"><path d="M12 20.5S2.5 15 1.2 8.7A5.6 5.6 0 0 1 12 5a5.6 5.6 0 0 1 10.8 3.7C21.5 15 12 20.5 12 20.5z" fill="{{f.fill}}" stroke="#c76d8b" stroke-width="1.6"></path></svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:14px;">
+                <span style="font-size:10px;font-weight:700;letter-spacing:1.8px;color:rgba(46,36,64,0.45);">ALL STORIES REFRESH IN</span>
+                <span style="font-family:'Newsreader',serif;font-size:30px;font-weight:500;color:#503a6b;letter-spacing:1px;">{{refreshIn}}</span>
+                <span style="display:block;width:170px;height:3px;border-radius:2px;background:rgba(46,36,64,0.1);overflow:hidden;"><span style="display:block;height:100%;width:41%;border-radius:2px;background:linear-gradient(90deg,#503a6b,#b06a9a);"></span></span>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:24px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;">Manifesting now</div>
+                <button onClick="{{openNewGoal}}" style="border:none;background:none;padding:0;font-size:13px;font-weight:650;color:#503a6b;cursor:pointer;">+ New goal</button>
+              </div>
+              <div style="display:flex;gap:12px;overflow-x:auto;margin:12px -22px 0;padding:2px 22px 8px;">
+                <sc-for list="{{goals}}" as="g" hint-placeholder-count="3">
+                  <button onClick="{{openPlayer}}" style="flex-shrink:0;width:170px;border-radius:20px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.65);padding:15px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:9px;box-shadow:0 6px 18px rgba(80,58,107,0.07);">
+                    <span style="font-family:'Newsreader',serif;font-style:italic;font-size:15.5px;line-height:1.3;min-height:40px;">{{g.t}}</span>
+                    <span style="font-size:11.5px;color:rgba(46,36,64,0.5);">{{g.n}}</span>
+                    <span style="display:block;height:4px;border-radius:2px;background:rgba(80,58,107,0.12);overflow:hidden;"><span style="display:block;height:100%;width:{{g.p}}%;border-radius:2px;background:linear-gradient(90deg,#c98d3f,#b06a9a);"></span></span>
+                  </button>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:18px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;">Recently played</div>
+                <button onClick="{{openLibrary}}" style="border:none;background:none;padding:0;font-size:13px;font-weight:650;color:#503a6b;cursor:pointer;">Library →</button>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
+                <sc-for list="{{recent}}" as="r" hint-placeholder-count="2">
+                  <div style="border-radius:18px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                    <div style="flex:1;">
+                      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14.5px;line-height:1.35;">{{r.t}}</div>
+                      <div style="font-size:11.5px;color:rgba(46,36,64,0.5);margin-top:3px;">{{r.d}}</div>
+                    </div>
+                    <button onClick="{{openPlayer}}" style="width:44px;height:44px;border-radius:22px;border:none;background:rgba(80,58,107,0.12);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M5 3v10l8-5z" fill="#503a6b"></path></svg>
+                    </button>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- AFFIRM -->
+          <sc-if value="{{tAffirm}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Affirmations" style="position:absolute;inset:0;overflow:auto;padding:66px 22px 130px;box-sizing:border-box;">
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;font-weight:500;">Affirmations</div>
+              <div style="font-size:13px;color:rgba(46,36,64,0.58);margin-top:2px;">Spoken in the voice of who you're becoming.</div>
+              <div style="margin-top:18px;border-radius:26px;background:radial-gradient(120% 90% at 18% 0%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 55%),linear-gradient(150deg,rgba(255,247,235,0.95),rgba(243,226,238,0.92));border:1px solid rgba(255,255,255,0.9);box-shadow:0 14px 38px rgba(80,58,107,0.13),inset 0 1px 0 rgba(255,255,255,0.9);padding:32px 26px 36px;display:flex;flex-direction:column;align-items:center;gap:16px;min-height:240px;justify-content:center;">
+                <span style="font-family:'Newsreader',serif;font-size:58px;line-height:0.4;color:rgba(80,58,107,0.18);height:20px;">“</span>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:23px;line-height:1.42;text-align:center;text-wrap:pretty;">{{aff}}</div>
+                <div style="font-size:10.5px;font-weight:700;letter-spacing:1.6px;color:rgba(46,36,64,0.45);">I AM GUIDED BY {{nameUpper}}</div>
+              </div>
+              <div style="display:flex;justify-content:center;gap:14px;margin-top:16px;">
+                <button onClick="{{toggleAffLoop}}" style="width:48px;height:48px;border-radius:24px;border:1px solid rgba(255,255,255,0.9);background:{{affLoopBg}};cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="19" height="19" viewBox="0 0 19 19"><path d="M4 7.5V6a3 3 0 0 1 3-3h8m0 0-2.5-2.5M15 3l-2.5 2.5M15 11.5V13a3 3 0 0 1-3 3H4m0 0 2.5 2.5M4 16l2.5-2.5" stroke="{{affLoopFg}}" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <button onClick="{{toggleAffPlay}}" style="width:60px;height:60px;border-radius:30px;border:none;background:#503a6b;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(80,58,107,0.35);">
+                  <sc-if value="{{affPlaying}}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="4.5" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect><rect x="11.9" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect></svg></sc-if>
+                  <sc-if value="{{affPaused}}" hint-placeholder-val="{{ true }}"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M6.5 3.5v13l10-6.5z" fill="#fff"></path></svg></sc-if>
+                </button>
+                <button onClick="{{shareAff}}" style="width:48px;height:48px;border-radius:24px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.65);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="18" height="19" viewBox="0 0 18 19"><path d="M9 1.5v11M9 1.5 5.5 5M9 1.5 12.5 5" stroke="#503a6b" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3.5 9v6.5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9" stroke="#503a6b" stroke-width="1.8" fill="none" stroke-linecap="round"></path></svg>
+                </button>
+              </div>
+              <button onClick="{{nextAff}}" style="width:100%;margin-top:14px;height:48px;border-radius:24px;border:1px solid rgba(80,58,107,0.25);background:none;color:#503a6b;font-size:14.5px;font-weight:650;cursor:pointer;">Align me again</button>
+              <div style="margin-top:18px;border-radius:22px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:16px 18px;display:flex;align-items:center;gap:12px;">
+                <svg width="22" height="22" viewBox="0 0 24 24"><path d="M20 13.5A8 8 0 0 1 9.5 3a8 8 0 1 0 10.5 10.5z" fill="none" stroke="#6a5a9e" stroke-width="1.7" stroke-linejoin="round"></path></svg>
+                <div style="flex:1;">
+                  <div style="font-size:14px;font-weight:650;">Sleep on it</div>
+                  <div style="font-size:12px;color:rgba(46,36,64,0.55);margin-top:1px;">Whisper affirmations softly for 8 hours</div>
+                </div>
+                <button onClick="{{toggleSleep}}" style="width:52px;height:32px;border-radius:16px;border:none;background:{{sleepBg}};cursor:pointer;position:relative;transition:background 0.2s;">
+                  <span style="position:absolute;top:3px;left:{{sleepKnob}}px;width:26px;height:26px;border-radius:13px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.2);transition:left 0.2s;"></span>
+                </button>
+              </div>
+              <div style="text-align:center;font-size:11px;font-weight:700;letter-spacing:1.6px;color:rgba(46,36,64,0.4);margin-top:20px;">COME BACK ONCE DAILY</div>
+            </div>
+          </sc-if>
+
+          <!-- VISION -->
+          <sc-if value="{{tVision}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Vision" style="position:absolute;inset:0;overflow:auto;padding:66px 22px 130px;box-sizing:border-box;">
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;font-weight:500;">Vision</div>
+              <div style="font-size:13px;color:rgba(46,36,64,0.58);margin-top:2px;">See it. Log it. Watch it arrive.</div>
+              <div style="display:flex;gap:6px;margin-top:16px;background:rgba(46,36,64,0.07);border-radius:22px;padding:4px;">
+                <sc-for list="{{visionSegs}}" as="s" hint-placeholder-count="3">
+                  <button onClick="{{s.pick}}" style="flex:1;height:38px;border-radius:19px;border:none;background:{{s.bg}};color:{{s.fg}};font-size:13.5px;font-weight:650;cursor:pointer;box-shadow:{{s.sh}};">{{s.label}}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{vBoard}}" hint-placeholder-val="{{ true }}">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+                  <sc-for list="{{board}}" as="b" hint-placeholder-count="3">
+                    <div style="border-radius:20px;background:{{b.g}};min-height:150px;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 8px 22px rgba(80,58,107,0.12);border:1px solid rgba(255,255,255,0.6);">
+                      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:15px;line-height:1.3;color:{{b.tc}};text-shadow:0 1px 10px {{b.ts}};">{{b.t}}</div>
+                    </div>
+                  </sc-for>
+                  <button style="border-radius:20px;background:rgba(255,255,255,0.45);border:1.5px dashed rgba(80,58,107,0.3);min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="#503a6b" stroke-width="2" stroke-linecap="round"></path></svg>
+                    <span style="font-size:13px;font-weight:650;color:#503a6b;">Add to your board</span>
+                  </button>
+                </div>
+                <div style="font-size:12px;color:rgba(46,36,64,0.5);margin-top:14px;line-height:1.5;">Your board feeds your stories. Add a photo and Sora will write you into it.</div>
+              </sc-if>
+              <sc-if value="{{vProof}}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:13.5px;color:rgba(46,36,64,0.6);margin-top:16px;line-height:1.5;">Evidence that it's working. Every win goes on your wall.</div>
+                <div style="display:flex;gap:10px;margin-top:12px;">
+                  <input value="{{winText}}" onChange="{{winInput}}" placeholder="It happened — what came true?" style="flex:1;height:48px;border-radius:24px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.72);padding:0 18px;font-size:14px;color:#2e2440;">
+                  <button onClick="{{addWin}}" style="height:48px;padding:0 18px;border-radius:24px;border:none;background:#503a6b;color:#fff;font-size:14px;font-weight:650;cursor:pointer;">Add</button>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+                  <sc-for list="{{wins}}" as="w" hint-placeholder-count="2">
+                    <div style="border-radius:20px;background:linear-gradient(135deg,rgba(84,60,110,0.94),rgba(122,74,122,0.92));padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 22px rgba(80,58,107,0.25);">
+                      <div style="flex:1;">
+                        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:15.5px;line-height:1.35;color:#fff;">{{w.t}}</div>
+                        <div style="font-size:11.5px;color:rgba(255,255,255,0.6);margin-top:4px;">{{w.d}} · manifested</div>
+                      </div>
+                      <button onClick="{{w.share}}" style="width:44px;height:44px;border-radius:22px;border:none;background:rgba(255,255,255,0.16);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="17" height="18" viewBox="0 0 18 19"><path d="M9 1.5v11M9 1.5 5.5 5M9 1.5 12.5 5" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3.5 9v6.5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"></path></svg>
+                      </button>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{vCircle}}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:16px;border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:18px;text-align:center;">
+                  <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;color:#503a6b;">2,847</div>
+                  <div style="font-size:12.5px;color:rgba(46,36,64,0.55);margin-top:2px;">manifestations logged in the circle this week</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+                  <sc-for list="{{circle}}" as="c" hint-placeholder-count="4">
+                    <div style="border-radius:18px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:13px 16px;display:flex;align-items:center;gap:12px;">
+                      <span style="width:36px;height:36px;border-radius:18px;background:rgba(80,58,107,0.12);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#503a6b;flex-shrink:0;">{{c.i}}</span>
+                      <span style="flex:1;font-size:13.5px;line-height:1.4;"><b>{{c.who}}</b> {{c.win}}</span>
+                      <span style="font-size:11.5px;color:rgba(46,36,64,0.45);flex-shrink:0;">{{c.ago}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="font-size:12px;color:rgba(46,36,64,0.5);margin-top:14px;text-align:center;">Wins are always anonymous. Yours joins the circle when you share it.</div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- JOURNAL -->
+          <sc-if value="{{tJournal}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Journal" style="position:absolute;inset:0;overflow:auto;padding:66px 22px 130px;box-sizing:border-box;">
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;font-weight:500;">Journal</div>
+              <div style="font-size:13px;color:rgba(46,36,64,0.58);margin-top:2px;">Gratitude rewires. Signs confirm.</div>
+              <div style="margin-top:16px;border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:16px 18px;display:flex;align-items:center;gap:14px;">
+                <div style="display:flex;flex-direction:column;align-items:center;">
+                  <span style="font-family:'Newsreader',serif;font-size:34px;font-weight:600;color:#a8712c;line-height:1;">{{streakN}}</span>
+                  <span style="font-size:10.5px;font-weight:700;letter-spacing:1px;color:rgba(46,36,64,0.5);">DAY STREAK</span>
+                </div>
+                <div style="flex:1;display:flex;justify-content:space-between;">
+                  <sc-for list="{{week}}" as="d" hint-placeholder-count="7">
+                    <span style="display:flex;flex-direction:column;align-items:center;gap:5px;">
+                      <span style="width:26px;height:26px;border-radius:13px;background:{{d.bg}};border:1.5px solid {{d.bd}};display:flex;align-items:center;justify-content:center;">
+                        <sc-if value="{{d.done}}" hint-placeholder-val="{{ false }}"><svg width="11" height="9" viewBox="0 0 11 9"><path d="M1 4.5 4 7.5 10 1" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+                      </span>
+                      <span style="font-size:10px;font-weight:650;color:rgba(46,36,64,0.5);">{{d.l}}</span>
+                    </span>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;gap:6px;margin-top:16px;background:rgba(46,36,64,0.07);border-radius:22px;padding:4px;">
+                <sc-for list="{{jSegs}}" as="s" hint-placeholder-count="2">
+                  <button onClick="{{s.pick}}" style="flex:1;height:38px;border-radius:19px;border:none;background:{{s.bg}};color:{{s.fg}};font-size:13.5px;font-weight:650;cursor:pointer;box-shadow:{{s.sh}};">{{s.label}}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{jGrat}}" hint-placeholder-val="{{ true }}">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:18px;margin-top:18px;">What are you grateful for today?</div>
+                <div style="display:flex;gap:10px;margin-top:12px;">
+                  <input value="{{gratText}}" onChange="{{gratInput}}" onKeyDown="{{gratKey}}" placeholder="My health, my people, this morning's light…" style="flex:1;height:48px;border-radius:24px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.72);padding:0 18px;font-size:14px;color:#2e2440;">
+                  <button onClick="{{addGrat}}" style="height:48px;padding:0 18px;border-radius:24px;border:none;background:#503a6b;color:#fff;font-size:14px;font-weight:650;cursor:pointer;">Add</button>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+                  <sc-for list="{{gratitudes}}" as="g" hint-placeholder-count="2">
+                    <div style="border-radius:18px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                      <svg width="16" height="15" viewBox="0 0 24 22" style="flex-shrink:0;"><path d="M12 20.5S2.5 15 1.2 8.7A5.6 5.6 0 0 1 12 5a5.6 5.6 0 0 1 10.8 3.7C21.5 15 12 20.5 12 20.5z" fill="#c76d8b"></path></svg>
+                      <span style="font-size:14px;line-height:1.4;">{{g}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{jSigns}}" hint-placeholder-val="{{ false }}">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:18px;margin-top:18px;">Small signs it's already working</div>
+                <div style="display:flex;gap:10px;margin-top:12px;">
+                  <input value="{{evidText}}" onChange="{{evidInput}}" placeholder="A coincidence, a compliment, a door opening…" style="flex:1;height:48px;border-radius:24px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.72);padding:0 18px;font-size:14px;color:#2e2440;">
+                  <button onClick="{{addEvid}}" style="height:48px;padding:0 18px;border-radius:24px;border:none;background:#503a6b;color:#fff;font-size:14px;font-weight:650;cursor:pointer;">Add</button>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+                  <sc-for list="{{evid}}" as="e" hint-placeholder-count="2">
+                    <div style="border-radius:18px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                      <svg width="16" height="16" viewBox="0 0 16 16" style="flex-shrink:0;"><path d="M8 0l1.8 5.4L15.4 6 11 9.4l1.6 5.8L8 11.8l-4.6 3.4L5 9.4.6 6l5.6-.6z" fill="#c98d3f"></path></svg>
+                      <span style="font-size:14px;line-height:1.4;">{{e}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="font-size:12px;color:rgba(46,36,64,0.5);margin-top:14px;line-height:1.5;">Sora weaves your signs into tomorrow's story — proof compounds belief.</div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- PROGRESS -->
+          <sc-if value="{{tProgress}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Progress" style="position:absolute;inset:0;overflow:auto;padding:66px 22px 130px;box-sizing:border-box;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="flex:1;">
+                  <div style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;font-weight:500;">Progress</div>
+                  <div style="font-size:13px;color:rgba(46,36,64,0.58);margin-top:2px;">Proof it's already moving.</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:5px;height:34px;padding:0 12px;border-radius:17px;background:rgba(201,141,63,0.14);border:1px solid rgba(201,141,63,0.25);">
+                  <svg width="13" height="15" viewBox="0 0 13 15"><path d="M6.5 0C7 3 10.5 4.5 10.5 8.5a4 4 0 0 1-8 0C2.5 5.5 4.5 4 4.5 1.5 5.5 2 6.3 2.6 6.5 0z" fill="#c98d3f" transform="translate(1,1) scale(0.9)"></path></svg>
+                  <span style="font-size:13px;font-weight:700;color:#a8712c;">{{streak}}</span>
+                </div>
+              </div>
+              <div style="margin-top:16px;border-radius:26px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.7);box-shadow:0 18px 44px rgba(70,50,100,0.28),0 2px 6px rgba(46,36,64,0.08);">
+                <div style="position:absolute;inset:0;background:radial-gradient(circle 30px at 78% 24%, #fff3d9 0% 48%, rgba(255,243,217,0.45) 58%, transparent 64%),radial-gradient(150% 85% at 78% 28%, rgba(255,205,150,0.75) 0%, transparent 58%),linear-gradient(180deg, #efae86 0%, #cd88a2 46%, #7a5d9a 78%, #514178 100%);"></div>
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(40,30,60,0) 30%, rgba(40,30,60,0.55) 100%);"></div>
+                <div style="position:relative;padding:20px 20px 22px;display:flex;flex-direction:column;gap:16px;">
+                  <span style="font-size:10.5px;font-weight:700;letter-spacing:1.6px;color:rgba(255,255,255,0.88);text-shadow:0 1px 8px rgba(40,30,60,0.3);">14-DAY BELIEF PLAN</span>
+                  <div style="display:flex;align-items:center;gap:18px;">
+                    <div style="position:relative;width:96px;height:96px;flex-shrink:0;">
+                      <svg width="96" height="96" viewBox="0 0 96 96" style="transform:rotate(-90deg);">
+                        <circle cx="48" cy="48" r="41" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="7"></circle>
+                        <circle cx="48" cy="48" r="41" fill="none" stroke="#ffe4bd" stroke-width="7" stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="147.2"></circle>
+                      </svg>
+                      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;">
+                        <span style="font-family:'Newsreader',serif;font-size:29px;font-weight:600;line-height:1;">6</span>
+                        <span style="font-size:9.5px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,0.75);">OF 14</span>
+                      </div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px;">
+                      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;line-height:1.3;color:#fff;text-shadow:0 1px 14px rgba(40,30,60,0.4);">Belief compounds daily.</div>
+                      <div style="font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.82);">94% of members notice their first sign by day 14. You've logged <b>2</b> — it's moving faster for you.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:14px;border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;">
+                  <span style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.55);">THIS WEEK'S RHYTHM</span>
+                  <span style="font-size:11.5px;font-weight:700;color:#3e7d5a;">5 of 7 days</span>
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <sc-for list="{{pWeek}}" as="d" hint-placeholder-count="7">
+                    <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">
+                      <span style="width:36px;height:36px;border-radius:18px;background:{{d.bg}};border:1px solid {{d.br}};display:flex;align-items:center;justify-content:center;">
+                        <svg width="13" height="13" viewBox="0 0 14 14"><path d="{{d.icon}}" stroke="{{d.fg}}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                      </span>
+                      <span style="font-size:10px;font-weight:700;letter-spacing:0.5px;color:{{d.lc}};">{{d.l}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="font-size:12px;line-height:1.5;color:rgba(46,36,64,0.6);">Morning ritual + one story a day keeps the plan on pace. Tonight's wind-down completes day 6.</div>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:22px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;">Goal momentum</div>
+                <span style="font-size:11.5px;color:rgba(46,36,64,0.5);">signs + sessions per goal</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
+                <sc-for list="{{pGoals}}" as="g" hint-placeholder-count="3">
+                  <div style="border-radius:20px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.65);padding:15px 17px;display:flex;flex-direction:column;gap:9px;box-shadow:0 6px 18px rgba(80,58,107,0.07);">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <span style="flex:1;font-family:'Newsreader',serif;font-style:italic;font-size:15.5px;line-height:1.3;">{{g.t}}</span>
+                      <span style="flex-shrink:0;font-size:10.5px;font-weight:700;letter-spacing:0.8px;color:{{g.chipFg}};background:{{g.chipBg}};padding:4px 9px;border-radius:10px;">{{g.chip}}</span>
+                    </div>
+                    <span style="display:block;height:5px;border-radius:3px;background:rgba(80,58,107,0.12);overflow:hidden;"><span style="display:block;height:100%;width:{{g.p}}%;border-radius:3px;background:linear-gradient(90deg,#c98d3f,#b06a9a);"></span></span>
+                    <div style="display:flex;gap:14px;font-size:11.5px;color:rgba(46,36,64,0.55);">
+                      <span><b style="color:#2e2440;">{{g.sessions}}</b> sessions</span>
+                      <span><b style="color:#3e7d5a;">{{g.signs}}</b> signs</span>
+                      <span style="margin-left:auto;color:rgba(46,36,64,0.45);">{{g.last}}</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:22px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;">Signs it's working</div>
+                <button onClick="{{goSigns}}" style="border:none;background:none;padding:0;font-size:13px;font-weight:650;color:#503a6b;cursor:pointer;">+ Log a sign</button>
+              </div>
+              <div style="margin-top:12px;border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:6px 18px;">
+                <sc-for list="{{pSigns}}" as="sg" hint-placeholder-count="3">
+                  <div style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(46,36,64,0.07);">
+                    <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:3px;">
+                      <span style="width:9px;height:9px;border-radius:5px;background:#3e7d5a;box-shadow:0 0 0 3px rgba(94,160,124,0.2);"></span>
+                      <span style="flex:1;width:1.5px;background:rgba(46,36,64,0.1);margin-top:6px;"></span>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:3px;padding-bottom:2px;">
+                      <span style="font-size:13.5px;line-height:1.45;">{{sg.t}}</span>
+                      <span style="font-size:11px;color:rgba(46,36,64,0.45);">{{sg.d}} · {{sg.goal}}</span>
+                    </div>
+                  </div>
+                </sc-for>
+                <div style="padding:13px 0 15px;font-size:12px;line-height:1.5;color:rgba(46,36,64,0.55);">Every sign you log makes tomorrow's story more specific — Sora writes them in.</div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- PROFILE -->
+          <sc-if value="{{tProfile}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Profile" style="position:absolute;inset:0;overflow:auto;padding:66px 22px 130px;box-sizing:border-box;">
+              <div style="display:flex;align-items:center;gap:14px;">
+                <span style="width:52px;height:52px;border-radius:26px;background:linear-gradient(135deg,#e2b98a,#b790c8);display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-style:italic;font-size:24px;color:#fff;">{{initial}}</span>
+                <div>
+                  <div style="font-family:'Newsreader',serif;font-style:italic;font-size:26px;font-weight:500;">{{name}}</div>
+                  <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">The more Sora knows, the truer your stories feel.</div>
+                </div>
+              </div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:22px 0 8px;">SORA'S MEMORY</div>
+              <div style="border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:8px 16px;">
+                <sc-for list="{{memory}}" as="m" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:10px;min-height:46px;border-bottom:1px solid rgba(46,36,64,0.07);">
+                    <span style="flex:1;font-size:13.5px;line-height:1.4;">{{m.text}}</span>
+                    <button onClick="{{m.del}}" style="width:34px;height:34px;border-radius:17px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                      <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 2l8 8M10 2l-8 8" stroke="rgba(46,36,64,0.45)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+                    </button>
+                  </div>
+                </sc-for>
+                <div style="font-size:11.5px;color:rgba(46,36,64,0.5);padding:10px 0;line-height:1.5;">Remove anything and Sora forgets it instantly. Your stories update.</div>
+              </div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:20px 0 8px;">THE BASICS</div>
+              <div style="border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:2px 16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;min-height:48px;border-bottom:1px solid rgba(46,36,64,0.07);"><span style="font-size:14px;">Name</span><span style="font-size:14px;color:rgba(46,36,64,0.55);">{{name}}</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;min-height:48px;border-bottom:1px solid rgba(46,36,64,0.07);"><span style="font-size:14px;">City</span><span style="font-size:14px;color:rgba(46,36,64,0.55);">New York City</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;min-height:48px;"><span style="font-size:14px;">Career</span><span style="font-size:14px;color:rgba(46,36,64,0.55);">Designer, building a studio</span></div>
+              </div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:20px 0 8px;">VOICE</div>
+              <div style="border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:2px 16px;">
+                <button onClick="{{openVoice}}" style="width:100%;display:flex;justify-content:space-between;align-items:center;min-height:48px;border:none;background:none;cursor:pointer;padding:0;border-bottom:1px solid rgba(46,36,64,0.07);">
+                  <span style="font-size:14px;color:#2e2440;">Narrator</span>
+                  <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:rgba(46,36,64,0.55);">{{voice}}<svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="rgba(46,36,64,0.3)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                </button>
+                <div style="display:flex;flex-direction:column;gap:6px;padding:12px 0;">
+                  <span style="font-size:14px;">How do we say your name?</span>
+                  <input placeholder="e.g. 'SHIV-on' for Siobhán" style="height:42px;border-radius:21px;border:1px solid rgba(46,36,64,0.12);background:rgba(255,255,255,0.8);padding:0 16px;font-size:13.5px;color:#2e2440;">
+                </div>
+              </div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:20px 0 8px;">MY PEOPLE</div>
+              <div style="border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+                <sc-for list="{{people}}" as="p" hint-placeholder-count="1">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <svg width="16" height="15" viewBox="0 0 24 22"><path d="M12 20.5S2.5 15 1.2 8.7A5.6 5.6 0 0 1 12 5a5.6 5.6 0 0 1 10.8 3.7C21.5 15 12 20.5 12 20.5z" fill="#b790c8"></path></svg>
+                    <span style="font-size:14px;font-weight:650;">{{p.name}}</span>
+                    <span style="font-size:12.5px;color:rgba(46,36,64,0.5);">{{p.rel}}</span>
+                  </div>
+                </sc-for>
+                <div style="display:flex;gap:8px;">
+                  <input value="{{personName}}" onChange="{{personNameInput}}" placeholder="Name" style="flex:1;min-width:0;height:42px;border-radius:21px;border:1px solid rgba(46,36,64,0.12);background:rgba(255,255,255,0.8);padding:0 14px;font-size:13.5px;color:#2e2440;">
+                  <input value="{{personRel}}" onChange="{{personRelInput}}" placeholder="Who are they to you?" style="flex:1.4;min-width:0;height:42px;border-radius:21px;border:1px solid rgba(46,36,64,0.12);background:rgba(255,255,255,0.8);padding:0 14px;font-size:13.5px;color:#2e2440;">
+                  <button onClick="{{addPerson}}" style="height:42px;padding:0 14px;border-radius:21px;border:none;background:#503a6b;color:#fff;font-size:13px;font-weight:650;cursor:pointer;">Add</button>
+                </div>
+              </div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:20px 0 8px;">ANYTHING SORA SHOULD KNOW?</div>
+              <div style="border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:14px 16px;display:flex;flex-direction:column;gap:10px;">
+                <textarea value="{{know}}" onChange="{{knowInput}}" placeholder="I actually prefer iced lattes. My dog's name is Miso…" style="min-height:64px;border-radius:16px;border:1px solid rgba(46,36,64,0.12);background:rgba(255,255,255,0.8);padding:12px 14px;font-size:13.5px;color:#2e2440;resize:none;line-height:1.5;"></textarea>
+                <button onClick="{{saveKnow}}" style="height:44px;border-radius:22px;border:none;background:#503a6b;color:#fff;font-size:14px;font-weight:650;cursor:pointer;">Save to memory</button>
+              </div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:20px 0 8px;">DAILY RHYTHM</div>
+              <div style="border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:2px 16px;">
+                <button onClick="{{openReminders}}" style="width:100%;display:flex;justify-content:space-between;align-items:center;min-height:48px;border:none;background:none;cursor:pointer;padding:0;border-bottom:1px solid rgba(46,36,64,0.07);">
+                  <span style="font-size:14px;color:#2e2440;">Reminders</span>
+                  <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:rgba(46,36,64,0.55);">{{remSummary}}<svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="rgba(46,36,64,0.3)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                </button>
+                <button onClick="{{openWidgets}}" style="width:100%;display:flex;justify-content:space-between;align-items:center;min-height:48px;border:none;background:none;cursor:pointer;padding:0;">
+                  <span style="font-size:14px;color:#2e2440;">Widgets</span>
+                  <span style="display:flex;align-items:center;gap:6px;font-size:14px;color:rgba(46,36,64,0.55);">Lock screen &amp; home<svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="rgba(46,36,64,0.3)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                </button>
+              </div>
+              <div style="margin-top:20px;border-radius:22px;background:linear-gradient(135deg,rgba(201,141,63,0.16),rgba(183,144,200,0.18));border:1px solid rgba(201,141,63,0.25);padding:18px;display:flex;flex-direction:column;gap:8px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:18px;">Give a week, get a week</div>
+                <div style="font-size:13px;color:rgba(46,36,64,0.6);line-height:1.5;">Invite a friend into their dream life. When they join, you both get 7 days free.</div>
+                <button onClick="{{copyRef}}" style="height:46px;border-radius:23px;border:none;background:#503a6b;color:#fff;font-size:14px;font-weight:650;cursor:pointer;margin-top:4px;">Copy my invite link</button>
+              </div>
+              <div style="margin-top:20px;border-radius:22px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:2px 16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;min-height:48px;border-bottom:1px solid rgba(46,36,64,0.07);"><span style="font-size:14px;">Subscription</span><button onClick="{{openTrial}}" style="border:none;background:none;padding:0;font-size:13px;color:#3e7d5a;font-weight:650;cursor:pointer;display:flex;align-items:center;gap:6px;">Free trial · 2 days left<svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="rgba(46,36,64,0.3)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></button></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;min-height:48px;border-bottom:1px solid rgba(46,36,64,0.07);"><span style="font-size:14px;">Manage or cancel</span><svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="rgba(46,36,64,0.3)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;min-height:48px;"><span style="font-size:14px;">Restore purchases</span><svg width="7" height="12" viewBox="0 0 8 14"><path d="M1 1l6 6-6 6" stroke="rgba(46,36,64,0.3)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- MINI PLAYER -->
+          <sc-if value="{{miniPlayer}}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:16px;right:16px;bottom:96px;height:58px;border-radius:29px;background:rgba(46,36,64,0.93);display:flex;align-items:center;gap:10px;padding:0 14px 0 6px;z-index:29;box-shadow:0 10px 28px rgba(30,22,44,0.35);">
+              <button onClick="{{miniToggle}}" style="width:46px;height:46px;border-radius:23px;border:none;background:rgba(255,255,255,0.14);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <sc-if value="{{playing}}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 20 20"><rect x="4.5" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect><rect x="11.9" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect></svg></sc-if>
+                <sc-if value="{{paused}}" hint-placeholder-val="{{ true }}"><svg width="16" height="16" viewBox="0 0 20 20"><path d="M6.5 3.5v13l10-6.5z" fill="#fff"></path></svg></sc-if>
+              </button>
+              <button onClick="{{miniOpen}}" style="flex:1;min-width:0;border:none;background:none;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:1px;padding:0;">
+                <span style="font-size:9.5px;font-weight:700;letter-spacing:1.4px;color:rgba(255,255,255,0.55);">NOW PLAYING</span>
+                <span style="font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:100%;">{{storyTitle}}</span>
+              </button>
+              <span style="font-size:11px;color:rgba(255,255,255,0.6);flex-shrink:0;">{{progTime}} / 03:12</span>
+            </div>
+          </sc-if>
+
+          <!-- TAB BAR -->
+          <div style="position:absolute;left:16px;right:16px;bottom:24px;height:64px;border-radius:32px;background:rgba(255,255,255,0.62);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(255,255,255,0.8);box-shadow:0 10px 32px rgba(80,58,107,0.16);display:flex;align-items:center;padding:0 8px;z-index:30;">
+            <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+              <button onClick="{{t.pick}}" style="flex:1;height:52px;border-radius:26px;border:none;background:{{t.bg}};cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+                <svg width="21" height="21" viewBox="0 0 24 24"><path d="{{t.d}}" stroke="{{t.fg}}" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span style="font-size:9.5px;font-weight:700;color:{{t.fg}};letter-spacing:0.2px;">{{t.label}}</span>
+              </button>
+            </sc-for>
+          </div>
+
+          <!-- PLAYER OVERLAY -->
+          <sc-if value="{{oPlayer}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Story player" style="position:absolute;inset:0;z-index:40;background:radial-gradient(420px 320px at 50% 26%, rgba(255,238,216,0.75) 0%, transparent 70%),linear-gradient(170deg,#f3ddea 0%,#e4d8f6 55%,#d3dcf8 100%);display:flex;flex-direction:column;padding:64px 26px 34px;box-sizing:border-box;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <button onClick="{{closeOverlay}}" style="width:44px;height:44px;margin-left:-10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 7.5 10 13.5 16 7.5" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <span style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:rgba(46,36,64,0.5);">NOW PLAYING</span>
+                <button onClick="{{toggleFav}}" style="width:44px;height:44px;margin-right:-10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="21" height="19" viewBox="0 0 24 22"><path d="M12 20.5S2.5 15 1.2 8.7A5.6 5.6 0 0 1 12 5a5.6 5.6 0 0 1 10.8 3.7C21.5 15 12 20.5 12 20.5z" fill="{{favFill}}" stroke="#c76d8b" stroke-width="1.6"></path></svg>
+                </button>
+              </div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:23px;line-height:1.3;text-align:center;margin-top:14px;text-wrap:pretty;">{{storyTitle}}</div>
+              <sc-if value="{{reading}}" hint-placeholder-val="{{ false }}">
+                <div style="flex:1;overflow:auto;margin-top:16px;font-family:'Newsreader',serif;font-size:16.5px;line-height:1.75;color:#3a2f50;">
+                  <p style="margin:0 0 16px;">{{storyP1}}</p>
+                  <p style="margin:0 0 16px;">{{storyP2}}</p>
+                </div>
+              </sc-if>
+              <sc-if value="{{notReading}}" hint-placeholder-val="{{ true }}">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;">
+                  <div style="width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 24px 60px rgba(122,104,180,0.4),0 0 90px 18px rgba(255,212,168,0.4),0 0 0 1px rgba(255,255,255,0.55),inset 0 -14px 32px rgba(255,255,255,0.55),inset 0 12px 28px rgba(255,255,255,0.5);animation:breathe 5s ease-in-out infinite;"></div>
+                  <div style="font-family:'Newsreader',serif;font-style:italic;font-size:19px;line-height:1.45;text-align:center;color:#3a2f50;padding:0 12px;text-wrap:pretty;">{{caption}}</div>
+                  <button onClick="{{openVoice}}" style="height:36px;padding:0 16px;border-radius:18px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.6);font-size:12.5px;font-weight:650;color:#503a6b;cursor:pointer;display:flex;align-items:center;gap:6px;">
+                    <svg width="12" height="14" viewBox="0 0 12 14"><rect x="3.5" y="1" width="5" height="8" rx="2.5" fill="none" stroke="#503a6b" stroke-width="1.5"></rect><path d="M1 7a5 5 0 0 0 10 0M6 12v1.5" fill="none" stroke="#503a6b" stroke-width="1.5" stroke-linecap="round"></path></svg>
+                    {{voice}} · change voice
+                  </button>
+                </div>
+              </sc-if>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;">
+                <div style="height:5px;border-radius:3px;background:rgba(46,36,64,0.12);overflow:hidden;">
+                  <div style="height:100%;border-radius:3px;background:#503a6b;width:{{progPct}}%;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(46,36,64,0.5);"><span>{{progTime}}</span><span>03:12</span></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:18px;margin-top:10px;">
+                <button onClick="{{toggleStoryLoop}}" style="width:46px;height:46px;border-radius:23px;border:none;background:{{loopBg}};cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="18" height="18" viewBox="0 0 19 19"><path d="M4 7.5V6a3 3 0 0 1 3-3h8m0 0-2.5-2.5M15 3l-2.5 2.5M15 11.5V13a3 3 0 0 1-3 3H4m0 0 2.5 2.5M4 16l2.5-2.5" stroke="{{loopFg}}" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <button onClick="{{rewind}}" style="width:50px;height:50px;border-radius:25px;border:none;background:rgba(255,255,255,0.6);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="16" viewBox="0 0 20 16"><path d="M10 2 3.5 8l6.5 6M17 2l-6.5 6L17 14" stroke="#2e2440" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <button onClick="{{togglePlay}}" style="width:68px;height:68px;border-radius:34px;border:none;background:linear-gradient(165deg,#6a4f92 0%,#503a6b 60%,#463259 100%);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(80,58,107,0.4),inset 0 1px 0 rgba(255,255,255,0.28);">
+                  <sc-if value="{{playing}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 20 20"><rect x="4.5" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect><rect x="11.9" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect></svg></sc-if>
+                  <sc-if value="{{paused}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 20 20"><path d="M6.5 3.5v13l10-6.5z" fill="#fff"></path></svg></sc-if>
+                </button>
+                <button onClick="{{forward}}" style="width:50px;height:50px;border-radius:25px;border:none;background:rgba(255,255,255,0.6);cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="16" viewBox="0 0 20 16"><path d="M10 2l6.5 6-6.5 6M3 2l6.5 6L3 14" stroke="#2e2440" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <button onClick="{{cycleSpeed}}" style="width:46px;height:46px;border-radius:23px;border:none;background:rgba(255,255,255,0.6);cursor:pointer;font-size:12.5px;font-weight:700;color:#2e2440;">{{speed}}x</button>
+              </div>
+              <sc-if value="{{sealed}}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:14px;border-radius:20px;background:linear-gradient(135deg,rgba(84,60,110,0.95),rgba(122,74,122,0.93));padding:16px 18px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 28px rgba(80,58,107,0.3);">
+                  <div style="font-family:'Newsreader',serif;font-style:italic;font-size:17px;color:#fff;">It is done.</div>
+                  <div style="font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.75);">You just lived it once. The world tends to echo — watch for the sign today.</div>
+                  <div style="display:flex;gap:8px;margin-top:2px;">
+                    <button onClick="{{logSign}}" style="flex:1;height:42px;border-radius:21px;border:none;background:rgba(255,255,255,0.94);color:#503a6b;font-size:13px;font-weight:700;cursor:pointer;">I noticed a sign</button>
+                    <button onClick="{{sealShare}}" style="flex:1;height:42px;border-radius:21px;border:1px solid rgba(255,255,255,0.4);background:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;">Share this feeling</button>
+                  </div>
+                </div>
+              </sc-if>
+              <div style="display:flex;gap:10px;margin-top:16px;">
+                <button onClick="{{toggleRead}}" style="flex:1;height:44px;border-radius:22px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.55);font-size:13px;font-weight:650;color:#2e2440;cursor:pointer;">{{readLabel}}</button>
+                <button onClick="{{openModify}}" style="flex:1;height:44px;border-radius:22px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.55);font-size:13px;font-weight:650;color:#2e2440;cursor:pointer;">Modify story</button>
+                <button onClick="{{sharePlayer}}" style="flex:1;height:44px;border-radius:22px;border:1px solid rgba(255,255,255,0.9);background:rgba(255,255,255,0.55);font-size:13px;font-weight:650;color:#2e2440;cursor:pointer;">Share</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- LETTER OVERLAY -->
+          <sc-if value="{{oLetter}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Letter from future self" style="position:absolute;inset:0;z-index:40;background:linear-gradient(170deg,#f7ead9 0%,#f0dde6 60%,#e2dcf4 100%);display:flex;flex-direction:column;padding:64px 28px 34px;box-sizing:border-box;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <button onClick="{{closeOverlay}}" style="width:44px;height:44px;margin-left:-10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 7.5 10 13.5 16 7.5" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <span style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:rgba(46,36,64,0.5);">FROM FUTURE {{nameUpper}}</span>
+                <span style="width:44px;"></span>
+              </div>
+              <div style="flex:1;overflow:auto;margin-top:10px;font-family:'Newsreader',serif;font-size:17.5px;line-height:1.8;color:#3a2f50;">
+                <p style="margin:0 0 18px;font-style:italic;">Hey — it's you. Three years from now.</p>
+                <p style="margin:0 0 18px;">I'm writing this from the window seat you're going to love. The flat is real. The morning light does exactly what you hoped it would. And the calm you're practicing right now, on the hard days when it feels like nothing is moving? It became the way we live.</p>
+                <p style="margin:0 0 18px;">Every small morning you show up is a brick in the life I'm living. None of it was wasted. Not one day.</p>
+                <p style="margin:0 0 18px;">Keep going. I'm already here, and I'm proud of you.</p>
+                <p style="margin:0;font-style:italic;">— {{name}}, from the sunlit side</p>
+              </div>
+              <button onClick="{{openPlayer}}" style="height:52px;border-radius:26px;border:none;background:#503a6b;color:#fff;font-size:15px;font-weight:650;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 8px 24px rgba(80,58,107,0.35);">
+                <svg width="14" height="14" viewBox="0 0 14 14"><path d="M4 2v10l8-5z" fill="#fff"></path></svg>
+                Hear it in your future voice
+              </button>
+            </div>
+          </sc-if>
+
+          <!-- VOICE SHEET -->
+          <sc-if value="{{oVoice}}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;z-index:50;background:rgba(30,22,44,0.35);display:flex;flex-direction:column;justify-content:flex-end;" onClick="{{closeSheet}}">
+              <div data-screen-label="Voice sheet" onClick="{{stopProp}}" style="background:#fbf5ee;border-radius:28px 28px 0 0;padding:14px 22px 40px;box-shadow:0 -12px 40px rgba(30,22,44,0.25);">
+                <div style="width:40px;height:4px;border-radius:2px;background:rgba(46,36,64,0.18);margin:0 auto 14px;"></div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;text-align:center;">Whose voice carries your story?</div>
+                <div style="font-size:12.5px;color:rgba(46,36,64,0.55);text-align:center;margin-top:4px;">Changes apply to every story — even old ones.</div>
+                <div style="display:flex;flex-direction:column;gap:9px;margin-top:16px;">
+                  <sc-for list="{{voiceRows}}" as="v" hint-placeholder-count="5">
+                    <button onClick="{{v.pick}}" style="display:flex;align-items:center;gap:13px;min-height:54px;padding:7px 15px;border-radius:17px;border:1.5px solid {{v.bd}};background:{{v.bg}};cursor:pointer;text-align:left;">
+                      <span style="width:19px;height:19px;border-radius:50%;border:2px solid {{v.dot}};background:{{v.dotBg}};box-sizing:border-box;flex-shrink:0;"></span>
+                      <span style="flex:1;display:flex;flex-direction:column;">
+                        <span style="font-size:15px;font-weight:650;color:#2e2440;">{{v.name}}</span>
+                        <span style="font-size:12px;color:rgba(46,36,64,0.55);">{{v.desc}}</span>
+                      </span>
+                      <svg width="24" height="24" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" fill="rgba(80,58,107,0.1)"></circle><path d="M11 9.5v7l5.5-3.5z" fill="#503a6b"></path></svg>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- MODIFY SHEET -->
+          <sc-if value="{{oModify}}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;z-index:50;background:rgba(30,22,44,0.35);display:flex;flex-direction:column;justify-content:flex-end;">
+              <div data-screen-label="Modify story" style="background:#fbf5ee;border-radius:28px 28px 0 0;padding:14px 22px 40px;box-shadow:0 -12px 40px rgba(30,22,44,0.25);">
+                <div style="width:40px;height:4px;border-radius:2px;background:rgba(46,36,64,0.18);margin:0 auto 14px;"></div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;text-align:center;">What should change?</div>
+                <div style="font-size:12.5px;color:rgba(46,36,64,0.55);text-align:center;margin-top:4px;">Sora rewrites this story around your words — instantly.</div>
+                <textarea value="{{modText}}" onChange="{{modInput}}" placeholder="e.g. Make it a tiny cabin by the sea, and my sister is there…" style="width:100%;box-sizing:border-box;min-height:84px;margin-top:14px;border-radius:18px;border:1px solid rgba(46,36,64,0.14);background:#fff;padding:14px 16px;font-size:14.5px;color:#2e2440;resize:none;line-height:1.5;"></textarea>
+                <div style="display:flex;gap:10px;margin-top:12px;">
+                  <button onClick="{{closeSheet}}" style="flex:1;height:50px;border-radius:25px;border:1px solid rgba(46,36,64,0.16);background:none;font-size:14.5px;font-weight:650;color:#2e2440;cursor:pointer;">Cancel</button>
+                  <button onClick="{{applyModify}}" style="flex:1.4;height:50px;border-radius:25px;border:none;background:#503a6b;color:#fff;font-size:14.5px;font-weight:650;cursor:pointer;">Rewrite my story</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- SHARE OVERLAY -->
+          <sc-if value="{{oShare}}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;z-index:50;background:rgba(30,22,44,0.45);display:flex;flex-direction:column;justify-content:flex-end;">
+              <div data-screen-label="Share card" style="background:#fbf5ee;border-radius:28px 28px 0 0;padding:14px 22px 40px;box-shadow:0 -12px 40px rgba(30,22,44,0.25);">
+                <div style="width:40px;height:4px;border-radius:2px;background:rgba(46,36,64,0.18);margin:0 auto 14px;"></div>
+                <div style="border-radius:22px;background:linear-gradient(160deg,#fdf0e4 0%,#f4dde6 45%,#dcd8f5 100%);border:1px solid rgba(255,255,255,0.9);padding:30px 24px;display:flex;flex-direction:column;align-items:center;gap:14px;box-shadow:0 10px 30px rgba(80,58,107,0.15);">
+                  <div style="width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);"></div>
+                  <div style="font-family:'Newsreader',serif;font-style:italic;font-size:19px;line-height:1.45;text-align:center;text-wrap:pretty;color:#2e2440;">{{shareText}}</div>
+                  <div style="font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(46,36,64,0.45);">SORA · MANIFEST YOUR DREAM LIFE</div>
+                </div>
+                <div style="display:flex;justify-content:center;gap:22px;margin-top:18px;">
+                  <span style="display:flex;flex-direction:column;align-items:center;gap:6px;"><span style="width:52px;height:52px;border-radius:26px;background:rgba(80,58,107,0.1);display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="6" y="6" width="12" height="12" rx="3" fill="none" stroke="#503a6b" stroke-width="1.7"></rect><path d="M14 6V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="#503a6b" stroke-width="1.7"></path></svg></span><span style="font-size:11px;color:rgba(46,36,64,0.6);">Copy</span></span>
+                  <span style="display:flex;flex-direction:column;align-items:center;gap:6px;"><span style="width:52px;height:52px;border-radius:26px;background:rgba(80,58,107,0.1);display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 13V2M10 13l-3.5-3.5M10 13l3.5-3.5M3 12v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" fill="none" stroke="#503a6b" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span style="font-size:11px;color:rgba(46,36,64,0.6);">Save</span></span>
+                  <span style="display:flex;flex-direction:column;align-items:center;gap:6px;"><span style="width:52px;height:52px;border-radius:26px;background:linear-gradient(135deg,#f2c063,#d65db1,#7a5ddb);display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="2.5" y="2.5" width="15" height="15" rx="4.5" fill="none" stroke="#fff" stroke-width="1.7"></rect><circle cx="10" cy="10" r="3.6" fill="none" stroke="#fff" stroke-width="1.7"></circle><circle cx="14.6" cy="5.4" r="1.1" fill="#fff"></circle></svg></span><span style="font-size:11px;color:rgba(46,36,64,0.6);">Stories</span></span>
+                  <span style="display:flex;flex-direction:column;align-items:center;gap:6px;"><span style="width:52px;height:52px;border-radius:26px;background:#1a1a1e;display:flex;align-items:center;justify-content:center;"><svg width="18" height="20" viewBox="0 0 18 20"><path d="M12.5 1c.4 2.7 2.1 4.3 4.5 4.6v3.1c-1.7 0-3.2-.5-4.5-1.4v6.2A6 6 0 1 1 6 7.6v3.3a2.9 2.9 0 1 0 3.4 2.9V1h3.1z" fill="#fff"></path></svg></span><span style="font-size:11px;color:rgba(46,36,64,0.6);">TikTok</span></span>
+                </div>
+                <div style="text-align:center;font-size:12px;color:rgba(46,36,64,0.55);margin-top:14px;line-height:1.5;">Your invite link rides along — when a friend joins, <b>you both get a week free</b>.</div>
+                <button onClick="{{closeSheet}}" style="width:100%;margin-top:12px;height:48px;border-radius:24px;border:1px solid rgba(46,36,64,0.16);background:none;font-size:14.5px;font-weight:650;color:#2e2440;cursor:pointer;">Done</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- WELCOME (post-trial) -->
+          <sc-if value="{{oWelcome}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Welcome Day 1" style="position:absolute;inset:0;z-index:60;background:linear-gradient(170deg,#fdf0e4 0%,#f4dde6 45%,#d8dcf8 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:0 36px;text-align:center;box-sizing:border-box;">
+              <div style="width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 22px 55px rgba(122,104,180,0.4);animation:breathe 4.5s ease-in-out infinite;"></div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;line-height:1.25;text-wrap:pretty;">It's yours now, {{name}}.</div>
+              <div style="font-size:14px;line-height:1.6;color:rgba(46,36,64,0.65);max-width:280px;">This is Day 1 of your becoming. Most members feel the first shift by day 3 — and you're starting ahead.</div>
+              <button onClick="{{beginDay1}}" style="height:54px;padding:0 34px;border-radius:27px;border:none;background:#503a6b;color:#fff;font-size:15.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(80,58,107,0.35);">Begin Day 1 — play my story</button>
+              <button onClick="{{shareDay1}}" style="border:none;background:none;font-size:13.5px;font-weight:650;color:#503a6b;cursor:pointer;">Tell someone you love →</button>
+            </div>
+          </sc-if>
+
+          <!-- REMINDERS SHEET -->
+          <sc-if value="{{oReminders}}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;z-index:50;background:rgba(30,22,44,0.35);display:flex;flex-direction:column;justify-content:flex-end;">
+              <div data-screen-label="Reminders" style="background:#fbf5ee;border-radius:28px 28px 0 0;padding:14px 22px 40px;box-shadow:0 -12px 40px rgba(30,22,44,0.25);">
+                <div style="width:40px;height:4px;border-radius:2px;background:rgba(46,36,64,0.18);margin:0 auto 14px;"></div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;text-align:center;">Your daily rhythm</div>
+                <div style="font-size:12.5px;color:rgba(46,36,64,0.55);text-align:center;margin-top:4px;">Gentle nudges, never nagging. Miss a day and nothing resets.</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+                  <sc-for list="{{reminders}}" as="r" hint-placeholder-count="3">
+                    <div style="border-radius:18px;border:1px solid rgba(46,36,64,0.1);background:rgba(255,255,255,0.7);padding:13px 16px;display:flex;align-items:center;gap:12px;">
+                      <span style="flex:1;display:flex;flex-direction:column;gap:1px;">
+                        <span style="font-size:14.5px;font-weight:650;color:#2e2440;">{{r.t}}</span>
+                        <span style="font-size:12px;color:rgba(46,36,64,0.55);">{{r.d}}</span>
+                      </span>
+                      <span style="font-size:13px;font-weight:650;color:#503a6b;">{{r.time}}</span>
+                      <button onClick="{{r.toggle}}" style="width:52px;height:32px;border-radius:16px;border:none;background:{{r.bg}};cursor:pointer;position:relative;transition:background 0.2s;flex-shrink:0;">
+                        <span style="position:absolute;top:3px;left:{{r.knob}}px;width:26px;height:26px;border-radius:13px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.2);transition:left 0.2s;"></span>
+                      </button>
+                    </div>
+                  </sc-for>
+                </div>
+                <button onClick="{{closeSheet}}" style="width:100%;margin-top:16px;height:50px;border-radius:25px;border:none;background:#503a6b;color:#fff;font-size:14.5px;font-weight:650;cursor:pointer;">Done</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- WIDGETS -->
+          <sc-if value="{{oWidgets}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Widgets" style="position:absolute;inset:0;z-index:55;background:linear-gradient(170deg,#f7ead9 0%,#eedbe8 55%,#dcd8f4 100%);display:flex;flex-direction:column;padding:64px 26px 36px;box-sizing:border-box;overflow:auto;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <button onClick="{{closeOverlay}}" style="width:44px;height:44px;margin-left:-10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 20 20"><path d="M12.5 4 6.5 10l6 6" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <span style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:rgba(46,36,64,0.5);">WIDGETS</span>
+                <span style="width:44px;"></span>
+              </div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;line-height:1.35;text-align:center;margin-top:8px;">Keep the dream on your screen</div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:22px 0 10px;">LOCK SCREEN</div>
+              <div style="border-radius:26px;background:rgba(30,22,44,0.88);padding:22px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+                <span style="font-size:12px;color:rgba(255,255,255,0.6);">Tuesday, July 17</span>
+                <span style="font-family:'Newsreader',serif;font-size:52px;font-weight:500;color:#fff;line-height:1;">9:41</span>
+                <div style="margin-top:8px;border-radius:16px;background:rgba(255,255,255,0.14);padding:10px 16px;display:flex;align-items:center;gap:10px;">
+                  <span style="width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);flex-shrink:0;"></span>
+                  <span style="display:flex;flex-direction:column;">
+                    <span style="font-size:11px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,0.6);">TODAY'S MOMENT IN</span>
+                    <span style="font-size:14px;font-weight:650;color:#fff;">2h 18m — it's already written</span>
+                  </span>
+                </div>
+              </div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:22px 0 10px;">HOME SCREEN</div>
+              <div style="display:flex;gap:12px;">
+                <div style="flex:1;aspect-ratio:1;border-radius:26px;background:linear-gradient(150deg,#fdf0e4,#f4dde6,#dedaf6);border:1px solid rgba(255,255,255,0.9);box-shadow:0 10px 26px rgba(80,58,107,0.15);padding:16px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;">
+                  <span style="font-size:9px;font-weight:700;letter-spacing:1.3px;color:rgba(46,36,64,0.5);">SORA · TODAY</span>
+                  <span style="font-family:'Newsreader',serif;font-style:italic;font-size:14.5px;line-height:1.4;color:#2e2440;">Everything I want is quietly finding its way to me.</span>
+                  <span style="font-size:10px;font-weight:650;color:#a8712c;">Day 6 · keep going</span>
+                </div>
+                <div style="flex:1;aspect-ratio:1;border-radius:26px;background:rgba(46,36,64,0.92);box-shadow:0 10px 26px rgba(80,58,107,0.25);padding:16px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;">
+                  <span style="font-size:9px;font-weight:700;letter-spacing:1.3px;color:rgba(255,255,255,0.5);">NEXT RITUAL</span>
+                  <span style="width:40px;height:40px;border-radius:20px;background:rgba(255,255,255,0.14);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="#fff"></path></svg></span>
+                  <span style="font-size:12.5px;font-weight:650;color:#fff;line-height:1.35;">Wind-down<br>9:30pm</span>
+                </div>
+              </div>
+              <div style="font-size:12px;color:rgba(46,36,64,0.5);margin-top:16px;line-height:1.5;text-align:center;">Add from the iOS widget gallery — search "Sora".</div>
+            </div>
+          </sc-if>
+
+          <!-- TRIAL REMINDER -->
+          <sc-if value="{{oTrial}}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;z-index:50;background:rgba(30,22,44,0.35);display:flex;flex-direction:column;justify-content:flex-end;">
+              <div data-screen-label="Trial reminder" style="background:#fbf5ee;border-radius:28px 28px 0 0;padding:14px 22px 40px;box-shadow:0 -12px 40px rgba(30,22,44,0.25);">
+                <div style="width:40px;height:4px;border-radius:2px;background:rgba(46,36,64,0.18);margin:0 auto 14px;"></div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;text-align:center;">As promised: your trial ends in 2 days.</div>
+                <div style="font-size:13px;color:rgba(46,36,64,0.6);text-align:center;margin-top:6px;line-height:1.5;">No surprises, ever. Choose what happens next — or cancel in two taps below.</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+                  <button onClick="{{pickAnnual}}" style="border-radius:18px;border:1.5px solid #503a6b;background:rgba(80,58,107,0.08);padding:14px 16px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;">
+                    <span style="flex:1;display:flex;flex-direction:column;gap:2px;">
+                      <span style="font-size:15px;font-weight:700;color:#2e2440;">Annual — $49.99/year</span>
+                      <span style="font-size:12.5px;color:rgba(46,36,64,0.6);">Under $1/week · one calm decision, then just live it</span>
+                    </span>
+                    <span style="font-size:11px;font-weight:700;color:#fff;background:#3e7d5a;border-radius:11px;padding:5px 10px;flex-shrink:0;">SAVE 86%</span>
+                  </button>
+                  <button onClick="{{pickWeekly}}" style="border-radius:18px;border:1.5px solid rgba(46,36,64,0.14);background:rgba(255,255,255,0.7);padding:14px 16px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;">
+                    <span style="font-size:15px;font-weight:700;color:#2e2440;">Keep weekly — {{price}}/week</span>
+                    <span style="font-size:12.5px;color:rgba(46,36,64,0.6);">Continue as-is, cancel anytime</span>
+                  </button>
+                  <button onClick="{{cancelTrial}}" style="border:none;background:none;padding:10px;font-size:13.5px;font-weight:650;color:rgba(46,36,64,0.55);cursor:pointer;">Cancel my trial</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- COMPOSING -->
+          <sc-if value="{{oComposing}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Composing story" style="position:absolute;inset:0;z-index:55;background:linear-gradient(170deg,#f7e6d9 0%,#eedbe8 55%,#dcd8f4 100%);display:flex;flex-direction:column;padding:64px 28px 44px;box-sizing:border-box;">
+              <button onClick="{{closeOverlay}}" style="width:44px;height:44px;margin-left:-10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;align-self:flex-start;">
+                <svg width="20" height="20" viewBox="0 0 20 20"><path d="M12.5 4 6.5 10l6 6" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </button>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;text-align:center;">
+                <div style="width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 20px 50px rgba(122,104,180,0.38);animation:breathe 2.2s ease-in-out infinite;"></div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:24px;line-height:1.35;max-width:290px;text-wrap:pretty;">{{composeTitle}}</div>
+                <div style="font-size:13px;color:rgba(46,36,64,0.55);">Your vision is taking shape…</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(46,36,64,0.55);"><span>Composing your story…</span><span>{{compPct}}%</span></div>
+                <div style="height:6px;border-radius:3px;background:rgba(46,36,64,0.12);overflow:hidden;">
+                  <div style="height:100%;border-radius:3px;background:linear-gradient(90deg,#c98d3f,#b06a9a,#7a68b4);width:{{compPct}}%;transition:width 0.4s linear;"></div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- VISION PICKER -->
+          <sc-if value="{{oVisions}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Vision picker" style="position:absolute;inset:0;z-index:55;background:linear-gradient(170deg,#fdf0e4 0%,#f4dde6 50%,#dedaf6 100%);display:flex;flex-direction:column;padding:64px 0 36px;box-sizing:border-box;">
+              <div style="padding:0 28px;">
+                <button onClick="{{closeOverlay}}" style="width:44px;height:44px;margin-left:-10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 20 20"><path d="M12.5 4 6.5 10l6 6" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+              </div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:25px;line-height:1.3;text-align:center;padding:0 44px;text-wrap:pretty;">Swipe to the vision you want to step into…</div>
+              <div style="flex:1;display:flex;align-items:center;gap:14px;overflow-x:auto;padding:20px 26px;">
+                <sc-for list="{{visions}}" as="v" hint-placeholder-count="3">
+                  <div style="flex-shrink:0;width:240px;border-radius:24px;background:rgba(255,250,243,0.9);border:1px solid rgba(255,255,255,0.9);box-shadow:0 14px 36px rgba(80,58,107,0.16);overflow:hidden;display:flex;flex-direction:column;">
+                    <div style="height:130px;background:{{v.g}};display:flex;align-items:flex-start;padding:12px 14px;box-sizing:border-box;">
+                      <span style="font-size:10px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.6);">VISION 0{{v.i}} · 3 MIN</span>
+                    </div>
+                    <div style="padding:16px;display:flex;flex-direction:column;gap:14px;">
+                      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:16.5px;line-height:1.35;min-height:66px;">{{v.t}}</div>
+                      <button onClick="{{v.pick}}" style="width:52px;height:52px;border-radius:26px;border:none;background:#503a6b;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(80,58,107,0.3);">
+                        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="#fff"></path></svg>
+                      </button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="text-align:center;font-size:11px;font-weight:700;letter-spacing:2.5px;color:rgba(46,36,64,0.45);">‹ SWIPE ›</div>
+            </div>
+          </sc-if>
+
+          <!-- NEW GOAL SHEET -->
+          <sc-if value="{{oNewGoal}}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;z-index:50;background:rgba(30,22,44,0.35);display:flex;flex-direction:column;justify-content:flex-end;">
+              <div data-screen-label="New goal" style="background:#fbf5ee;border-radius:28px 28px 0 0;padding:14px 22px 40px;box-shadow:0 -12px 40px rgba(30,22,44,0.25);">
+                <div style="width:40px;height:4px;border-radius:2px;background:rgba(46,36,64,0.18);margin:0 auto 14px;"></div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;text-align:center;">What are we manifesting next?</div>
+                <div style="font-size:12.5px;color:rgba(46,36,64,0.55);text-align:center;margin-top:4px;">Each goal gets its own story thread. Don't be realistic.</div>
+                <textarea value="{{goalText}}" onChange="{{goalInput}}" placeholder="e.g. A book with my name on the spine…" style="width:100%;box-sizing:border-box;min-height:72px;margin-top:14px;border-radius:18px;border:1px solid rgba(46,36,64,0.14);background:#fff;padding:14px 16px;font-size:14.5px;color:#2e2440;resize:none;line-height:1.5;"></textarea>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
+                  <sc-for list="{{goalChips}}" as="c" hint-placeholder-count="6">
+                    <button onClick="{{c.pick}}" style="height:38px;padding:0 15px;border-radius:19px;border:1px solid {{c.bd}};background:{{c.bg}};color:{{c.fg}};font-size:13px;font-weight:600;cursor:pointer;">{{c.label}}</button>
+                  </sc-for>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:16px;">
+                  <button onClick="{{closeSheet}}" style="flex:1;height:50px;border-radius:25px;border:1px solid rgba(46,36,64,0.16);background:none;font-size:14.5px;font-weight:650;color:#2e2440;cursor:pointer;">Cancel</button>
+                  <button onClick="{{addGoal}}" style="flex:1.4;height:50px;border-radius:25px;border:none;background:#503a6b;color:#fff;font-size:14.5px;font-weight:650;cursor:pointer;">Begin this thread</button>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- RECORD VOICE -->
+          <sc-if value="{{oRecord}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Record your voice" style="position:absolute;inset:0;z-index:55;background:linear-gradient(170deg,#f7ead9 0%,#eedbe8 55%,#dcd8f4 100%);display:flex;flex-direction:column;padding:64px 28px 40px;box-sizing:border-box;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <button onClick="{{closeSheet}}" style="width:44px;height:44px;margin-left:-10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 7.5 10 13.5 16 7.5" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <span style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:rgba(46,36,64,0.5);">YOUR VOICE</span>
+                <span style="width:44px;"></span>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;">
+                <div style="width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 20px 50px rgba(122,104,180,0.38);display:flex;align-items:center;justify-content:center;animation:{{recAnim}};">
+                  <svg width="34" height="42" viewBox="0 0 12 14"><rect x="3.5" y="1" width="5" height="8" rx="2.5" fill="none" stroke="#503a6b" stroke-width="1.2"></rect><path d="M1 7a5 5 0 0 0 10 0M6 12v1.5" fill="none" stroke="#503a6b" stroke-width="1.2" stroke-linecap="round"></path></svg>
+                </div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;line-height:1.35;max-width:290px;">{{recHeading}}</div>
+                <div style="border-radius:20px;background:rgba(255,255,255,0.66);border:1px solid rgba(255,255,255,0.9);padding:18px 20px;font-family:'Newsreader',serif;font-size:15.5px;line-height:1.7;color:#3a2f50;max-width:300px;">“I wake up in a life I chose. Everything I want is already on its way to me, and I have time — all the time in the world.”</div>
+                <sc-if value="{{recActive}}" hint-placeholder-val="{{ false }}">
+                  <div style="width:220px;display:flex;flex-direction:column;gap:7px;">
+                    <div style="height:5px;border-radius:3px;background:rgba(46,36,64,0.12);overflow:hidden;"><div style="height:100%;border-radius:3px;background:#c76d8b;width:{{recPct}}%;transition:width 0.4s linear;"></div></div>
+                    <div style="font-size:11.5px;color:rgba(46,36,64,0.5);">{{recTime}} of 2:00 — keep reading, you're doing great</div>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{recDone}}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{useMyVoice}}" style="height:56px;border-radius:28px;border:none;background:#503a6b;color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(80,58,107,0.35);">Use my voice for every story</button>
+              </sc-if>
+              <sc-if value="{{recNotDone}}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{toggleRec}}" style="height:56px;border-radius:28px;border:none;background:{{recBtnBg}};color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(80,58,107,0.35);">{{recBtnLabel}}</button>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- LIBRARY -->
+          <sc-if value="{{oLibrary}}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Library" style="position:absolute;inset:0;z-index:40;background:linear-gradient(168deg,#fdf0e4 0%,#f4dde6 45%,#dedaf6 100%);display:flex;flex-direction:column;padding:64px 22px 30px;box-sizing:border-box;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <button onClick="{{closeSheet}}" style="width:44px;height:44px;margin-left:-10px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 20 20"><path d="M12.5 4 6.5 10l6 6" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </button>
+                <span style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:rgba(46,36,64,0.5);">LIBRARY</span>
+                <span style="width:44px;"></span>
+              </div>
+              <div style="flex:1;overflow:auto;margin-top:6px;">
+                <div style="display:flex;gap:6px;background:rgba(46,36,64,0.07);border-radius:22px;padding:4px;">
+                  <sc-for list="{{libSegs}}" as="s" hint-placeholder-count="3">
+                    <button onClick="{{s.pick}}" style="flex:1;height:38px;border-radius:19px;border:none;background:{{s.bg}};color:{{s.fg}};font-size:13.5px;font-weight:650;cursor:pointer;box-shadow:{{s.sh}};">{{s.label}}</button>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+                  <sc-for list="{{libRows}}" as="r" hint-placeholder-count="4">
+                    <div style="border-radius:18px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                      <div style="flex:1;">
+                        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14.5px;line-height:1.35;">{{r.t}}</div>
+                        <div style="font-size:11.5px;color:rgba(46,36,64,0.5);margin-top:3px;">{{r.d}}</div>
+                      </div>
+                      <button onClick="{{openPlayer}}" style="width:44px;height:44px;border-radius:22px;border:none;background:rgba(80,58,107,0.12);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="16" height="16" viewBox="0 0 16 16"><path d="M5 3v10l8-5z" fill="#503a6b"></path></svg>
+                      </button>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{libNextUp}}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);margin:18px 0 10px;">NEXT UP TONIGHT</div>
+                  <div style="border-radius:18px;border:1px solid rgba(255,255,255,0.85);background:rgba(255,255,255,0.6);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+                    <svg width="22" height="22" viewBox="0 0 24 24"><path d="M20 13.5A8 8 0 0 1 9.5 3a8 8 0 1 0 10.5 10.5z" fill="none" stroke="#6a5a9e" stroke-width="1.7" stroke-linejoin="round"></path></svg>
+                    <div style="flex:1;">
+                      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14.5px;">Wind-down: the day releases you</div>
+                      <div style="font-size:11.5px;color:rgba(46,36,64,0.5);margin-top:3px;">Queued for 9:30pm · your usual</div>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- TOAST -->
+          <sc-if value="{{toast}}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:0;right:0;bottom:104px;display:flex;justify-content:center;z-index:60;pointer-events:none;">
+              <div style="background:rgba(46,36,64,0.92);color:#fff;font-size:13px;font-weight:600;padding:11px 20px;border-radius:22px;box-shadow:0 8px 24px rgba(30,22,44,0.3);animation:fadeUp 0.25s ease;">{{toast}}</div>
+            </div>
+          </sc-if>
+
+        </div>
+      </sc-if>
+    </div>
+  </x-import>
+  <div style="font-size:12px;color:rgba(46,36,64,0.5);max-width:420px;text-align:center;line-height:1.6;">Try it: complete onboarding → paywall → play Today's Moment, change the voice, modify the story, log gratitude, share a win. See <a href="Analysis Report.dc.html">the competitive analysis &amp; roadmap</a>.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 1060}, &quot;userName&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Julia&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;startScreen&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;onboarding&quot;, &quot;paywall&quot;, &quot;app&quot;], &quot;default&quot;: &quot;onboarding&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Demo&quot;}, &quot;weeklyPrice&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;$4.99&quot;, &quot;$6.99&quot;, &quot;$9.99&quot;], &quot;default&quot;: &quot;$6.99&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Monetization&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.steps = [
+      { q: "First, what should I call you?", ph: "Your name", key: "name" },
+      { q: "Where does your story take place?", sub: "Your city, your streets — the stories happen where you live.", ph: "Your city", key: "city" },
+      { q: "Tell me what you want most right now.", sub: "Don't be realistic. Be honest. The detail is what makes it work.", ph: "I want…", key: "want" },
+      { q: "What fills your days right now?", sub: "Work, study, care — whatever your days are made of.", ph: "I'm a…", key: "work" },
+      { q: "Why does this matter so much to you?", sub: "Sora keeps this close. You can edit or delete it anytime.", ph: "Because…", key: "why" },
+      { q: "What's been weighing on you lately?", sub: "Naming it lets the story lift it.", ph: "Lately…", key: "struggle" },
+      { q: "And the day it all arrives — what does that morning look like?", sub: "Paint it in detail. Sora will read it back to you.", ph: "That morning…", key: "success" },
+      { q: "You're in the right place.", sub: "People who wanted what you want — and got it:", belief: true },
+      { q: "Which parts of your life are we transforming?", sub: "Pick as many as you feel.", chips: ["Love", "Career", "Money", "Health", "Inner peace", "Home", "Family", "Freedom"] },
+      { q: "Who matters most in your life?", sub: "They'll appear in your stories — by name.", ph: "My partner Sam, my mom, my dog Miso…", key: "people" },
+      { q: "Describe the home you're waking up in.", sub: "Pick one — or write your own below. Your words always win.", chips: ["Sunlit loft", "Cozy cottage", "Beachfront villa", "Penthouse", "Farmhouse", "Historic townhouse"], input: true, ph: "Or describe it your way…" },
+      { q: "Whose voice should carry your story?", voice: true }
+    ];
+    this.voices = [
+      { name: "Nova", desc: "Warm, bright — like a best friend who believes you" },
+      { name: "Wren", desc: "Calm, low, unhurried" },
+      { name: "Atlas", desc: "Grounded, steady, deep" },
+      { name: "Mara", desc: "Soft, motherly, soothing" },
+      { name: "Your voice", desc: "Record 2 minutes — hear your dreams in your own voice" }
+    ];
+    this.affs = [
+      "I am already the person my dream life belongs to.",
+      "Everything I want is quietly finding its way to me.",
+      "I move through today knowing it is already done.",
+      "Peace is not something I chase. It is something I keep."
+    ];
+    this.state = {
+      screen: props.startScreen === "app" ? "app" : props.startScreen === "paywall" ? "paywall" : "onboard",
+      obStep: 0, obText: "", name: "", city: "", want: "", work: "", why: "", people: "", areas: [], home: "",
+      struggle: "", success: "", typedLen: 0, pvIdx: -1, pvOn: false,
+      voice: "Nova", loadIdx: 0,
+      tab: "home", overlay: null, vSeg: "board", jSeg: "grat",
+      playing: false, prog: 14, reading: false, loop: false, speedIdx: 0, fav: true,
+      affIdx: 0, affPlaying: false, affLoop: false, sleep: false,
+      gratText: "", gratitudes: ["My health, holding steady", "Quiet mornings with coffee before the world wakes up"],
+      evidText: "", evid: ["A stranger complimented the studio's portfolio — felt like a sign", "The landlord emailed back first, for once"],
+      winText: "", wins: [{ t: "Got the callback for the studio collab", d: "Apr 12" }, { t: "Found the flat with the bay window", d: "Mar 30" }],
+      memory: ["You prefer iced lattes over hot coffee", "Your mom is your anchor", "You're building a design studio of your own", "Peaceful mornings matter more to you than money"],
+      people: [{ name: "Mom", rel: "My anchor" }], personName: "", personRel: "",
+      know: "", modText: "", modified: false, toast: null,
+      goals: [
+        { t: "Inner peace that stays", n: "7 stories", p: 64 },
+        { t: "The studio takes off", n: "5 stories", p: 40 },
+        { t: "A home that feels like me", n: "4 stories", p: 28 }
+      ],
+      goalText: "", goalArea: "Freedom",
+      recState: "idle", recPct: 0, libSeg: "fav",
+      composeText: "", compPct: 0, customTitle: null,
+      rem: { morning: true, moment: true, evening: false },
+      tickIdx: 0, twIdx: 0
+    };
+    this.speeds = [1, 1.25, 1.5, 0.75];
+  }
+  componentDidMount() {
+    this.pvText = "Everything I want is already quietly on its way to me.";
+    this.fast = setInterval(() => {
+      const s = this.state;
+      if (s.screen === "onboard") {
+        const q = this.getQ();
+        if (s.typedLen < q.length) this.setState({ typedLen: Math.min(q.length, s.typedLen + 2) });
+      }
+      if (s.pvOn) {
+        this.pvT = (this.pvT || 0) + 1;
+        if (this.pvT % 10 === 0) {
+          const words = this.pvText.split(" ");
+          const n = s.pvIdx + 1;
+          this.setState(n >= words.length ? { pvIdx: -1, pvOn: false } : { pvIdx: n });
+        }
+      }
+    }, 32);
+    this.timer = setInterval(() => {
+      const s = this.state;
+      this.tick = (this.tick || 0) + 1;
+      if (this.tick % 7 === 0) this.setState({ tickIdx: (s.tickIdx + 1) % 4, twIdx: (s.twIdx + 1) % 3 });
+      if (s.overlay === "composing") {
+        const p = Math.min(100, s.compPct + 6);
+        this.setState(p >= 100 ? { compPct: 100, overlay: "visions" } : { compPct: p });
+      }
+      if (s.screen === "app" && (s.overlay === "player" || !s.overlay) && s.playing) {
+        let p = s.prog + 0.55 * this.speeds[s.speedIdx];
+        if (p >= 100) p = s.loop ? 0 : 100;
+        this.setState({ prog: p, playing: p < 100 || s.loop });
+      }
+      if (s.overlay === "record" && s.recState === "recording") {
+        const p = Math.min(100, s.recPct + 4);
+        this.setState({ recPct: p, recState: p >= 100 ? "done" : "recording" });
+      }
+    }, 550);
+  }
+  componentWillUnmount() { clearInterval(this.timer); if (this.toastT) clearTimeout(this.toastT); }
+  showToast(msg) {
+    this.setState({ toast: msg });
+    if (this.toastT) clearTimeout(this.toastT);
+    this.toastT = setTimeout(() => this.setState({ toast: null }), 2200);
+  }
+  composeGo() {
+    if (!this.state.composeText.trim()) return;
+    this.setState({ overlay: "composing", compPct: 0 });
+  }
+  getQ() {
+    const s = this.state, step = this.steps[s.obStep] || {};
+    const name = s.name || this.props.userName || "Julia";
+    return (s.obStep === 2 ? name + ", tell me what you want most right now." : step.q) || "";
+  }
+  obAdvance() {
+    const s = this.state, step = this.steps[s.obStep];
+    const patch = {};
+    if (step.key) patch[step.key] = s.obText.trim();
+    if (s.obStep >= this.steps.length - 1) {
+      this.setState({ ...patch, screen: "loading", loadIdx: 0 });
+      const msgs = 3;
+      setTimeout(() => this.setState({ loadIdx: 1 }), 1300);
+      setTimeout(() => this.setState({ loadIdx: 2 }), 2600);
+      setTimeout(() => this.setState({ screen: "paywall" }), 3900);
+    } else {
+      this.setState({ ...patch, obStep: s.obStep + 1, obText: "", typedLen: 0 });
+    }
+  }
+  seg(list, cur, key) {
+    return list.map(([id, label]) => ({
+      label,
+      bg: cur === id ? "rgba(255,255,255,0.92)" : "transparent",
+      fg: cur === id ? "#2e2440" : "rgba(46,36,64,0.55)",
+      sh: cur === id ? "0 3px 10px rgba(80,58,107,0.12)" : "none",
+      pick: () => this.setState({ [key]: id })
+    }));
+  }
+  voiceRow(v, onPick) {
+    const sel = this.state.voice === v.name;
+    return {
+      name: v.name, desc: v.desc,
+      bd: sel ? "#503a6b" : "rgba(255,255,255,0.9)",
+      bg: sel ? "rgba(80,58,107,0.1)" : "rgba(255,255,255,0.6)",
+      dot: sel ? "#503a6b" : "rgba(46,36,64,0.3)",
+      dotBg: sel ? "#503a6b" : "transparent",
+      pick: () => onPick(v.name)
+    };
+  }
+  renderVals() {
+    const s = this.state, p = this.props;
+    const name = s.name || p.userName || "Julia";
+    const step = this.steps[s.obStep] || {};
+    const chipsSel = s.obStep === 8 ? s.areas : [s.home];
+    const price = p.weeklyPrice || "$6.99";
+    const loadMsgs = ["Weaving your first story…", "Learning your world…", "Almost there — it's beautiful."];
+    const tabDefs = [
+      ["home", "Home", "M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1h-5v-6h-5v6h-5a1 1 0 0 1-1-1z"],
+      ["affirm", "Affirm", "M12 20s-7.5-4.8-9.3-9.4C1.2 6.6 4 3.5 7.3 3.5c2 0 3.7 1 4.7 2.6a5.5 5.5 0 0 1 4.7-2.6c3.3 0 6.1 3.1 4.6 7.1C19.5 15.2 12 20 12 20z"],
+      ["vision", "Vision", "M4 4h6.5v6.5H4zM13.5 4H20v4h-6.5zM13.5 11H20v9h-6.5zM4 13.5h6.5V20H4z"],
+      ["journal", "Journal", "M5.5 4.5A2.5 2.5 0 0 1 8 2h11v17.5H8A2.5 2.5 0 0 0 5.5 22zM5.5 4.5V22M9.5 6.5h5.5"],
+      ["progress", "Progress", "M4 20v-8M10 20V6M16 20v-11M21 20H3"],
+      ["profile", "Profile", "M12 11.5a3.8 3.8 0 1 0 0-7.6 3.8 3.8 0 0 0 0 7.6zM4.5 20.5c.9-3.4 3.8-5.4 7.5-5.4s6.6 2 7.5 5.4"]
+    ];
+    const jumpBtn = (on) => on ? ["#503a6b", "#fff"] : ["rgba(255,255,255,0.7)", "#2e2440"];
+    const [jaBg, jaFg] = jumpBtn(s.screen === "app");
+    const [jpBg, jpFg] = jumpBtn(s.screen === "paywall");
+    const [joBg, joFg] = jumpBtn(s.screen === "onboard" || s.screen === "loading");
+    const secs = Math.round(192 * s.prog / 100);
+    return {
+      name, nameUpper: name.toUpperCase(), initial: name[0] || "J", price,
+      sOnboard: s.screen === "onboard", sLoading: s.screen === "loading",
+      sPaywall: s.screen === "paywall", sApp: s.screen === "app",
+      jumpOnboard: () => this.setState({ screen: "onboard", obStep: 0, obText: "", typedLen: 0 }),
+      jumpPaywall: () => this.setState({ screen: "paywall" }),
+      jumpApp: () => this.setState({ screen: "app", overlay: null }),
+      jumpObBg: joBg, jumpObFg: joFg, jumpPwBg: jpBg, jumpPwFg: jpFg, jumpAppBg: jaBg, jumpAppFg: jaFg,
+      obPct: Math.round(((s.obStep + 1) / this.steps.length) * 100),
+      obQuestion: this.getQ().slice(0, s.typedLen),
+      obTyping: s.screen === "onboard" && s.typedLen < this.getQ().length,
+      pvOn: s.pvOn, pvOff: !s.pvOn,
+      pvPlay: () => { this.pvT = 0; this.setState({ pvOn: !s.pvOn, pvIdx: -1 }); },
+      pvWords: this.pvText.split(" ").map((w, i) => ({
+        w: w + " ",
+        c: s.pvOn ? (i <= s.pvIdx ? "#2e2440" : "rgba(46,36,64,0.3)") : "rgba(46,36,64,0.65)"
+      })),
+      obAnim: (s.obStep % 2 ? "fadeUpB" : "fadeUp") + " 0.55s cubic-bezier(0.22,1,0.36,1) both",
+      obAnim2: (s.obStep % 2 ? "fadeUpB" : "fadeUp") + " 0.6s cubic-bezier(0.22,1,0.36,1) 0.12s both",
+      obSub: step.sub || false,
+      obPh: step.ph || "",
+      obText: s.obText,
+      obShowChips: !!step.chips,
+      obVoiceStep: !!step.voice,
+      obBelief: !!step.belief,
+      obShowInput: (!step.chips && !step.voice && !step.belief) || !!step.input,
+      obShowContinue: (!!step.chips && !step.input) || !!step.voice || !!step.belief,
+      obContinueLabel: step.voice ? "Create my first story" : step.belief ? "I'm ready" : "Continue",
+      obChips: (step.chips || []).map(label => {
+        const on = chipsSel.includes(label);
+        return {
+          label,
+          bg: on ? "#503a6b" : "rgba(255,255,255,0.62)",
+          fg: on ? "#fff" : "#2e2440",
+          bd: on ? "#503a6b" : "rgba(255,255,255,0.95)",
+          pick: () => {
+            if (s.obStep === 8) {
+              const areas = s.areas.includes(label) ? s.areas.filter(a => a !== label) : [...s.areas, label];
+              this.setState({ areas });
+            } else this.setState({ home: label });
+          }
+        };
+      }),
+      obVoices: this.voices.map(v => this.voiceRow(v, (n) => this.setState({ voice: n }))),
+      obInput: (e) => this.setState({ obText: e.target.value }),
+      obKeyDown: (e) => { if (e.key === "Enter") this.obAdvance(); },
+      obNext: () => this.obAdvance(),
+      obBack: () => this.setState({ obStep: Math.max(0, s.obStep - 1), obText: "", typedLen: 0 }),
+      loadingMsg: loadMsgs[s.loadIdx] || loadMsgs[0],
+      startTrial: () => { this.setState({ screen: "app", overlay: "welcome" }); },
+      oWelcome: s.overlay === "welcome",
+      beginDay1: () => this.setState({ overlay: "player", playing: true, prog: 0 }),
+      shareDay1: () => this.setState({ overlay: "share", shareTextV: "Day 1 of manifesting my dream life. It's already written." }),
+      sealShare: () => this.setState({ overlay: "share", shareTextV: "I just lived three minutes of my future. It felt real enough to keep." }),
+      storyTitle: s.customTitle || (s.modified ? "A quiet morning inside the little place by the sea" : "A quiet morning inside your own sunlit flat"),
+      caption: s.customTitle ? "Close your eyes. You're already there." : "The kettle exhales, and you do too.",
+      sharePlayer: () => this.setState({ overlay: "share", shareTextV: "Listening to: " + (s.customTitle || "A quiet morning inside your own sunlit flat") }),
+      composeText: s.composeText,
+      composeInput: (e) => this.setState({ composeText: e.target.value }),
+      composeKey: (e) => { if (e.key === "Enter") this.composeGo(); },
+      composeGo: () => this.composeGo(),
+      trend: ["Get him obsessed", "$10k weeks", "Euro summer vacation", "The corner office", "Visa approved"].map(label => ({ label, pick: () => this.setState({ composeText: label }) })),
+      oComposing: s.overlay === "composing",
+      compPct: Math.round(s.compPct),
+      composeTitle: s.composeText.trim() || "Your next vision",
+      oVisions: s.overlay === "visions",
+      visions: [
+        { i: 1, t: "The morning \u201c" + (s.composeText.trim() || "everything I asked for") + "\u201d was simply my life", g: "radial-gradient(circle 20px at 72% 60%, #fff3d6 0 50%, rgba(255,243,214,0.4) 60%, transparent 66%),radial-gradient(120% 90% at 72% 64%, rgba(255,205,150,0.75) 0%, transparent 60%),linear-gradient(180deg, #f6d8b4 0%, #eab2a9 60%, #c795b4 100%)" },
+        { i: 2, t: "Six months on, it feels ordinary — in the best way", g: "radial-gradient(circle 15px at 30% 58%, #fdf4e0 0 50%, transparent 62%),linear-gradient(180deg, #ddd0f2 0%, #b8a5dd 55%, #8d7ab8 100%)" },
+        { i: 3, t: "The moment I realized it had already begun", g: "radial-gradient(circle 17px at 52% 50%, #fff3d9 0 48%, rgba(255,243,217,0.35) 58%, transparent 64%),linear-gradient(180deg, #cfe4da 0%, #b7d3d8 49.6%, #8fb0cb 50%, #6f8fb4 100%)" }
+      ].map(v => ({ ...v, pick: () => this.setState({ customTitle: v.t, overlay: "player", playing: true, prog: 0, modified: false, composeText: "" }) })),
+      tickWho: ["S · Berlin", "M · Austin", "L · Seoul", "A · Lagos"][s.tickIdx],
+      tickWin: ["signed the lease on her studio", "first day at the dream job", "paid off the loan, fully", "he finally texted back"][s.tickIdx],
+      tw: [
+        "The stories feel so real my body reacts. I trust the process now.",
+        "Small things started happening within the first week. I stopped doubting.",
+        "The reminder before my trial ended is why I stayed. This app respects you."
+      ][s.twIdx],
+      twWho: ["Maya, NYC", "Dani, London", "Priya, Toronto"][s.twIdx],
+      twDots: [0, 1, 2].map(i => ({ c: i === s.twIdx ? "#503a6b" : "rgba(46,36,64,0.18)" })),
+      sealed: s.prog >= 100 && !s.loop,
+      logSign: () => {
+        this.setState({ overlay: null, tab: "journal", jSeg: "signs", playing: false, prog: 14 });
+        this.showToast("That's evidence. It compounds.");
+      },
+      forYou: [
+        { tag: "DEEP CONNECTION", t: "Shared Sunday mornings at a sunlit library desk", g: "radial-gradient(circle 18px at 70% 62%, #fff3d6 0 50%, rgba(255,243,214,0.4) 60%, transparent 66%),radial-gradient(120% 90% at 70% 66%, rgba(255,205,150,0.75) 0%, transparent 60%),linear-gradient(180deg, #f6d8b4 0%, #eab2a9 62%, #c795b4 100%)" },
+        { tag: "ABUNDANCE", t: "The month the studio's waitlist opened — and filled", g: "radial-gradient(circle 13px at 28% 58%, #fdf4e0 0 50%, transparent 62%),linear-gradient(180deg, #ded1f3 0%, #b8a5dd 58%, #8d7ab8 100%)" },
+        { tag: "INNER PEACE", t: "Discussing future blueprints while the skyline glows", g: "radial-gradient(circle 15px at 52% 52%, #fff3d9 0 48%, rgba(255,243,217,0.35) 58%, transparent 64%),linear-gradient(180deg, #d3e6dc 0%, #b7d3d8 51.6%, #8fb0cb 52%, #6f8fb4 100%)" }
+      ].map((f, i) => ({
+        ...f,
+        fill: s["fyFav" + i] ? "#c76d8b" : "none",
+        fav: () => this.setState({ ["fyFav" + i]: !s["fyFav" + i] }),
+        play: () => this.setState({ customTitle: f.t, overlay: "player", playing: true, prog: 0, modified: false })
+      })),
+      refreshIn: "08:01:" + String(59 - (new Date()).getSeconds()).padStart(2, "0"),
+      oReminders: s.overlay === "reminders",
+      openReminders: () => this.setState({ overlay: "reminders" }),
+      remSummary: Object.values(s.rem).filter(Boolean).length + " of 3 on",
+      reminders: [
+        { id: "morning", t: "Morning ritual", d: "Rise into the day you chose", time: "7:15am" },
+        { id: "moment", t: "Today's Moment", d: "The second your new story lands", time: "9:00am" },
+        { id: "evening", t: "Wind-down + gratitude", d: "Release the day, log three things", time: "9:30pm" }
+      ].map(r => ({
+        ...r,
+        bg: s.rem[r.id] ? "#503a6b" : "rgba(46,36,64,0.18)",
+        knob: s.rem[r.id] ? 23 : 3,
+        toggle: () => this.setState({ rem: { ...s.rem, [r.id]: !s.rem[r.id] } })
+      })),
+      oWidgets: s.overlay === "widgets",
+      openWidgets: () => this.setState({ overlay: "widgets" }),
+      oTrial: s.overlay === "trial",
+      openTrial: () => this.setState({ overlay: "trial" }),
+      pickAnnual: () => { this.setState({ overlay: null }); this.showToast("Annual it is — a whole year of becoming"); },
+      pickWeekly: () => { this.setState({ overlay: null }); this.showToast("Staying weekly. Cancel anytime, truly."); },
+      cancelTrial: () => { this.setState({ overlay: null }); this.showToast("Trial canceled. Your stories stay free until day 7."); },
+      miniPlayer: s.screen === "app" && !s.overlay && s.playing,
+      miniToggle: () => this.setState({ playing: !s.playing }),
+      miniOpen: () => this.setState({ overlay: "player" }),
+      modified: s.modified,
+      voice: s.voice,
+      streak: "Day 6", streakN: 6,
+      tHome: s.tab === "home", tAffirm: s.tab === "affirm", tVision: s.tab === "vision",
+      tJournal: s.tab === "journal", tProfile: s.tab === "profile",
+      tProgress: s.tab === "progress",
+      goSigns: () => this.setState({ tab: "journal", jSeg: "signs", overlay: null }),
+      pWeek: ["M","T","W","T","F","S","S"].map((l, i) => {
+        const done = i < 5, today = i === 5;
+        return {
+          l, icon: done ? "M2.5 7.5 5.5 10.5 11.5 3.5" : "M7 7h0.01",
+          bg: done ? "rgba(62,125,90,0.16)" : today ? "rgba(80,58,107,0.1)" : "rgba(46,36,64,0.05)",
+          br: done ? "rgba(62,125,90,0.3)" : today ? "rgba(80,58,107,0.35)" : "rgba(46,36,64,0.08)",
+          fg: done ? "#3e7d5a" : today ? "#503a6b" : "rgba(46,36,64,0.3)",
+          lc: today ? "#503a6b" : "rgba(46,36,64,0.45)"
+        };
+      }),
+      pGoals: [
+        { t: "The flat with the window seat", p: 62, sessions: 11, signs: 2, last: "story today", chip: "SURGING", chipFg: "#3e7d5a", chipBg: "rgba(62,125,90,0.14)" },
+        { t: "Calm that doesn't crack under deadlines", p: 44, sessions: 7, signs: 1, last: "2 days ago", chip: "STEADY", chipFg: "#a8712c", chipBg: "rgba(201,141,63,0.16)" },
+        { t: "The studio paying my rent", p: 18, sessions: 3, signs: 0, last: "5 days ago", chip: "WARMING UP", chipFg: "#503a6b", chipBg: "rgba(80,58,107,0.12)" }
+      ],
+      pSigns: [
+        { t: "Landlord emailed back first — viewing booked for the exact street from my story.", d: "Today", goal: "The flat" },
+        { t: "Stayed calm through the launch review. Didn't even notice until after.", d: "Yesterday", goal: "Calm" },
+        { t: "A stranger complimented the ring I manifested buying myself.", d: "3 days ago", goal: "The flat" }
+      ],
+      tabs: tabDefs.map(([id, label, d]) => ({
+        label, d,
+        bg: s.tab === id ? "#503a6b" : "transparent",
+        fg: s.tab === id ? "#fff" : "rgba(46,36,64,0.55)",
+        pick: () => this.setState({ tab: id, overlay: null })
+      })),
+      goals: s.goals,
+      openNewGoal: () => this.setState({ overlay: "newgoal" }),
+      oNewGoal: s.overlay === "newgoal",
+      goalText: s.goalText,
+      goalInput: (e) => this.setState({ goalText: e.target.value }),
+      goalChips: ["Love", "Career", "Money", "Health", "Inner peace", "Freedom"].map(label => ({
+        label,
+        bg: s.goalArea === label ? "#503a6b" : "rgba(255,255,255,0.8)",
+        fg: s.goalArea === label ? "#fff" : "#2e2440",
+        bd: s.goalArea === label ? "#503a6b" : "rgba(46,36,64,0.12)",
+        pick: () => this.setState({ goalArea: label })
+      })),
+      addGoal: () => {
+        if (!s.goalText.trim()) return;
+        this.setState({ goals: [{ t: s.goalText.trim(), n: "1 story tonight", p: 4 }, ...s.goals], goalText: "", overlay: null });
+        this.showToast("New thread begun. Your first story arrives tonight.");
+      },
+      oRecord: s.overlay === "record",
+      recActive: s.recState === "recording",
+      recDone: s.recState === "done",
+      recNotDone: s.recState !== "done",
+      recPct: s.recPct,
+      recTime: "0:" + String(Math.round(120 * s.recPct / 100)).padStart(2, "0").slice(-2),
+      recHeading: s.recState === "done" ? "That's it. Your voice is ready." : s.recState === "recording" ? "Read it like you mean it — because you do." : "Two minutes of your voice. Every story, forever yours.",
+      recAnim: s.recState === "recording" ? "breathe 1.6s ease-in-out infinite" : "breathe 4.5s ease-in-out infinite",
+      recBtnBg: s.recState === "recording" ? "#c76d8b" : "#503a6b",
+      recBtnLabel: s.recState === "recording" ? "Recording… tap to pause" : "Start recording",
+      toggleRec: () => this.setState({ recState: s.recState === "recording" ? "idle" : "recording" }),
+      useMyVoice: () => {
+        this.setState({ voice: "Your voice", overlay: null, recState: "idle", recPct: 0 });
+        this.showToast("Done. Every story now speaks in your voice.");
+      },
+      oLibrary: s.overlay === "library",
+      openLibrary: () => this.setState({ overlay: "library" }),
+      libSegs: this.seg([["fav", "Favorites"], ["themes", "Themes"], ["rituals", "Rituals"]], s.libSeg, "libSeg"),
+      libNextUp: s.libSeg === "rituals",
+      libRows: ({
+        fav: [
+          { t: "A quiet morning inside your own sunlit flat", d: "03:12 · played 9 times" },
+          { t: "That evening I stopped rushing and the world slowed down with me", d: "03:18 · played 6 times" },
+          { t: "The way my heart stayed steady during the hard conversation", d: "02:41 · played 4 times" }
+        ],
+        themes: [
+          { t: "Serene countryside living", d: "5 stories · calm, green, unhurried" },
+          { t: "The studio takes off", d: "4 stories · your name on the door" },
+          { t: "Money moves toward me", d: "3 stories · ease, not grind" }
+        ],
+        rituals: [
+          { t: "Morning ritual: rise into it", d: "02:00 · daily at 7:15am" },
+          { t: "Wind-down: the day releases you", d: "03:00 · daily at 9:30pm" },
+          { t: "Sleep on it: 8-hour whispers", d: "8:00:00 · softest volume" }
+        ]
+      })[s.libSeg],
+      recent: [
+        { t: "That evening I stopped rushing and the world slowed down with me", d: "03:18 · yesterday" },
+        { t: "The way my heart stayed steady during the hard conversation", d: "02:41 · Tuesday" }
+      ],
+      openPlayer: () => this.setState({ overlay: "player", playing: true }),
+      openLetter: () => this.setState({ overlay: "letter" }),
+      closeOverlay: () => this.setState({ overlay: null, reading: false }),
+      stopProp: (e) => e.stopPropagation(),
+      closeSheet: () => this.setState({ overlay: s.reading || s.playing || s.prog > 14 ? "player" : null }),
+      oPlayer: s.overlay === "player", oLetter: s.overlay === "letter",
+      oVoice: s.overlay === "voice", oModify: s.overlay === "modify", oShare: s.overlay === "share",
+      playing: s.playing, paused: !s.playing,
+      togglePlay: () => this.setState({ playing: !s.playing }),
+      reading: s.reading, notReading: !s.reading,
+      readLabel: s.reading ? "Listen instead" : "Read instead",
+      toggleRead: () => this.setState({ reading: !s.reading }),
+      progPct: s.prog,
+      progTime: "0" + Math.floor(secs / 60) + ":" + String(secs % 60).padStart(2, "0"),
+      loop: s.loop,
+      loopBg: s.loop ? "#503a6b" : "rgba(255,255,255,0.6)",
+      loopFg: s.loop ? "#fff" : "#2e2440",
+      toggleStoryLoop: () => this.setState({ loop: !s.loop }),
+      rewind: () => this.setState({ prog: Math.max(0, s.prog - 8) }),
+      forward: () => this.setState({ prog: Math.min(100, s.prog + 8) }),
+      speed: this.speeds[s.speedIdx],
+      cycleSpeed: () => this.setState({ speedIdx: (s.speedIdx + 1) % this.speeds.length }),
+      favFill: s.fav ? "#c76d8b" : "none",
+      toggleFav: () => this.setState({ fav: !s.fav }),
+      openVoice: () => this.setState({ overlay: "voice" }),
+      voiceRows: this.voices.map(v => this.voiceRow(v, (n) => {
+        if (n === "Your voice") { this.setState({ overlay: "record", recState: "idle", recPct: 0 }); return; }
+        this.setState({ voice: n, overlay: "player" });
+        this.showToast("Voice updated for all stories");
+      })),
+      openModify: () => this.setState({ overlay: "modify" }),
+      modText: s.modText,
+      modInput: (e) => this.setState({ modText: e.target.value }),
+      applyModify: () => {
+        this.setState({ modified: true, overlay: "player", modText: "", prog: 0, playing: true });
+        this.showToast("Story rewritten. Same magic, your details.");
+      },
+      storyP1: "The kettle exhales, and " + name + " does too. Morning light spills across the floorboards of a place that is unmistakably, legally, gloriously yours. No alarm dragged you here — you simply woke, easy, the way people do when nothing is chasing them.",
+      storyP2: (s.modified ? "Outside, the sea keeps its slow argument with the shore, and you let it win. " : "") + "You carry your coffee to the window and watch the street below without needing anything from it. This is what arrived when you stopped rushing: not a bigger life, exactly — a truer one. And it fits.",
+      aff: this.affs[s.affIdx],
+      nextAff: () => this.setState({ affIdx: (s.affIdx + 1) % this.affs.length, affPlaying: false }),
+      affPlaying: s.affPlaying, affPaused: !s.affPlaying,
+      toggleAffPlay: () => this.setState({ affPlaying: !s.affPlaying }),
+      affLoopBg: s.affLoop ? "#503a6b" : "rgba(255,255,255,0.65)",
+      affLoopFg: s.affLoop ? "#fff" : "#503a6b",
+      toggleAffLoop: () => this.setState({ affLoop: !s.affLoop }),
+      sleepBg: s.sleep ? "#503a6b" : "rgba(46,36,64,0.18)",
+      sleepKnob: s.sleep ? 23 : 3,
+      toggleSleep: () => this.setState({ sleep: !s.sleep }),
+      shareAff: () => this.setState({ overlay: "share", shareTextV: this.affs[s.affIdx] }),
+      shareText: s.shareTextV || this.affs[s.affIdx],
+      visionSegs: this.seg([["board", "Board"], ["proof", "Proof"], ["circle", "Circle"]], s.vSeg, "vSeg"),
+      vBoard: s.vSeg === "board", vProof: s.vSeg === "proof", vCircle: s.vSeg === "circle",
+      board: [
+        { t: "Sunlit studio flat", tc: "#2e2440", ts: "rgba(255,255,255,0.55)", g: "linear-gradient(200deg, rgba(255,244,222,0.9) 0%, rgba(255,244,222,0) 40%),radial-gradient(circle 24px at 70% 30%, #fff3d6 0 50%, transparent 62%),linear-gradient(180deg,#f4cda4 0%,#dfa3a8 70%,#c08fb0 100%)" },
+        { t: "Launch day — my name on the door", tc: "#fff", ts: "rgba(30,22,44,0.5)", g: "radial-gradient(circle 14px at 26% 26%, #fdf3dd 0 50%, transparent 62%),linear-gradient(180deg,#9c88c4 0%,#6b569a 55%,#453768 100%)" },
+        { t: "Kyoto in spring, no laptop", tc: "#2e2440", ts: "rgba(255,255,255,0.55)", g: "radial-gradient(circle 17px at 74% 32%, #ffe9ee 0 48%, transparent 60%),linear-gradient(180deg,#e3f0e9 0%,#bfdcd2 55%,#93b8ad 100%)" }
+      ],
+      winText: s.winText,
+      winInput: (e) => this.setState({ winText: e.target.value }),
+      addWin: () => {
+        if (!s.winText.trim()) return;
+        this.setState({ wins: [{ t: s.winText.trim(), d: "Today" }, ...s.wins], winText: "", overlay: "share", shareTextV: "It happened: " + s.winText.trim() });
+        this.showToast("On the wall. It happened.");
+      },
+      wins: s.wins.map(w => ({ ...w, share: () => this.setState({ overlay: "share", shareTextV: "It happened: " + w.t }) })),
+      circle: [
+        { i: "S", who: "S · Berlin", win: "signed the lease on her studio", ago: "2h" },
+        { i: "M", who: "M · Austin", win: "first day at the dream job", ago: "5h" },
+        { i: "L", who: "L · Seoul", win: "paid off the loan, fully", ago: "9h" },
+        { i: "A", who: "A · Lagos", win: "he finally texted back", ago: "11h" }
+      ],
+      jSegs: this.seg([["grat", "Gratitude"], ["signs", "Signs"]], s.jSeg, "jSeg"),
+      jGrat: s.jSeg === "grat", jSigns: s.jSeg === "signs",
+      week: ["M", "T", "W", "T", "F", "S", "S"].map((l, i) => ({
+        l, done: i < 6,
+        bg: i < 6 ? "#a8712c" : "rgba(255,255,255,0.7)",
+        bd: i < 6 ? "#a8712c" : "rgba(46,36,64,0.15)"
+      })),
+      gratText: s.gratText,
+      gratInput: (e) => this.setState({ gratText: e.target.value }),
+      gratKey: (e) => { if (e.key === "Enter" && s.gratText.trim()) { this.setState({ gratitudes: [s.gratText.trim(), ...s.gratitudes], gratText: "" }); } },
+      addGrat: () => { if (s.gratText.trim()) this.setState({ gratitudes: [s.gratText.trim(), ...s.gratitudes], gratText: "" }); },
+      gratitudes: s.gratitudes,
+      evidText: s.evidText,
+      evidInput: (e) => this.setState({ evidText: e.target.value }),
+      addEvid: () => { if (s.evidText.trim()) this.setState({ evid: [s.evidText.trim(), ...s.evid], evidText: "" }); },
+      evid: s.evid,
+      memory: s.memory.map((text, i) => ({
+        text,
+        del: () => { this.setState({ memory: s.memory.filter((_, j) => j !== i) }); this.showToast("Forgotten. Your stories update."); }
+      })),
+      people: s.people,
+      personName: s.personName, personRel: s.personRel,
+      personNameInput: (e) => this.setState({ personName: e.target.value }),
+      personRelInput: (e) => this.setState({ personRel: e.target.value }),
+      addPerson: () => {
+        if (!s.personName.trim()) return;
+        this.setState({ people: [...s.people, { name: s.personName.trim(), rel: s.personRel.trim() || "Someone who matters" }], personName: "", personRel: "" });
+      },
+      know: s.know,
+      knowInput: (e) => this.setState({ know: e.target.value }),
+      saveKnow: () => {
+        if (!s.know.trim()) return;
+        this.setState({ memory: [...s.memory, s.know.trim()], know: "" });
+        this.showToast("Saved. Sora knows you a little better.");
+      },
+      copyRef: () => this.showToast("Invite link copied — give a week, get a week"),
+      toast: s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+@keyframes drift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+[data-grain]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.025'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — The Circle</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Anonymous proof wall: social proof without a social network. <a href="Sora Share Card UI.dc.html">← Share Cards</a></div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:linear-gradient(175deg,#f7f0ee 0%,#eee0e4 55%,#e2d8e8 100%);color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-grain="1" style="position:absolute;inset:0;z-index:150;pointer-events:none;"></div>
+      <div data-screen-label="The Circle" style="position:absolute;inset:0;overflow:auto;padding:66px 22px 60px;box-sizing:border-box;">
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button style="width:44px;height:44px;margin-left:-12px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 20 20"><path d="M12.5 4 6.5 10l6 6" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <div style="flex:1;">
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:26px;font-weight:500;">The Circle</div>
+            <div style="font-size:12.5px;color:rgba(46,36,64,0.58);margin-top:1px;">What's arriving for people like you. No names, no follows.</div>
+          </div>
+        </div>
+
+        <!-- LIVE PULSE -->
+        <div style="margin-top:14px;border-radius:22px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.35);box-shadow:0 10px 26px rgba(70,50,100,0.12);">
+          <div style="position:absolute;inset:0;background:linear-gradient(135deg,#5c4a74 0%,#75567a 100%);"></div>
+          <div style="position:relative;padding:18px 20px;display:flex;align-items:center;gap:16px;color:#fff;">
+            <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
+              <span style="font-family:'Newsreader',serif;font-size:28px;font-weight:600;line-height:1;">1,284</span>
+              <span style="font-size:11px;color:rgba(255,255,255,0.75);">signs logged today</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:2px;flex:1;">
+              <span style="font-family:'Newsreader',serif;font-size:28px;font-weight:600;line-height:1;">37</span>
+              <span style="font-size:11px;color:rgba(255,255,255,0.75);">"it happened" this week</span>
+            </div>
+            <span style="display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:1px;color:#eaffdd;"><span style="width:7px;height:7px;border-radius:4px;background:#a6e3b8;box-shadow:0 0 0 3px rgba(166,227,184,0.25);"></span>LIVE</span>
+          </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div style="display:flex;gap:8px;overflow-x:auto;margin:14px -22px 0;padding:2px 22px 4px;">
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
+            <button onClick="{{f.pick}}" style="flex-shrink:0;height:36px;padding:0 14px;border-radius:18px;border:1px solid {{f.br}};background:{{f.bg}};font-size:12.5px;font-weight:600;color:{{f.fg}};cursor:pointer;">{{f.l}}</button>
+          </sc-for>
+        </div>
+
+        <!-- WALL -->
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+          <sc-for list="{{posts}}" as="p" hint-placeholder-count="5">
+            <div style="border-radius:20px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.5);padding:15px 17px;display:flex;flex-direction:column;gap:9px;">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <span style="width:30px;height:30px;border-radius:15px;background:{{p.av}};flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-style:italic;font-size:13px;color:#fff;">{{p.init}}</span>
+                <span style="flex:1;font-size:12px;color:rgba(46,36,64,0.55);">{{p.who}} · {{p.when}}</span>
+                <span style="flex-shrink:0;font-size:9.5px;font-weight:700;letter-spacing:0.8px;color:{{p.tagFg}};background:{{p.tagBg}};padding:4px 9px;border-radius:10px;">{{p.tag}}</span>
+              </div>
+              <div style="font-family:'Newsreader',serif;font-style:italic;font-size:15.5px;line-height:1.45;text-wrap:pretty;">{{p.t}}</div>
+              <sc-if value="{{p.detail}}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:12px;line-height:1.5;color:rgba(46,36,64,0.6);">{{p.detail}}</div>
+              </sc-if>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <button onClick="{{p.believe}}" style="height:34px;padding:0 13px;border-radius:17px;border:1px solid {{p.bBr}};background:{{p.bBg}};font-size:12px;font-weight:650;color:{{p.bFg}};cursor:pointer;display:flex;align-items:center;gap:6px;">
+                  <svg width="13" height="13" viewBox="0 0 14 14"><path d="M7 1.2c0.5 2.3 3.2 3.4 3.2 6.4a3.2 3.2 0 0 1-6.4 0C3.8 5.4 5.4 4.2 5.4 2.2c0.7 0.4 1.4 0.9 1.6-1z" fill="{{p.bFg}}"></path></svg>
+                  {{p.count}} believing with them
+                </button>
+                <span style="margin-left:auto;font-size:11px;color:rgba(46,36,64,0.4);">same goal as you: {{p.same}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:16px;border-radius:20px;background:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.4);padding:16px 18px;font-size:12px;line-height:1.55;color:rgba(46,36,64,0.6);">
+          Posts are anonymized excerpts from Signs and Proof-wall entries, shared with one tap and removable anytime. No profiles, no comments, no DMs — only "believing with them."
+        </div>
+
+      </div>
+    </div>
+  </x-import>
+  <div style="max-width:400px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">Social proof engineered for a category where users won't build profiles: strangers' evidence makes <i>your</i> belief plan credible ("94% notice a sign by day 14" gets faces). One reaction verb keeps it kind, zero-moderation-risk, and uncopyable by a quick Stella update.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { filter: 0, believed: {} };
+  renderVals() {
+    const s = this.state;
+    const filters = ["For you", "It happened", "Love", "Money", "Calm", "Home"];
+    const posts = [
+      { init: "R", who: "Manifesting a flat · London", when: "12m", tag: "IT HAPPENED", hot: true, av: "linear-gradient(135deg,#e2b98a,#b790c8)", t: "\u201cSigned the lease this morning. The window seat from my story is real and I cried on it.\u201d", detail: "62 days · 43 story plays · 14 signs logged first", count: 212, same: "home" },
+      { init: "A", who: "Manifesting calm · Austin", when: "31m", tag: "A SIGN", hot: false, av: "linear-gradient(135deg,#9480bd,#5d4a8a)", t: "\u201cGot through the review that used to wreck me. Didn't even notice until it was over.\u201d", detail: "", count: 48, same: "calm" },
+      { init: "M", who: "Manifesting income · Lagos", when: "1h", tag: "A SIGN", hot: false, av: "linear-gradient(135deg,#f5c497,#dd9cab)", t: "\u201cTwo enquiries for the studio in one day — the exact number from yesterday's story.\u201d", detail: "", count: 76, same: "money" },
+      { init: "J", who: "Manifesting love · Berlin", when: "2h", tag: "IT HAPPENED", hot: true, av: "linear-gradient(135deg,#7fa78f,#4d7d68)", t: "\u201cHe asked me to move in. I've been listening to that future since March.\u201d", detail: "94 days · shared 6 signs along the way", count: 189, same: "love" },
+      { init: "S", who: "Manifesting a promotion · Toronto", when: "3h", tag: "A SIGN", hot: false, av: "linear-gradient(135deg,#cd88a2,#7a5d9a)", t: "\u201cMy manager used the word 'ready' unprompted. Same word my future self keeps saying.\u201d", detail: "", count: 33, same: "work" }
+    ];
+    return {
+      filters: filters.map((l, i) => ({
+        l, pick: () => this.setState({ filter: i }),
+        bg: s.filter === i ? "#503a6b" : "rgba(255,255,255,0.7)",
+        br: s.filter === i ? "#503a6b" : "rgba(46,36,64,0.14)",
+        fg: s.filter === i ? "#fff" : "#2e2440"
+      })),
+      posts: posts.map((p, i) => {
+        const on = !!s.believed[i];
+        return { ...p,
+          count: p.count + (on ? 1 : 0),
+          tagFg: p.hot ? "#fff" : "#3e7d5a",
+          tagBg: p.hot ? "#3e7d5a" : "rgba(62,125,90,0.14)",
+          believe: () => this.setState({ believed: { ...s.believed, [i]: !on } }),
+          bBg: on ? "rgba(201,141,63,0.16)" : "rgba(255,255,255,0.8)",
+          bBr: on ? "rgba(201,141,63,0.4)" : "rgba(46,36,64,0.12)",
+          bFg: on ? "#a8712c" : "rgba(46,36,64,0.6)"
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

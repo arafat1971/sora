@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#ece6dd;}a{color:#503a6b;text-decoration:none;}a:hover{color:#6b4a8c;}</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;justify-content:center;padding:56px 24px 90px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+<div style="max-width:880px;width:100%;display:flex;flex-direction:column;gap:34px;">
+
+  <header style="display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;">
+    <div style="width:74px;height:74px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 18px 45px rgba(122,104,180,0.4);"></div>
+    <h1 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:40px;margin:8px 0 0;">Sora — design package</h1>
+    <p style="font-size:15px;line-height:1.6;color:rgba(46,36,64,0.65);margin:0;max-width:560px;">Everything in one place: strategy, the full interactive prototype, and the six supporting surface designs. Built from the Stella/Aya teardown.</p>
+  </header>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:24px;margin:0;">Start here</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <a href="Analysis Report.dc.html" style="border-radius:22px;background:linear-gradient(135deg,rgba(84,60,110,0.95),rgba(122,74,122,0.92));color:#fff;padding:24px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 26px rgba(70,50,100,0.16);">
+        <span style="font-size:10.5px;font-weight:700;letter-spacing:1.6px;color:rgba(255,255,255,0.7);">STRATEGY</span>
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;color:#fff;">Competitive analysis &amp; product plan</span>
+        <span style="font-size:13px;line-height:1.55;color:rgba(255,255,255,0.8);">Stella + Aya teardown, review-mined gap table, psychology engine, path to $300k MRR.</span>
+      </a>
+      <a href="Sora Prototype.dc.html" style="border-radius:22px;background:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.45);padding:24px;display:flex;flex-direction:column;gap:8px;">
+        <span style="font-size:10.5px;font-weight:700;letter-spacing:1.6px;color:rgba(46,36,64,0.5);">PROTOTYPE</span>
+        <span style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;color:#2e2440;">The full app — tap through</span>
+        <span style="font-size:13px;line-height:1.55;color:rgba(46,36,64,0.65);">Onboarding → paywall → home, player, letters, journal, vision, profile, widgets, trial reminder.</span>
+      </a>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:24px;margin:0;">Surface designs — the loops</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <sc-for list="{{surfaces}}" as="c" hint-placeholder-count="4">
+        <a href="{{c.href}}" style="border-radius:22px;background:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.45);padding:22px;display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="width:38px;height:38px;border-radius:12px;background:{{c.g}};flex-shrink:0;"></span>
+            <span style="font-size:10.5px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);">{{c.tag}}</span>
+          </div>
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;color:#2e2440;">{{c.t}}</span>
+          <span style="font-size:13px;line-height:1.55;color:rgba(46,36,64,0.65);">{{c.d}}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:24px;margin:0;">Launch &amp; handoff</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+      <sc-for list="{{launch}}" as="c" hint-placeholder-count="3">
+        <a href="{{c.href}}" style="border-radius:20px;background:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.4);padding:18px 20px;display:flex;flex-direction:column;gap:6px;">
+          <span style="font-size:10.5px;font-weight:700;letter-spacing:1.4px;color:rgba(46,36,64,0.5);">{{c.tag}}</span>
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-size:17px;color:#2e2440;">{{c.t}}</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <div style="border-radius:20px;background:rgba(255,255,255,0.45);border:1px solid rgba(255,255,255,0.4);padding:18px 22px;font-size:13px;line-height:1.6;color:rgba(46,36,64,0.65);">
+    <b>The thesis, in one line:</b> Stella tells you a story about your future, Aya lets your future self speak — Sora does both, then <i>proves it's working</i>. Signs → tomorrow's story → share card → Circle is the compounding loop neither competitor has.
+  </div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      surfaces: [
+        { href: "Sora Progress UI v3.dc.html", tag: "RETENTION", t: "Progress tab (v3)", d: "Daily seal ritual + evidence dashboard merged: variable reward, goal momentum, signs timeline.", g: "linear-gradient(135deg,#efae86,#7a5d9a)" },
+        { href: "Sora Affirm UI.dc.html", tag: "DAILY RITUAL", t: "Affirm deck", d: "Swipeable numbered cards in your future voice — favorites feed the sleep whisper.", g: "linear-gradient(135deg,#dd9cab,#b790c8)" },
+        { href: "Sora Log a Sign UI.dc.html", tag: "CORE LOOP", t: "Log a Sign flow", d: "Sign in → story out. Entry sheet + \u201cwritten into tomorrow\u201d confirmation.", g: "linear-gradient(135deg,#7fa78f,#4d7d68)" },
+        { href: "Sora Share Card UI.dc.html", tag: "GROWTH", t: "Share Card studio", d: "9:16 cards for the three viral moments: a sign, a streak, \u201cit happened.\u201d", g: "linear-gradient(135deg,#f5c497,#dd9cab)" },
+        { href: "Sora Circle UI.dc.html", tag: "SOCIAL PROOF", t: "The Circle", d: "Anonymous proof wall — live pulse, goal filters, \u201cbelieving with them.\u201d", g: "linear-gradient(135deg,#9480bd,#5d4a8a)" },
+        { href: "Sora Notifications UI.dc.html", tag: "RE-ENGAGEMENT", t: "Notification system", d: "Four lock-screen moments in future-you voice, plus the copy rules.", g: "linear-gradient(135deg,#f9c98f,#5d4a8a)" },
+        { href: "Sora Quiz Onboarding UI.dc.html", tag: "CONVERSION", t: "Quiz onboarding", d: "18-question belief profile with mirror interstitials — investment before the paywall.", g: "linear-gradient(135deg,#e8c49a,#b06a9a)" },
+        { href: "Sora Referral UI.dc.html", tag: "GROWTH", t: "Gift 7 Days referral", d: "Double-sided referral framed as a gift — sender's name on the pass, both earn a month.", g: "linear-gradient(135deg,#dbb8d8,#503a6b)" },
+        { href: "Sora Widgets UI.dc.html", tag: "RETENTION", t: "Widget kit", d: "Lock-screen line + home-screen seal widget — daily presence without opening the app.", g: "linear-gradient(135deg,#8a6a8e,#2a2140)" },
+        { href: "Sora Android Variant.dc.html", tag: "PLATFORM", t: "Android variant", d: "Material treatment, widget sizes, Play-specific considerations.", g: "linear-gradient(135deg,#a6e3b8,#3e7d5a)" }
+      ],
+      launch: [
+        { href: "Sora App Store Kit.dc.html", tag: "ASO", t: "App Store kit" },
+        { href: "Sora Social Kit.dc.html", tag: "MARKETING", t: "Social kit" },
+        { href: "Sora Dev Handoff.dc.html", tag: "ENGINEERING", t: "Dev handoff" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

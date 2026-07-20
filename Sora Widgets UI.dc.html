@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:26px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — Widget Kit</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Lock screen + home screen: the free retention surface. <a href="Sora Index.dc.html">← Index</a></div>
+  </div>
+
+  <div style="display:flex;gap:32px;flex-wrap:wrap;justify-content:center;align-items:flex-start;">
+
+    <!-- LOCK SCREEN -->
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:center;">
+      <div style="width:300px;height:620px;border-radius:44px;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(46,36,64,0.28);background:linear-gradient(180deg,#2a2140 0%,#4a3a66 45%,#8a6a8e 78%,#c99a92 100%);">
+        <div style="position:absolute;top:20px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,0.92);">
+          <span style="font-size:14px;font-weight:600;letter-spacing:0.4px;">Tuesday, July 21</span>
+          <span style="font-size:74px;font-weight:250;line-height:1;letter-spacing:-2px;font-family:system-ui;">6:42</span>
+        </div>
+        <!-- lock widget -->
+        <div style="position:absolute;top:158px;left:50%;transform:translateX(-50%);width:220px;border-radius:16px;background:rgba(255,255,255,0.16);backdrop-filter:blur(10px);padding:10px 14px;display:flex;align-items:center;gap:10px;">
+          <span style="width:22px;height:22px;border-radius:11px;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 40%,#dcc4ec 100%);flex-shrink:0;"></span>
+          <span style="font-family:'Newsreader',serif;font-style:italic;font-size:12.5px;line-height:1.4;color:rgba(255,255,255,0.95);">The viewing is today. Walk in like you've already signed.</span>
+        </div>
+        <!-- notification -->
+        <div style="position:absolute;bottom:120px;left:14px;right:14px;border-radius:18px;background:rgba(255,255,255,0.9);backdrop-filter:blur(14px);padding:12px 14px;display:flex;gap:11px;">
+          <span style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#d8ab9e,#6f5d8e);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><span style="width:12px;height:12px;border-radius:6px;background:radial-gradient(circle at 35% 30%,#fff8ef,#f0d4c4);"></span></span>
+          <div style="display:flex;flex-direction:column;gap:1px;min-width:0;">
+            <div style="display:flex;justify-content:space-between;gap:8px;"><span style="font-size:12.5px;font-weight:650;color:#1c1c1e;">Sora</span><span style="font-size:10.5px;color:rgba(0,0,0,0.4);">now</span></div>
+            <span style="font-size:12px;line-height:1.35;color:rgba(0,0,0,0.75);">Tonight's story is ready — it opens after the viewing.</span>
+          </div>
+        </div>
+        <div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:120px;height:4px;border-radius:2px;background:rgba(255,255,255,0.85);"></div>
+      </div>
+      <span style="font-size:11px;font-weight:600;letter-spacing:2px;color:rgba(46,36,64,0.45);">LOCK SCREEN · INLINE WIDGET</span>
+    </div>
+
+    <!-- HOME WIDGETS -->
+    <div style="display:flex;flex-direction:column;gap:24px;max-width:360px;">
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <span style="font-size:11px;font-weight:600;letter-spacing:2px;color:rgba(46,36,64,0.45);">SMALL · TODAY'S LINE</span>
+        <div style="width:158px;height:158px;border-radius:32px;overflow:hidden;position:relative;box-shadow:0 12px 30px rgba(70,50,100,0.18);">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle 20px at 74% 20%, #fff3d9 0% 46%, rgba(255,243,217,0.4) 58%, transparent 66%),linear-gradient(180deg,#d8ab9e 0%,#b18ba8 55%,#6f5d8e 100%);"></div>
+          <div style="position:relative;height:100%;box-sizing:border-box;padding:16px;display:flex;flex-direction:column;justify-content:space-between;">
+            <span style="font-size:8.5px;font-weight:700;letter-spacing:1.6px;color:rgba(255,255,255,0.8);">SORA</span>
+            <span style="font-family:'Newsreader',serif;font-style:italic;font-size:14.5px;line-height:1.35;color:#fff;text-shadow:0 1px 10px rgba(40,30,60,0.35);">I answer doubt with evidence.</span>
+            <span style="font-size:8.5px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,0.65);">DAY 6 · HELD</span>
+          </div>
+        </div>
+        <span style="font-size:11.5px;line-height:1.5;color:rgba(46,36,64,0.55);max-width:300px;">One affirmation from today's deck. Rotates at dawn — tapping opens Affirm on that card.</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <span style="font-size:11px;font-weight:600;letter-spacing:2px;color:rgba(46,36,64,0.45);">MEDIUM · PLAN + SEAL</span>
+        <div style="width:338px;height:158px;border-radius:32px;overflow:hidden;position:relative;box-shadow:0 12px 30px rgba(70,50,100,0.18);background:linear-gradient(160deg,#f7f0ee 0%,#eee0e4 60%,#e2d8e8 100%);">
+          <div style="position:relative;height:100%;box-sizing:border-box;padding:18px 20px;display:flex;align-items:center;gap:18px;">
+            <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
+              <span style="font-size:8.5px;font-weight:700;letter-spacing:1.6px;color:rgba(46,36,64,0.45);">SORA · DAY 6 OF 14</span>
+              <span style="font-family:'Newsreader',serif;font-style:italic;font-size:15.5px;line-height:1.35;color:#3b2d54;">Six days held. Tonight makes a week.</span>
+              <div style="display:flex;gap:5px;">
+                <sc-for list="{{dots}}" as="d" hint-placeholder-count="7">
+                  <span style="width:7px;height:7px;border-radius:4px;background:{{d.bg}};"></span>
+                </sc-for>
+              </div>
+            </div>
+            <span style="width:74px;height:74px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 30%,#dcc4ec 60%,#a9b8ee 100%);box-shadow:0 8px 20px rgba(122,104,180,0.25);display:flex;align-items:center;justify-content:center;">
+              <span style="font-size:7.5px;font-weight:700;letter-spacing:1.4px;color:#503a6b;background:rgba(255,255,255,0.75);padding:5px 9px;border-radius:10px;">HOLD</span>
+            </span>
+          </div>
+        </div>
+        <span style="font-size:11.5px;line-height:1.5;color:rgba(46,36,64,0.55);max-width:338px;">Streak + one-tap seal without opening the app. The seal deep-links into the Progress reward read.</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="max-width:440px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">Widgets are the zero-CAC retention surface: the lock-screen line quotes <i>today's story</i>, so it reads as a message from future-you, not an app. Free tier gets the small widget — the medium seal widget is a paid perk that markets itself on every home screen screenshot.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      dots: ["a","b","c","d","e","f","g"].map((k, i) => ({
+        bg: i < 5 ? "#503a6b" : i === 5 ? "rgba(80,58,107,0.3)" : "rgba(46,36,64,0.12)"
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

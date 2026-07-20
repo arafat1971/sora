@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — Paywall v2</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Minimal rework of the money screen. Toggle plans. <a href="Sora Progress UI v2.dc.html">← Progress v2</a></div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:linear-gradient(175deg,#f7f0ee 0%,#eee0e4 55%,#e2d8e8 100%);color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-screen-label="Paywall v2" style="position:absolute;inset:0;overflow:auto;padding:74px 28px 44px;box-sizing:border-box;display:flex;flex-direction:column;">
+
+        <div style="display:flex;flex-direction:column;gap:8px;animation:fadeUp 0.5s ease;">
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;line-height:1.2;font-weight:500;color:#3b2d54;text-wrap:pretty;">Your first story is ready, Jess.</div>
+          <div style="font-size:14px;line-height:1.6;color:rgba(46,36,64,0.6);">Three minutes, set in the flat with the window seat. Narrated for you.</div>
+        </div>
+
+        <!-- STORY BEHIND GLASS -->
+        <div style="margin-top:22px;border-radius:24px;overflow:hidden;position:relative;box-shadow:0 12px 32px rgba(70,50,100,0.13);animation:fadeUp 0.5s ease 0.1s backwards;">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#d8ab9e 0%,#b18ba8 52%,#6f5d8e 100%);"></div>
+          <div style="position:relative;padding:26px 24px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;">
+            <div style="width:76px;height:76px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 30%,#dcc4ec 60%,#a9b8ee 100%);box-shadow:0 12px 30px rgba(60,45,90,0.35);animation:breathe 5s ease-in-out infinite;"></div>
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:19px;line-height:1.35;color:#fff;text-shadow:0 1px 12px rgba(40,30,60,0.35);">"The kettle clicks off as the morning light crosses the window seat — your window seat…"</div>
+            <div style="font-size:11.5px;color:rgba(255,255,255,0.8);">03:12 · narrated by Maeve · unlocks with your trial</div>
+          </div>
+        </div>
+
+        <!-- HONESTY TIMELINE -->
+        <div style="margin-top:26px;display:flex;flex-direction:column;gap:0;animation:fadeUp 0.5s ease 0.2s backwards;">
+          <sc-for list="{{steps}}" as="st" hint-placeholder-count="3">
+            <div style="display:flex;gap:14px;">
+              <div style="display:flex;flex-direction:column;align-items:center;width:20px;flex-shrink:0;">
+                <span style="width:8px;height:8px;border-radius:4px;background:{{st.dot}};margin-top:5px;"></span>
+                <sc-if value="{{st.line}}" hint-placeholder-val="{{ true }}"><span style="flex:1;width:1.5px;background:rgba(46,36,64,0.12);margin:4px 0;"></span></sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:1px;padding-bottom:16px;">
+                <span style="font-size:13.5px;font-weight:650;color:#3b2d54;">{{st.t}}</span>
+                <span style="font-size:12.5px;line-height:1.5;color:rgba(46,36,64,0.55);">{{st.d}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="flex:1;"></div>
+
+        <!-- PLANS -->
+        <div style="display:flex;gap:10px;animation:fadeUp 0.5s ease 0.3s backwards;">
+          <sc-for list="{{plans}}" as="pl" hint-placeholder-count="2">
+            <button onClick="{{pl.pick}}" style="flex:1;border-radius:18px;border:1.5px solid {{pl.br}};background:{{pl.bg}};padding:14px 16px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:2px;position:relative;">
+              <sc-if value="{{pl.badge}}" hint-placeholder-val="{{ false }}">
+                <span style="position:absolute;top:-9px;right:12px;font-size:9px;font-weight:700;letter-spacing:1px;color:#fff;background:#503a6b;padding:3px 8px;border-radius:9px;">{{pl.badge}}</span>
+              </sc-if>
+              <span style="font-size:11px;font-weight:600;letter-spacing:1.4px;color:rgba(46,36,64,0.5);">{{pl.l}}</span>
+              <span style="font-family:'Newsreader',serif;font-size:24px;font-weight:500;color:#3b2d54;">{{pl.price}}</span>
+              <span style="font-size:11px;color:rgba(46,36,64,0.5);">{{pl.sub}}</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <button style="margin-top:14px;width:100%;height:56px;border-radius:28px;border:none;background:#503a6b;color:#fff;font-size:15.5px;font-weight:650;cursor:pointer;box-shadow:0 5px 14px rgba(80,58,107,0.22);">Start 7 days free</button>
+        <div style="margin-top:10px;font-size:12px;text-align:center;color:rgba(46,36,64,0.5);">{{footnote}} · Cancel in two taps, anytime.</div>
+        <div style="margin-top:14px;display:flex;justify-content:center;gap:22px;font-size:11.5px;color:rgba(46,36,64,0.4);">
+          <span>Privacy</span><span>Terms</span><span>Restore</span>
+        </div>
+
+      </div>
+    </div>
+  </x-import>
+  <div style="max-width:400px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">Same timing as Stella's paywall, none of the resentment: the finished story sits behind glass (proof of value), the 1-5-7 timeline promises a reminder before any charge, and "cancel in two taps" is printed under the button. Honesty as a conversion tactic.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { plan: 1 };
+  renderVals() {
+    const s = this.state;
+    const plans = [
+      { l: "WEEKLY", price: "$6.99", sub: "per week · flexible", badge: "" },
+      { l: "ANNUAL", price: "$49.99", sub: "per year · $0.96/week", badge: "MOST CHOOSE THIS" }
+    ];
+    return {
+      steps: [
+        { t: "Today — hear your story", d: "Full access. Your first story, rituals, and affirmations unlock now.", dot: "#503a6b", line: true },
+        { t: "Day 5 — we remind you", d: "A notification before anything happens. No surprise charges, ever.", dot: "#a8712c", line: true },
+        { t: "Day 7 — trial ends", d: this.state.plan === 1 ? "Billed $49.99/year only if you stay." : "Billed $6.99/week only if you stay.", dot: "#3e7d5a", line: false }
+      ],
+      plans: plans.map((p, i) => ({
+        ...p,
+        pick: () => this.setState({ plan: i }),
+        bg: s.plan === i ? "rgba(80,58,107,0.08)" : "rgba(255,255,255,0.5)",
+        br: s.plan === i ? "#503a6b" : "rgba(46,36,64,0.1)"
+      })),
+      footnote: s.plan === 1 ? "7 days free, then $49.99/year" : "7 days free, then $6.99/week"
+    };
+  }
+}
+</script>
+</body>
+</html>

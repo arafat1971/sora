@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+@keyframes drift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+[data-grain]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.025'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — Share Card Studio</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">The growth loop: 9:16 story-ready cards. Pick a card type + backdrop. <a href="Sora Log a Sign UI.dc.html">← Log a Sign</a></div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:linear-gradient(175deg,#f7f0ee 0%,#eee0e4 55%,#e2d8e8 100%);color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-grain="1" style="position:absolute;inset:0;z-index:150;pointer-events:none;"></div>
+      <div data-screen-label="Share card studio" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:66px 22px 34px;box-sizing:border-box;">
+
+        <div style="display:flex;align-items:center;gap:14px;">
+          <button style="width:44px;height:44px;margin-left:-12px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 20 20"><path d="M12.5 4 6.5 10l6 6" stroke="#2e2440" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <div style="flex:1;">
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:23px;font-weight:500;">Share the proof</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <sc-for list="{{types}}" as="ty" hint-placeholder-count="3">
+            <button onClick="{{ty.pick}}" style="flex:1;height:38px;border-radius:19px;border:1px solid {{ty.br}};background:{{ty.bg}};font-size:12.5px;font-weight:650;color:{{ty.fg}};cursor:pointer;">{{ty.l}}</button>
+          </sc-for>
+        </div>
+
+        <!-- CARD PREVIEW (9:16) -->
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:18px 0 14px;min-height:0;">
+          <div style="width:252px;height:448px;border-radius:24px;position:relative;overflow:hidden;box-shadow:0 16px 40px rgba(46,36,64,0.22);border:1px solid rgba(255,255,255,0.6);animation:fadeUp 0.4s ease;">
+            <div style="position:absolute;inset:0;background:{{cardBg}};"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,30,60,0.05) 0%,rgba(40,30,60,0) 30%,rgba(40,30,60,0.45) 100%);"></div>
+            <div data-grain="1" style="position:absolute;inset:0;"></div>
+            <div style="position:relative;height:100%;box-sizing:border-box;padding:26px 24px 22px;display:flex;flex-direction:column;">
+              <span style="font-size:9px;font-weight:700;letter-spacing:2px;color:{{eyebrowC}};">{{eyebrow}}</span>
+              <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;">
+                <sc-if value="{{isSign}}" hint-placeholder-val="{{ true }}">
+                  <span style="width:11px;height:11px;border-radius:6px;background:#eaffdd;box-shadow:0 0 0 5px rgba(234,255,221,0.25);"></span>
+                </sc-if>
+                <sc-if value="{{isStreak}}" hint-placeholder-val="{{ false }}">
+                  <span style="font-family:'Newsreader',serif;font-size:64px;font-weight:600;color:#fff;line-height:1;text-shadow:0 2px 24px rgba(40,30,60,0.35);">21<span style="font-size:20px;font-style:italic;font-weight:500;"> days</span></span>
+                </sc-if>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:{{quoteSize}};line-height:1.35;color:#fff;text-wrap:pretty;text-shadow:0 1px 18px rgba(40,30,60,0.4);">{{quote}}</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.8);">{{sub}}</div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:#fff;">Sora</span>
+                <span style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.7);">MANIFESTED WITH SORA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;justify-content:center;">
+          <sc-for list="{{bgs}}" as="b" hint-placeholder-count="4">
+            <button onClick="{{b.pick}}" style="width:44px;height:44px;border-radius:22px;border:2.5px solid {{b.ring}};background:{{b.g}};cursor:pointer;box-sizing:border-box;"></button>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:16px;">
+          <button style="flex:1;height:52px;border-radius:26px;border:none;background:#503a6b;color:#fff;font-size:14px;font-weight:650;cursor:pointer;box-shadow:0 5px 14px rgba(80,58,107,0.22);display:flex;align-items:center;justify-content:center;gap:8px;">
+            <svg width="16" height="16" viewBox="0 0 20 20"><path d="M10 13V3M10 3 5.8 7.2M10 3l4.2 4.2M4 13v3.5h12V13" stroke="#fff" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            Share to story
+          </button>
+          <button style="width:52px;height:52px;border-radius:26px;border:1px solid rgba(46,36,64,0.14);background:rgba(255,255,255,0.7);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="18" height="18" viewBox="0 0 20 20"><rect x="3" y="7" width="10" height="10" rx="2.5" fill="none" stroke="#2e2440" stroke-width="1.8"></rect><path d="M7 7V5.5A2.5 2.5 0 0 1 9.5 3H14a2.5 2.5 0 0 1 2.5 2.5V10a2.5 2.5 0 0 1-2.5 2.5H13" fill="none" stroke="#2e2440" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          </button>
+        </div>
+        <div style="font-size:11px;color:rgba(46,36,64,0.45);text-align:center;margin-top:10px;">Your name and details stay off the card unless you add them.</div>
+
+      </div>
+    </div>
+  </x-import>
+  <div style="max-width:400px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">Three card types map to the three viral moments: a sign (daily), a streak (weekly), an "it happened" (rare, highest-converting). Every card is 9:16, watermarked, anonymous by default — TikTok/IG-story native.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { type: 0, bg: 0 };
+  renderVals() {
+    const s = this.state;
+    const types = [
+      { l: "A sign", eyebrow: "A SIGN IT'S WORKING", quote: "\u201cThe landlord emailed back first — a viewing on the exact street from my story.\u201d", sub: "logged today · day 6 of manifesting", size: "19px" },
+      { l: "Streak", eyebrow: "SHOWING UP DAILY", quote: "\u201cThree weeks of becoming her.\u201d", sub: "21 mornings · 14 signs logged", size: "17px" },
+      { l: "It happened", eyebrow: "IT HAPPENED", quote: "\u201cSigned the lease today. The window seat is real. I listened to this story 43 times.\u201d", sub: "manifested in 62 days", size: "19px" }
+    ];
+    const bgs = [
+      "radial-gradient(circle 30px at 74% 22%, #fff3d9 0% 48%, rgba(255,243,217,0.4) 58%, transparent 64%),linear-gradient(180deg,#d8ab9e 0%,#b18ba8 52%,#6f5d8e 100%)",
+      "linear-gradient(180deg,#9480bd 0%,#5d4a8a 55%,#2f2450 100%)",
+      "radial-gradient(circle 26px at 30% 20%, #fdf3dd 0% 50%, transparent 62%),linear-gradient(180deg,#f5c497 0%,#dd9cab 60%,#a86e9e 100%)",
+      "linear-gradient(180deg,#7fa78f 0%,#4d7d68 55%,#2c4a3e 100%)"
+    ];
+    const t = types[s.type];
+    return {
+      isSign: s.type === 0, isStreak: s.type === 1,
+      eyebrow: t.eyebrow, eyebrowC: "rgba(255,255,255,0.85)",
+      quote: t.quote, sub: t.sub, quoteSize: t.size,
+      cardBg: bgs[s.bg],
+      types: types.map((ty, i) => ({
+        l: ty.l, pick: () => this.setState({ type: i }),
+        bg: s.type === i ? "#503a6b" : "rgba(255,255,255,0.7)",
+        br: s.type === i ? "#503a6b" : "rgba(46,36,64,0.14)",
+        fg: s.type === i ? "#fff" : "#2e2440"
+      })),
+      bgs: bgs.map((g, i) => ({
+        g, pick: () => this.setState({ bg: i }),
+        ring: s.bg === i ? "#503a6b" : "rgba(255,255,255,0.9)"
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

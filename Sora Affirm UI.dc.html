@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — Affirm</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Swipeable affirmation deck — drag the card or use the chevrons. <a href="Sora Index.dc.html">← Index</a></div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:{{affBg}};transition:background 0.8s ease;color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-screen-label="Affirm" style="position:absolute;inset:0;display:flex;flex-direction:column;padding:74px 0 44px;box-sizing:border-box;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0 28px;">
+          <div style="display:flex;gap:5px;">
+            <sc-for list="{{affDots}}" as="d" hint-placeholder-count="7">
+              <span style="width:{{d.w}}px;height:4px;border-radius:2px;background:{{d.c}};transition:all 0.3s;"></span>
+            </sc-for>
+          </div>
+          <button onClick="{{toggleSleep}}" style="width:40px;height:40px;margin-right:-8px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;" title="Whisper while you sleep">
+            <svg width="19" height="19" viewBox="0 0 24 24"><path d="M20 13.5A8 8 0 0 1 9.5 3a8 8 0 1 0 10.5 10.5z" fill="{{sleepFill}}" stroke="{{sleepStroke}}" stroke-width="1.7" stroke-linejoin="round"></path></svg>
+          </button>
+        </div>
+        <div ref="{{affSwipeRef}}" style="flex:1;position:relative;touch-action:pan-y;cursor:grab;margin-top:10px;">
+          <sc-for list="{{affCards}}" as="c" hint-placeholder-count="3">
+            <div style="position:absolute;left:50%;top:50%;width:282px;margin-left:-141px;transform:translateY(-50%) {{c.tf}};opacity:{{c.op}};z-index:{{c.z}};transition:{{c.tr}};border-radius:28px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.5);box-shadow:0 16px 40px rgba(70,50,100,0.14);padding:44px 30px;box-sizing:border-box;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center;pointer-events:none;">
+              <span style="font-size:10px;font-weight:600;letter-spacing:2.2px;color:rgba(46,36,64,0.4);">№ {{c.n}}</span>
+              <span style="font-family:'Newsreader',serif;font-style:italic;font-size:24px;line-height:1.42;font-weight:450;color:#3b2d54;text-wrap:pretty;">{{c.t}}</span>
+              <span style="font-size:10px;font-weight:600;letter-spacing:2px;color:rgba(46,36,64,0.38);">IN THE VOICE OF JESS</span>
+            </div>
+          </sc-for>
+          <button onClick="{{affPrev}}" style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:20px;border:none;background:rgba(255,255,255,0.55);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:20;opacity:{{affPrevOp}};">
+            <svg width="16" height="16" viewBox="0 0 20 20"><path d="M12.5 4 6.5 10l6 6" stroke="#503a6b" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+          <button onClick="{{affNext}}" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:20px;border:none;background:rgba(255,255,255,0.55);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:20;opacity:{{affNextOp}};">
+            <svg width="16" height="16" viewBox="0 0 20 20"><path d="M7.5 4 13.5 10l-6 6" stroke="#503a6b" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:34px;">
+          <button onClick="{{toggleFav}}" style="width:48px;height:48px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+            <svg width="23" height="21" viewBox="0 0 24 22"><path d="M12 20.5S2.5 15 1.2 8.7A5.6 5.6 0 0 1 12 5a5.6 5.6 0 0 1 10.8 3.7C21.5 15 12 20.5 12 20.5z" fill="{{favFill}}" stroke="#b06a9a" stroke-width="1.6"></path></svg>
+          </button>
+          <button onClick="{{togglePlay}}" style="width:64px;height:64px;border-radius:32px;border:none;background:#503a6b;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(80,58,107,0.28);">
+            <sc-if value="{{playing}}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="4.5" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect><rect x="11.9" y="3.5" width="3.6" height="13" rx="1.4" fill="#fff"></rect></svg></sc-if>
+            <sc-if value="{{paused}}" hint-placeholder-val="{{ true }}"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M6.5 3.5v13l10-6.5z" fill="#fff"></path></svg></sc-if>
+          </button>
+          <button style="width:48px;height:48px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+            <svg width="19" height="20" viewBox="0 0 18 19"><path d="M9 1.5v11M9 1.5 5.5 5M9 1.5 12.5 5" stroke="#503a6b" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3.5 9v6.5a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9" stroke="#503a6b" stroke-width="1.8" fill="none" stroke-linecap="round"></path></svg>
+          </button>
+        </div>
+        <div style="margin-top:18px;text-align:center;font-size:11px;color:rgba(46,36,64,0.4);">swipe the card · left or right</div>
+      </div>
+    </div>
+  </x-import>
+  <div style="max-width:400px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">The daily-deck ritual: one numbered card at a time, neighbors peeking, backdrop tone shifting per card. Favorites feed the sleep-whisper playlist; each card is spoken in the user's future voice — not generic quotes.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { idx: 0, playing: false, sleep: false, drag: 0, dragX: null, favs: {} };
+  affs = [
+    "I already live in the flat with the window seat — my body just hasn't caught up yet.",
+    "Calm is my default. Deadlines move around me, not through me.",
+    "The studio pays my rent because people pay for what only I can make.",
+    "I notice signs because I expect them. Expecting them is the practice.",
+    "The version of me who has it all is not a stranger. She's a schedule.",
+    "What I want is already en route. My job today is to stay recognizable to it.",
+    "I am the kind of person good news looks for first."
+  ];
+  renderVals() {
+    const s = this.state;
+    const bgs = [
+      "linear-gradient(175deg,#f7efe8 0%,#f0dfd8 55%,#e5d2d8 100%)",
+      "linear-gradient(175deg,#f2eef1 0%,#e6dcec 55%,#d8cfe6 100%)",
+      "linear-gradient(175deg,#eef2ee 0%,#dde8df 55%,#cfdcd4 100%)",
+      "linear-gradient(175deg,#f6f0e6 0%,#efe2cf 55%,#e3d2bd 100%)",
+      "linear-gradient(175deg,#f0eff4 0%,#dfe0ee 55%,#cdd2e8 100%)"
+    ];
+    return {
+      affBg: bgs[s.idx % 5],
+      affDots: this.affs.map((_, i) => ({
+        w: i === s.idx ? 18 : 4,
+        c: i === s.idx ? "#503a6b" : i < s.idx ? "rgba(80,58,107,0.4)" : "rgba(46,36,64,0.15)"
+      })),
+      affCards: this.affs.map((t, i) => {
+        const off = i - s.idx;
+        const drag = s.dragX != null ? (s.drag || 0) : 0;
+        return {
+          t, n: i + 1,
+          tf: "translateX(" + (off * 300 + drag) + "px) scale(" + (off === 0 ? 1 : 0.9) + ") rotate(" + (off === 0 ? drag * 0.02 : off * 2.5) + "deg)",
+          op: Math.abs(off) > 1 ? 0 : off === 0 ? 1 : 0.55,
+          z: 10 - Math.abs(off),
+          tr: s.dragX != null ? "none" : "transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease"
+        };
+      }),
+      affSwipeRef: (el) => {
+        if (!el || el._bound) return;
+        el._bound = true;
+        const up = () => this.setState(p => {
+          if (p.dragX == null) return null;
+          const d = p.drag || 0;
+          const idx = Math.min(this.affs.length - 1, Math.max(0, p.idx + (d < -60 ? 1 : d > 60 ? -1 : 0)));
+          return { idx, drag: 0, dragX: null, playing: idx === p.idx ? p.playing : false };
+        });
+        el.addEventListener("pointerdown", (e) => { el.setPointerCapture && el.setPointerCapture(e.pointerId); this.setState(() => ({ dragX: e.clientX, drag: 0 })); });
+        el.addEventListener("pointermove", (e) => this.setState(p => p.dragX != null ? { drag: e.clientX - p.dragX } : null));
+        el.addEventListener("pointerup", up);
+        el.addEventListener("pointercancel", up);
+        el.addEventListener("mouseleave", up);
+      },
+      affPrev: () => this.setState(p => ({ idx: Math.max(0, p.idx - 1), playing: false, drag: 0, dragX: null })),
+      affNext: () => this.setState(p => ({ idx: Math.min(this.affs.length - 1, p.idx + 1), playing: false, drag: 0, dragX: null })),
+      affPrevOp: s.idx > 0 ? 1 : 0.25,
+      affNextOp: s.idx < this.affs.length - 1 ? 1 : 0.25,
+      playing: s.playing, paused: !s.playing,
+      togglePlay: () => this.setState(p => ({ playing: !p.playing })),
+      favFill: s.favs[s.idx] ? "#c76d8b" : "none",
+      toggleFav: () => this.setState(p => ({ favs: { ...p.favs, [p.idx]: !p.favs[p.idx] } })),
+      toggleSleep: () => this.setState(p => ({ sleep: !p.sleep })),
+      sleepFill: s.sleep ? "#503a6b" : "none",
+      sleepStroke: s.sleep ? "#503a6b" : "rgba(46,36,64,0.45)"
+    };
+  }
+}
+</script>
+</body>
+</html>

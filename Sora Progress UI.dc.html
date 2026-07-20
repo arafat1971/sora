@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ece6dd;}
+a{color:#503a6b;}a:hover{color:#6b4a8c;}
+button{font-family:inherit;}
+@keyframes drift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+[data-grain]{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.025'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;background:radial-gradient(1200px 700px at 50% -10%, #f6efe4 0%, #ece6dd 60%, #e4ddd2 100%);display:flex;flex-direction:column;align-items:center;gap:16px;padding:44px 24px 64px;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:30px;font-weight:500;letter-spacing:0.2px;">Sora — Progress</div>
+    <div style="font-size:12.5px;color:rgba(46,36,64,0.55);">Proposed 6th surface: the evidence dashboard. Belief plan · signs · per-goal momentum. <a href="Sora Prototype.dc.html">← Back to prototype</a></div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;position:relative;overflow:hidden;background:linear-gradient(175deg,#f7f0ee 0%,#eee0e4 55%,#e2d8e8 100%);color:#2e2440;font-family:system-ui,-apple-system,sans-serif;">
+      <div data-grain="1" style="position:absolute;inset:0;z-index:150;pointer-events:none;"></div>
+      <div data-screen-label="Progress" style="position:absolute;inset:0;overflow:auto;padding:66px 22px 130px;box-sizing:border-box;">
+
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="flex:1;">
+            <div style="font-family:'Newsreader',serif;font-style:italic;font-size:28px;font-weight:500;">Progress</div>
+            <div style="font-size:13px;color:rgba(46,36,64,0.58);margin-top:2px;">Proof it's already moving.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;height:34px;padding:0 12px;border-radius:17px;background:rgba(201,141,63,0.14);border:1px solid rgba(201,141,63,0.25);">
+            <svg width="13" height="15" viewBox="0 0 13 15"><path d="M6.5 0C7 3 10.5 4.5 10.5 8.5a4 4 0 0 1-8 0C2.5 5.5 4.5 4 4.5 1.5 5.5 2 6.3 2.6 6.5 0z" fill="#c98d3f" transform="translate(1,1) scale(0.9)"></path></svg>
+            <span style="font-size:13px;font-weight:700;color:#a8712c;">{{streak}}</span>
+          </div>
+        </div>
+
+        <!-- BELIEF PLAN HERO -->
+        <div style="margin-top:16px;border-radius:26px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,0.35);box-shadow:0 12px 32px rgba(70,50,100,0.13);">
+          <div style="position:absolute;inset:0;background:radial-gradient(circle 30px at 78% 24%, #fff3d9 0% 48%, rgba(255,243,217,0.45) 58%, transparent 64%),radial-gradient(150% 85% at 78% 28%, rgba(255,218,185,0.5) 0%, transparent 58%),linear-gradient(180deg,#d8ab9e 0%,#b18ba8 52%,#6f5d8e 100%);"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(40,30,60,0) 30%, rgba(40,30,60,0.55) 100%);"></div>
+          <div style="position:relative;padding:20px 20px 22px;display:flex;flex-direction:column;gap:16px;">
+            <span style="font-size:10.5px;font-weight:700;letter-spacing:1.6px;color:rgba(255,255,255,0.88);text-shadow:0 1px 8px rgba(40,30,60,0.3);">14-DAY BELIEF PLAN</span>
+            <div style="display:flex;align-items:center;gap:18px;">
+              <div style="position:relative;width:96px;height:96px;flex-shrink:0;">
+                <svg width="96" height="96" viewBox="0 0 96 96" style="transform:rotate(-90deg);">
+                  <circle cx="48" cy="48" r="41" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="7"></circle>
+                  <circle cx="48" cy="48" r="41" fill="none" stroke="#ffe4bd" stroke-width="7" stroke-linecap="round" stroke-dasharray="257.6" stroke-dashoffset="{{ringOffset}}" style="transition:stroke-dashoffset 0.6s ease;"></circle>
+                </svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;">
+                  <span style="font-family:'Newsreader',serif;font-size:29px;font-weight:600;line-height:1;">{{planDay}}</span>
+                  <span style="font-size:9.5px;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,0.75);">OF 14</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;line-height:1.3;color:#fff;text-shadow:0 1px 14px rgba(40,30,60,0.4);">{{planHeadline}}</div>
+                <div style="font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.82);">94% of members notice their first sign by day 14. You've logged <b>{{signCount}}</b> — {{planPace}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- WEEKLY RHYTHM -->
+        <div style="margin-top:14px;border-radius:22px;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.45);padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-size:10.5px;font-weight:600;letter-spacing:2.2px;color:rgba(46,36,64,0.45);">THIS WEEK'S RHYTHM</span>
+            <span style="font-size:11.5px;font-weight:700;color:#3e7d5a;">{{weekDone}} of 7 days</span>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <sc-for list="{{week}}" as="d" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">
+                <span style="width:36px;height:36px;border-radius:18px;background:{{d.bg}};border:1px solid {{d.br}};display:flex;align-items:center;justify-content:center;">
+                  <svg width="13" height="13" viewBox="0 0 14 14"><path d="{{d.icon}}" stroke="{{d.fg}}" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </span>
+                <span style="font-size:10px;font-weight:700;letter-spacing:0.5px;color:{{d.lc}};">{{d.l}}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:12px;line-height:1.5;color:rgba(46,36,64,0.6);">Morning ritual + one story a day keeps the plan on pace. Tonight's wind-down completes day {{planDay}}.</div>
+        </div>
+
+        <!-- GOAL MOMENTUM -->
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:22px;">
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;">Goal momentum</div>
+          <span style="font-size:11.5px;color:rgba(46,36,64,0.5);">signs + sessions per goal</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
+          <sc-for list="{{goals}}" as="g" hint-placeholder-count="3">
+            <div style="border-radius:20px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.5);padding:15px 17px;display:flex;flex-direction:column;gap:9px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="flex:1;font-family:'Newsreader',serif;font-style:italic;font-size:15.5px;line-height:1.3;">{{g.t}}</span>
+                <span style="flex-shrink:0;font-size:10.5px;font-weight:700;letter-spacing:0.8px;color:{{g.chipFg}};background:{{g.chipBg}};padding:4px 9px;border-radius:10px;">{{g.chip}}</span>
+              </div>
+              <span style="display:block;height:2px;background:rgba(80,58,107,0.12);overflow:hidden;"><span style="display:block;height:100%;width:{{g.p}}%;border-radius:3px;background:linear-gradient(90deg,#c98d3f,#b06a9a);"></span></span>
+              <div style="display:flex;gap:14px;font-size:11.5px;color:rgba(46,36,64,0.55);">
+                <span><b style="color:#2e2440;">{{g.sessions}}</b> sessions</span>
+                <span><b style="color:#3e7d5a;">{{g.signs}}</b> signs</span>
+                <span style="margin-left:auto;color:rgba(46,36,64,0.45);">{{g.last}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <!-- SIGNS TIMELINE -->
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:22px;">
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:20px;">Signs it's working</div>
+          <button style="border:none;background:none;padding:0;font-size:13px;font-weight:650;color:#503a6b;cursor:pointer;">+ Log a sign</button>
+        </div>
+        <div style="margin-top:12px;border-radius:22px;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.45);padding:6px 18px;">
+          <sc-for list="{{signs}}" as="sg" hint-placeholder-count="3">
+            <div style="display:flex;gap:14px;padding:13px 0;border-bottom:1px solid rgba(46,36,64,0.07);">
+              <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-top:3px;">
+                <span style="width:9px;height:9px;border-radius:5px;background:#3e7d5a;box-shadow:0 0 0 3px rgba(94,160,124,0.2);"></span>
+                <span style="flex:1;width:1.5px;background:rgba(46,36,64,0.1);margin-top:6px;"></span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:3px;padding-bottom:2px;">
+                <span style="font-size:13.5px;line-height:1.45;">{{sg.t}}</span>
+                <span style="font-size:11px;color:rgba(46,36,64,0.45);">{{sg.d}} · {{sg.goal}}</span>
+              </div>
+            </div>
+          </sc-for>
+          <div style="padding:13px 0 15px;font-size:12px;line-height:1.5;color:rgba(46,36,64,0.55);">Every sign you log makes tomorrow's story more specific — Sora writes them in.</div>
+        </div>
+
+        <!-- SHARE CARD -->
+        <sc-if value="{{showShare}}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:14px;border-radius:22px;border:1px solid rgba(255,255,255,0.4);background:linear-gradient(135deg,rgba(255,248,238,0.9),rgba(244,230,246,0.85));padding:18px;display:flex;flex-direction:column;gap:8px;animation:fadeUp 0.5s ease;">
+            <span style="font-size:10.5px;font-weight:600;letter-spacing:2.2px;color:rgba(46,36,64,0.45);">MILESTONE UNLOCKED</span>
+            <span style="font-family:'Newsreader',serif;font-style:italic;font-size:17px;line-height:1.4;">First week complete — {{signCount}} signs, {{streak}}-day streak. That's faster than 81% of members.</span>
+            <button style="align-self:flex-start;height:40px;padding:0 18px;border-radius:20px;border:none;background:#503a6b;color:#fff;font-size:13px;font-weight:650;cursor:pointer;box-shadow:0 4px 12px rgba(80,58,107,0.2);">Share the proof</button>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <!-- TAB BAR -->
+      <div style="position:absolute;left:16px;right:16px;bottom:24px;height:64px;border-radius:32px;background:rgba(255,255,255,0.62);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(255,255,255,0.4);box-shadow:0 10px 32px rgba(46,36,64,0.14);display:flex;align-items:center;padding:0 6px;box-sizing:border-box;z-index:100;">
+        <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+          <div style="flex:1;height:52px;border-radius:26px;background:{{t.bg}};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+            <svg width="21" height="21" viewBox="0 0 24 24"><path d="{{t.d}}" stroke="{{t.fg}}" stroke-width="1.9" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span style="font-size:9px;font-weight:700;letter-spacing:0.4px;color:{{t.fg}};">{{t.l}}</span>
+          </div>
+        </sc-for>
+      </div>
+
+    </div>
+  </x-import>
+  <div style="max-width:400px;font-size:12.5px;line-height:1.6;color:rgba(46,36,64,0.6);text-align:center;">Replaces the buried belief-plan card on Home with a dedicated tab. The signs → story loop is the retention moat neither Stella nor Aya closes — this screen is where the user <i>sees</i> it compound.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;planDay&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:6,&quot;min&quot;:1,&quot;max&quot;:14,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Belief plan&quot;},&quot;streak&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Belief plan&quot;},&quot;signCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Belief plan&quot;},&quot;weekDone&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:5,&quot;min&quot;:0,&quot;max&quot;:7,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Rhythm&quot;},&quot;showMilestone&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Milestone&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const day = Math.min(14, Math.max(1, this.props.planDay ?? 6));
+    const streak = this.props.streak ?? 6;
+    const signCount = this.props.signCount ?? 3;
+    const check = "M2.5 7.5 5.5 10.5 11.5 3.5";
+    const dot = "M7 7h0.01";
+    const doneDays = Math.min(7, this.props.weekDone ?? 5);
+    const labels = ["M","T","W","T","F","S","S"];
+    return {
+      planDay: day, streak, signCount,
+      ringOffset: (257.6 * (1 - day / 14)).toFixed(1),
+      planHeadline: day >= 14 ? "Plan complete — it's a lifestyle now." : "Belief compounds daily.",
+      planPace: signCount >= 2 ? "it's moving faster for you." : "your first is close.",
+      weekDone: doneDays,
+      week: labels.map((l, i) => {
+        const done = i < doneDays, today = i === doneDays;
+        return {
+          l, icon: done ? check : dot,
+          bg: done ? "rgba(62,125,90,0.16)" : today ? "rgba(80,58,107,0.1)" : "rgba(46,36,64,0.05)",
+          br: done ? "rgba(62,125,90,0.3)" : today ? "rgba(80,58,107,0.35)" : "rgba(46,36,64,0.08)",
+          fg: done ? "#3e7d5a" : today ? "#503a6b" : "rgba(46,36,64,0.3)",
+          lc: today ? "#503a6b" : "rgba(46,36,64,0.45)"
+        };
+      }),
+      goals: [
+        { t: "The flat with the window seat", p: 62, sessions: 11, signs: 2, last: "story today", chip: "SURGING", chipFg: "#3e7d5a", chipBg: "rgba(62,125,90,0.14)" },
+        { t: "Calm that doesn't crack under deadlines", p: 44, sessions: 7, signs: 1, last: "2 days ago", chip: "STEADY", chipFg: "#a8712c", chipBg: "rgba(201,141,63,0.16)" },
+        { t: "The studio paying my rent", p: 18, sessions: 3, signs: 0, last: "5 days ago", chip: "WARMING UP", chipFg: "#503a6b", chipBg: "rgba(80,58,107,0.12)" }
+      ],
+      signs: [
+        { t: "Landlord emailed back first — viewing booked for the exact street from my story.", d: "Today", goal: "The flat" },
+        { t: "Stayed calm through the launch review. Didn't even notice until after.", d: "Yesterday", goal: "Calm" },
+        { t: "A stranger complimented the ring I manifested buying myself.", d: "3 days ago", goal: "The flat" }
+      ],
+      showShare: this.props.showMilestone ?? true,
+      tabs: [
+        { l: "Home", d: "M3 10.5 12 3l9 7.5M5.5 9v11h13V9", on: false },
+        { l: "Affirm", d: "M12 21s-8-5-9.2-11A4.7 4.7 0 0 1 12 6a4.7 4.7 0 0 1 9.2 4C20 16 12 21 12 21z", on: false },
+        { l: "Vision", d: "M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12zM12 14.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z", on: false },
+        { l: "Progress", d: "M4 20V10M10 20V4M16 20v-8M22 20H2", on: true },
+        { l: "Profile", d: "M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM4.5 20a7.5 7.5 0 0 1 15 0", on: false }
+      ].map(t => ({ ...t, bg: t.on ? "rgba(80,58,107,0.12)" : "transparent", fg: t.on ? "#503a6b" : "rgba(46,36,64,0.5)" }))
+    };
+  }
+}
+</script>
+</body>
+</html>

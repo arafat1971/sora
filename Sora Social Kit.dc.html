@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#e4ddd2;}a{color:#503a6b;}a:hover{color:#6b4a8c;}
+@keyframes breathe{0%,100%{transform:scale(1);}50%{transform:scale(1.055);}}</style>
+</helmet>
+<div style="min-height:100vh;background:#e4ddd2;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;padding:48px 40px 80px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px;">
+  <div style="display:flex;flex-direction:column;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:32px;font-weight:500;">Sora — Social &amp; Ad Kit</div>
+    <div style="font-size:13.5px;color:rgba(46,36,64,0.6);max-width:640px;line-height:1.6;">Share cards exported from inside the app (organic loop) + a 3-beat TikTok/Reels ad storyboard (paid loop). All frames authored at 1080×1920 or 1080×1350, shown at 24%. See also <a href="Sora Prototype.dc.html">the prototype</a> and <a href="Analysis Report.dc.html">the analysis</a>.</div>
+  </div>
+
+  <div style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:rgba(46,36,64,0.5);">IN-APP SHARE CARDS · IG STORY 1080×1920</div>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;">
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="width:259px;height:461px;border-radius:18px;overflow:hidden;box-shadow:0 14px 36px rgba(46,36,64,0.2);background:linear-gradient(168deg,#fdf0e4 0%,#f4dde6 45%,#dcd8f5 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:34px;box-sizing:border-box;text-align:center;">
+        <div style="width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 8px 20px rgba(122,104,180,0.35);"></div>
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:21px;line-height:1.45;text-wrap:pretty;">Everything I want is quietly finding its way to me.</div>
+        <div style="display:flex;flex-direction:column;gap:5px;align-items:center;">
+          <div style="width:28px;height:1.5px;background:rgba(46,36,64,0.3);"></div>
+          <div style="font-size:8px;font-weight:700;letter-spacing:2px;color:rgba(46,36,64,0.5);">SORA · MANIFEST YOUR DREAM LIFE</div>
+        </div>
+      </div>
+      <div style="font-size:12px;font-weight:650;color:rgba(46,36,64,0.6);">Daily affirmation card</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="width:259px;height:461px;border-radius:18px;overflow:hidden;box-shadow:0 14px 36px rgba(46,36,64,0.2);background:linear-gradient(160deg,#3a2a52 0%,#5c3a66 55%,#7a4a72 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:34px;box-sizing:border-box;text-align:center;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2.4px;color:rgba(255,255,255,0.55);">IT HAPPENED</div>
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:23px;line-height:1.4;color:#fff;text-wrap:pretty;">Got the callback for the studio collab.</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,0.65);">Manifested in 23 days · logged on my wall</div>
+        <div style="display:flex;gap:3px;">
+          <svg width="12" height="12" viewBox="0 0 15 15"><path d="M7.5 1l1.9 4 4.4.5-3.3 3 1 4.4-4-2.3-4 2.3 1-4.4-3.3-3 4.4-.5z" fill="#e9b96a"></path></svg>
+          <svg width="12" height="12" viewBox="0 0 15 15"><path d="M7.5 1l1.9 4 4.4.5-3.3 3 1 4.4-4-2.3-4 2.3 1-4.4-3.3-3 4.4-.5z" fill="#e9b96a"></path></svg>
+          <svg width="12" height="12" viewBox="0 0 15 15"><path d="M7.5 1l1.9 4 4.4.5-3.3 3 1 4.4-4-2.3-4 2.3 1-4.4-3.3-3 4.4-.5z" fill="#e9b96a"></path></svg>
+        </div>
+        <div style="font-size:8px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.45);">SORA · YOUR TURN — LINK IN BIO</div>
+      </div>
+      <div style="font-size:12px;font-weight:650;color:rgba(46,36,64,0.6);">"It happened" win card (dark = stops the feed)</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <div style="width:259px;height:324px;border-radius:18px;overflow:hidden;box-shadow:0 14px 36px rgba(46,36,64,0.2);background:linear-gradient(150deg,#f7e6d5 0%,#eeD8e4 60%,#ddd8f2 100%);display:flex;flex-direction:column;justify-content:center;gap:14px;padding:30px;box-sizing:border-box;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(46,36,64,0.5);">DAY 30 WITH SORA</div>
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:19px;line-height:1.45;text-wrap:pretty;">30 mornings. 30 stories. 4 things off my vision board — already real.</div>
+        <div style="display:flex;gap:5px;">
+          <span style="height:5px;flex:1;border-radius:3px;background:#c98d3f;"></span>
+          <span style="height:5px;flex:1;border-radius:3px;background:#b06a9a;"></span>
+          <span style="height:5px;flex:1;border-radius:3px;background:#7a68b4;"></span>
+          <span style="height:5px;flex:0.6;border-radius:3px;background:rgba(46,36,64,0.15);"></span>
+        </div>
+        <div style="font-size:8px;font-weight:700;letter-spacing:2px;color:rgba(46,36,64,0.45);">SORA · MANIFEST YOUR DREAM LIFE</div>
+      </div>
+      <div style="font-size:12px;font-weight:650;color:rgba(46,36,64,0.6);">Milestone card · feed 1080×1350</div>
+    </div>
+  </div>
+
+  <div style="font-size:11px;font-weight:700;letter-spacing:1.8px;color:rgba(46,36,64,0.5);margin-top:8px;">PAID AD STORYBOARD · TIKTOK / REELS 9:16 · 3 BEATS, 21s</div>
+  <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:259px;">
+      <div style="width:259px;height:461px;border-radius:18px;overflow:hidden;box-shadow:0 14px 36px rgba(46,36,64,0.2);background:#17121f;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:26px;box-sizing:border-box;">
+        <div style="position:absolute;inset:0;background:radial-gradient(400px 300px at 50% 30%,rgba(122,104,180,0.35),transparent);"></div>
+        <div style="position:relative;display:flex;flex-direction:column;gap:10px;">
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:24px;line-height:1.35;color:#fff;text-wrap:pretty;">POV: you hear a morning from your dream life — narrated with your name in it.</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.55);">creator voiceover, eyes closed, headphones in</div>
+        </div>
+        <div style="position:absolute;top:20px;left:22px;font-size:9px;font-weight:700;letter-spacing:1.6px;color:rgba(255,255,255,0.5);">BEAT 1 · 0-6s · HOOK</div>
+      </div>
+      <div style="font-size:12px;line-height:1.5;color:rgba(46,36,64,0.65);">Hook: second-person POV + the name-drop moment — the visceral reaction competitors' reviews rave about.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:259px;">
+      <div style="width:259px;height:461px;border-radius:18px;overflow:hidden;box-shadow:0 14px 36px rgba(46,36,64,0.2);background:linear-gradient(168deg,#fdf0e4 0%,#f9dfe2 30%,#eaddf5 64%,#d8e0fa 100%);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;box-sizing:border-box;">
+        <div style="width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 12px 30px rgba(122,104,180,0.38);animation:breathe 4.5s ease-in-out infinite;"></div>
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:17px;line-height:1.45;text-align:center;text-wrap:pretty;">"The kettle exhales, and you do too. Morning light spills across floorboards that are legally, gloriously yours…"</div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.6px;color:rgba(46,36,64,0.5);">SCREEN RECORDING · CAPTION KARAOKE</div>
+        <div style="position:absolute;top:20px;left:22px;font-size:9px;font-weight:700;letter-spacing:1.6px;color:rgba(46,36,64,0.5);">BEAT 2 · 6-15s · PRODUCT</div>
+      </div>
+      <div style="font-size:12px;line-height:1.5;color:rgba(46,36,64,0.65);">Product: real app capture — composer → "Composing your story" → player with karaoke captions. No feature list, just the feeling.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:259px;">
+      <div style="width:259px;height:461px;border-radius:18px;overflow:hidden;box-shadow:0 14px 36px rgba(46,36,64,0.2);background:linear-gradient(160deg,#3a2a52 0%,#5c3a66 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;box-sizing:border-box;text-align:center;">
+        <div style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;line-height:1.4;color:#fff;text-wrap:pretty;">2,847 manifestations logged this week.</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.5;">"It started happening within days." — the Circle</div>
+        <div style="height:40px;border-radius:20px;background:#fff;color:#3a2a52;font-size:12.5px;font-weight:700;display:flex;align-items:center;padding:0 20px;">Start your free week</div>
+        <div style="font-size:9px;color:rgba(255,255,255,0.5);">7 days free · cancel anytime, truly</div>
+        <div style="position:absolute;top:20px;left:22px;font-size:9px;font-weight:700;letter-spacing:1.6px;color:rgba(255,255,255,0.5);">BEAT 3 · 15-21s · PROOF + CTA</div>
+      </div>
+      <div style="font-size:12px;line-height:1.5;color:rgba(46,36,64,0.65);">Close: social proof from the Circle + honest-trial CTA. "Cancel anytime, truly" carries the trust positioning into acquisition.</div>
+    </div>
+  </div>
+
+  <div style="border-radius:20px;background:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.85);padding:20px 24px;max-width:820px;font-size:13.5px;line-height:1.65;color:rgba(46,36,64,0.75);">
+    <b>Why this works:</b> the organic loop (cards above) is triggered at emotional peaks inside the app — right after an affirmation lands, right after a win is logged. The paid loop reuses the exact same visual language, so the ad → App Store → first open feels like one continuous world. Test hooks by desire vertical: love ("get him obsessed"), money ("$10k weeks"), peace — the trending chips double as ad-angle taxonomy.
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

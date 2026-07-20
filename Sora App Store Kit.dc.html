@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#e4ddd2;}a{color:#503a6b;}a:hover{color:#6b4a8c;}</style>
+</helmet>
+<div style="min-height:100vh;background:#e4ddd2;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;padding:48px 40px 80px;box-sizing:border-box;display:flex;flex-direction:column;gap:26px;">
+  <div style="display:flex;flex-direction:column;gap:6px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-size:32px;font-weight:500;">Sora — App Store Kit</div>
+    <div style="font-size:13.5px;color:rgba(46,36,64,0.6);max-width:640px;line-height:1.6;">Six store screenshots (authored 1290×2796, shown at 22%) + ASO metadata. Sequence tells one story: feel it → it's yours daily → proof it works. See <a href="Sora Prototype.dc.html">prototype</a> · <a href="Sora Social Kit.dc.html">social kit</a> · <a href="Analysis Report.dc.html">analysis</a>.</div>
+  </div>
+
+  <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start;">
+    <sc-for list="{{shots}}" as="sh" hint-placeholder-count="6">
+      <div style="display:flex;flex-direction:column;gap:8px;width:284px;">
+        <div style="width:284px;height:615px;border-radius:20px;overflow:hidden;box-shadow:0 16px 40px rgba(46,36,64,0.22);background:{{sh.bg}};display:flex;flex-direction:column;align-items:center;padding:30px 24px 0;box-sizing:border-box;">
+          <div style="font-family:'Newsreader',serif;font-style:italic;font-size:23px;line-height:1.3;text-align:center;color:{{sh.fg}};text-wrap:pretty;">{{sh.headline}}</div>
+          <div style="font-size:11.5px;line-height:1.5;text-align:center;color:{{sh.sub}};margin-top:8px;max-width:220px;">{{sh.caption}}</div>
+          <div style="flex:1;width:216px;margin-top:20px;border-radius:26px 26px 0 0;border:5px solid rgba(46,36,64,0.85);border-bottom:none;background:linear-gradient(168deg,#fdf0e4 0%,#f9dfe2 30%,#eaddf5 64%,#d8e0fa 100%);overflow:hidden;position:relative;">
+            <sc-if value="{{sh.isStory}}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:34px 18px;">
+                <div style="width:74px;height:74px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff8ef 0%,#f6d9c8 26%,#dcc4ec 56%,#a9b8ee 100%);box-shadow:0 10px 26px rgba(122,104,180,0.38);"></div>
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:12.5px;line-height:1.5;text-align:center;color:#3a2f50;">"The kettle exhales, and you do too. Morning light spills across floorboards that are gloriously yours…"</div>
+                <div style="width:130px;height:4px;border-radius:2px;background:rgba(46,36,64,0.12);"><div style="width:38%;height:100%;border-radius:2px;background:#503a6b;"></div></div>
+                <div style="width:42px;height:42px;border-radius:21px;background:#503a6b;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1.6" fill="#fff"></rect><rect x="14" y="4.5" width="4" height="15" rx="1.6" fill="#fff"></rect></svg></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{sh.isCompose}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:9px;padding:26px 14px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:15px;line-height:1.3;">What do you want to manifest?</div>
+                <div style="height:34px;border-radius:17px;background:rgba(255,255,255,0.85);border:1px solid #fff;display:flex;align-items:center;padding:0 12px;font-size:10.5px;font-style:italic;color:rgba(46,36,64,0.45);">him obsessed with me…</div>
+                <div style="display:flex;gap:5px;flex-wrap:wrap;">
+                  <span style="height:24px;border-radius:12px;background:rgba(255,255,255,0.7);font-size:8.5px;font-weight:650;display:flex;align-items:center;padding:0 9px;">Get him obsessed</span>
+                  <span style="height:24px;border-radius:12px;background:rgba(255,255,255,0.7);font-size:8.5px;font-weight:650;display:flex;align-items:center;padding:0 9px;">$10k weeks</span>
+                  <span style="height:24px;border-radius:12px;background:rgba(255,255,255,0.7);font-size:8.5px;font-weight:650;display:flex;align-items:center;padding:0 9px;">Euro summer</span>
+                </div>
+                <div style="border-radius:14px;background:rgba(255,250,243,0.9);padding:11px;display:flex;flex-direction:column;gap:6px;margin-top:4px;">
+                  <span style="font-size:7.5px;font-weight:700;letter-spacing:1px;color:rgba(46,36,64,0.5);">TODAY'S MOMENT</span>
+                  <span style="font-family:'Newsreader',serif;font-style:italic;font-size:11.5px;line-height:1.35;">A quiet morning inside your own sunlit flat</span>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{sh.isVoice}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:7px;padding:24px 14px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14px;text-align:center;line-height:1.35;">Whose voice carries your story?</div>
+                <sc-for list="{{voiceDemo}}" as="v" hint-placeholder-count="3">
+                  <div style="border-radius:12px;border:1.5px solid {{v.bd}};background:{{v.bg}};padding:8px 11px;display:flex;align-items:center;gap:8px;">
+                    <span style="width:12px;height:12px;border-radius:6px;border:1.5px solid {{v.dot}};background:{{v.dotBg}};box-sizing:border-box;"></span>
+                    <span style="display:flex;flex-direction:column;"><span style="font-size:10.5px;font-weight:650;">{{v.n}}</span><span style="font-size:8px;color:rgba(46,36,64,0.55);">{{v.d}}</span></span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{sh.isWall}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:8px;padding:24px 14px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:15px;">Proof it's working</div>
+                <div style="border-radius:13px;background:linear-gradient(135deg,rgba(84,60,110,0.94),rgba(122,74,122,0.92));padding:11px;display:flex;flex-direction:column;gap:3px;">
+                  <span style="font-family:'Newsreader',serif;font-style:italic;font-size:11px;color:#fff;line-height:1.35;">Got the callback for the studio collab</span>
+                  <span style="font-size:7.5px;color:rgba(255,255,255,0.6);">Apr 12 · manifested</span>
+                </div>
+                <div style="border-radius:13px;background:linear-gradient(135deg,rgba(84,60,110,0.94),rgba(122,74,122,0.92));padding:11px;display:flex;flex-direction:column;gap:3px;">
+                  <span style="font-family:'Newsreader',serif;font-style:italic;font-size:11px;color:#fff;line-height:1.35;">Found the flat with the bay window</span>
+                  <span style="font-size:7.5px;color:rgba(255,255,255,0.6);">Mar 30 · manifested</span>
+                </div>
+                <div style="border-radius:13px;background:rgba(255,255,255,0.75);padding:10px;text-align:center;">
+                  <span style="font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:#503a6b;">2,847</span>
+                  <div style="font-size:7.5px;color:rgba(46,36,64,0.55);">manifestations in the circle this week</div>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{sh.isRitual}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:8px;padding:24px 14px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:15px;">Your daily rhythm</div>
+                <div style="border-radius:13px;background:rgba(255,255,255,0.8);padding:10px 11px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;font-weight:650;">Morning ritual</span><span style="font-size:9px;color:#503a6b;font-weight:650;">7:15am</span></div>
+                <div style="border-radius:13px;background:rgba(255,255,255,0.8);padding:10px 11px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;font-weight:650;">Today's Moment</span><span style="font-size:9px;color:#503a6b;font-weight:650;">9:00am</span></div>
+                <div style="border-radius:13px;background:rgba(255,255,255,0.8);padding:10px 11px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:10px;font-weight:650;">Wind-down + gratitude</span><span style="font-size:9px;color:#503a6b;font-weight:650;">9:30pm</span></div>
+                <div style="display:flex;align-items:center;gap:7px;border-radius:13px;background:rgba(201,141,63,0.14);padding:9px 11px;"><span style="font-size:12px;font-weight:700;color:#a8712c;">6</span><span style="font-size:8.5px;color:rgba(46,36,64,0.6);">day streak — miss a day, nothing resets</span></div>
+              </div>
+            </sc-if>
+            <sc-if value="{{sh.isTrust}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:9px;padding:26px 14px;">
+                <div style="font-family:'Newsreader',serif;font-style:italic;font-size:14px;line-height:1.35;text-align:center;">No surprises, ever.</div>
+                <div style="display:flex;gap:7px;align-items:flex-start;"><span style="width:16px;height:16px;border-radius:8px;background:#503a6b;color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</span><span style="font-size:9px;line-height:1.4;"><b>Today</b> — everything unlocks</span></div>
+                <div style="display:flex;gap:7px;align-items:flex-start;"><span style="width:16px;height:16px;border-radius:8px;background:rgba(80,58,107,0.16);color:#503a6b;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</span><span style="font-size:9px;line-height:1.4;"><b>Day 5</b> — we remind you before your trial ends</span></div>
+                <div style="display:flex;gap:7px;align-items:flex-start;"><span style="width:16px;height:16px;border-radius:8px;background:rgba(80,58,107,0.16);color:#503a6b;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">7</span><span style="font-size:9px;line-height:1.4;"><b>Day 7</b> — $6.99/wk, cancel in two taps</span></div>
+                <div style="height:34px;border-radius:17px;background:#503a6b;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:4px;">Start my free week</div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:650;color:rgba(46,36,64,0.6);">{{sh.label}}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:820px;">
+    <div style="border-radius:20px;background:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.85);padding:20px 22px;display:flex;flex-direction:column;gap:8px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1.6px;color:rgba(46,36,64,0.5);">APP STORE METADATA</div>
+      <div style="font-size:14px;line-height:1.7;"><b>Name:</b> Sora: Manifest Your Dream Life<br><b>Subtitle:</b> Hear your future. Daily.<br><b>Keywords:</b> manifest, manifestation, dream life, future self, affirmations, law of attraction, vision board, gratitude, scripting, abundance</div>
+    </div>
+    <div style="border-radius:20px;background:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.85);padding:20px 22px;display:flex;flex-direction:column;gap:8px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1.6px;color:rgba(46,36,64,0.5);">SEQUENCE LOGIC</div>
+      <div style="font-size:13.5px;line-height:1.65;color:rgba(46,36,64,0.75);">1-2 sell the feeling (story + composer) since 70% never swipe past shot 2; 3 differentiates (your own voice); 4 proves (wall + Circle); 5 shows the habit; 6 closes on trust — the honest-trial timeline is a screenshot, because it's a selling point.</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const dawn = "linear-gradient(165deg,#fdf0e4 0%,#f4dde6 50%,#dcd8f5 100%)";
+    const dusk = "linear-gradient(165deg,#3a2a52 0%,#5c3a66 100%)";
+    return {
+      shots: [
+        { headline: "Hear the life you're manifesting", caption: "AI stories of your future — with your name, your city, your people in them", label: "1 · The magic moment", bg: dusk, fg: "#fff", sub: "rgba(255,255,255,0.65)", isStory: true },
+        { headline: "Ask for anything", caption: "Type a desire. A story about it exists three minutes later.", label: "2 · The composer", bg: dawn, fg: "#2e2440", sub: "rgba(46,36,64,0.6)", isCompose: true },
+        { headline: "In any voice — even yours", caption: "Record 2 minutes once. Every story, forever in your voice.", label: "3 · The differentiator", bg: dawn, fg: "#2e2440", sub: "rgba(46,36,64,0.6)", isVoice: true },
+        { headline: "Watch it start to happen", caption: "Log wins on your wall. 2,847 manifested in the circle this week.", label: "4 · The proof", bg: dusk, fg: "#fff", sub: "rgba(255,255,255,0.65)", isWall: true },
+        { headline: "Two minutes, morning and night", caption: "Gentle rituals that fit your day. Miss one? Nothing resets.", label: "5 · The habit", bg: dawn, fg: "#2e2440", sub: "rgba(46,36,64,0.6)", isRitual: true },
+        { headline: "Try free. We'll remind you.", caption: "7 days free · reminder before it ends · cancel in two taps", label: "6 · The trust close", bg: dusk, fg: "#fff", sub: "rgba(255,255,255,0.65)", isTrust: true }
+      ],
+      voiceDemo: [
+        { n: "Nova", d: "Warm, bright — like a best friend", bd: "rgba(255,255,255,0.95)", bg: "rgba(255,255,255,0.75)", dot: "rgba(46,36,64,0.3)", dotBg: "transparent" },
+        { n: "Atlas", d: "Grounded, steady, deep", bd: "rgba(255,255,255,0.95)", bg: "rgba(255,255,255,0.75)", dot: "rgba(46,36,64,0.3)", dotBg: "transparent" },
+        { n: "Your voice", d: "Record 2 minutes — it's yours forever", bd: "#503a6b", bg: "rgba(80,58,107,0.1)", dot: "#503a6b", dotBg: "#503a6b" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

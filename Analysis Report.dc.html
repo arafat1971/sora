@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#ece6dd;}a{color:#503a6b;}a:hover{color:#6b4a8c;}</style>
+</helmet>
+<div style="min-height:100vh;background:#ece6dd;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;display:flex;justify-content:center;padding:52px 24px 90px;box-sizing:border-box;">
+<div style="max-width:860px;width:100%;display:flex;flex-direction:column;gap:40px;">
+
+  <header style="display:flex;flex-direction:column;gap:10px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(46,36,64,0.5);">SORA · COMPETITIVE ANALYSIS &amp; PRODUCT PLAN · JULY 2026</div>
+    <h1 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:42px;line-height:1.15;margin:0;text-wrap:pretty;">How Sora beats Stella and Aya to #1 in AI manifestation</h1>
+    <p style="font-size:16px;line-height:1.6;color:rgba(46,36,64,0.7);margin:0;max-width:640px;">Reverse-engineered from Stella's full UI flow (your screen recording, 40 frames), both App Store / Play Store listings, and ~200 mined user reviews. Path to $300k+ MRR at the end. <a href="Sora Prototype.dc.html">Open the interactive prototype →</a></p>
+  </header>
+
+  <section style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div style="border-radius:22px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:24px;display:flex;flex-direction:column;gap:10px;">
+      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;">Stella — Manifest Anything</div>
+      <div style="font-size:13px;color:rgba(46,36,64,0.55);">Perl Productions · iOS 4.7★ (~2.2k) · $6.99/wk, 7-day trial</div>
+      <p style="font-size:14px;line-height:1.6;margin:0;">Conversational onboarding harvests deep personal detail (city, work, struggles, people, "don't be realistic" desire, dream home) → soft paywall → AI-narrated audio stories of your future life. Today's Moment daily story with 24h timer, playlists, affirmations, gratitude streak, manifestation wall, 7 voices, profile memory.</p>
+      <div style="font-size:13px;font-weight:650;color:#3e7d5a;">Its magic: detail-driven stories so vivid "the body reacts."</div>
+    </div>
+    <div style="border-radius:22px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:24px;display:flex;flex-direction:column;gap:10px;">
+      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:22px;">Aya — Manifest Your Dream Self</div>
+      <div style="font-size:13px;color:rgba(46,36,64,0.55);">Lit Apps · iOS 4.8★ · Play 4.7★ (6.3k, 50k+) · $9.99/wk</div>
+      <p style="font-size:14px;line-height:1.6;margin:0;">"Meet the version of you who already has it all." Your dream self speaks to you daily: spoken affirmations, wake/wind-down audio rituals, vision board, gratitude, mic read-back of affirmations. Present-moment identity work vs Stella's future cinema.</p>
+      <div style="font-size:13px;font-weight:650;color:#3e7d5a;">Its magic: identity shift — hearing "future you" daily.</div>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:28px;margin:0;">Review mining — what users beg for (and don't get)</h2>
+    <p style="font-size:14.5px;line-height:1.6;color:rgba(46,36,64,0.7);margin:0;">Every row is a recurring complaint in competitor reviews. Each one is a feature in the Sora prototype.</p>
+    <div style="border-radius:22px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);overflow:hidden;">
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:0;font-size:12px;font-weight:700;letter-spacing:1px;color:rgba(46,36,64,0.5);padding:14px 22px;border-bottom:1px solid rgba(46,36,64,0.08);"><span>COMPLAINT (STELLA / AYA REVIEWS)</span><span>SORA'S ANSWER</span></div>
+      <sc-for list="{{gaps}}" as="g" hint-placeholder-count="10">
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:18px;padding:14px 22px;border-bottom:1px solid rgba(46,36,64,0.06);font-size:14px;line-height:1.55;">
+          <span style="color:rgba(46,36,64,0.75);">{{g.c}}</span>
+          <span style="font-weight:600;color:#503a6b;">{{g.a}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:28px;margin:0;">The psychology engine</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <sc-for list="{{psych}}" as="p" hint-placeholder-count="6">
+        <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:20px;display:flex;flex-direction:column;gap:7px;">
+          <div style="font-size:15px;font-weight:700;">{{p.t}}</div>
+          <div style="font-size:13.5px;line-height:1.55;color:rgba(46,36,64,0.7);">{{p.d}}</div>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:14px;line-height:1.6;color:rgba(46,36,64,0.7);margin:0;">The through-line: <b>belief is the product.</b> Every surface must make the user feel it's already working — before the paywall and after. The Signs journal → tomorrow's story loop is the single most important retention mechanic; neither competitor closes it.</p>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:28px;margin:0;">Positioning: the hybrid neither can copy quickly</h2>
+    <div style="border-radius:22px;background:linear-gradient(135deg,rgba(84,60,110,0.95),rgba(122,74,122,0.92));color:#fff;padding:28px;display:flex;flex-direction:column;gap:10px;">
+      <div style="font-family:'Newsreader',serif;font-style:italic;font-size:24px;line-height:1.3;">Stella tells you a story about your future. Aya lets your future self speak. Sora does both — and then proves it's working.</div>
+      <div style="font-size:14px;line-height:1.6;color:rgba(255,255,255,0.85);">Cinematic personalized stories (Stella's strength) + daily letters and rituals from your future self (Aya's strength) + an evidence loop (Signs, Proof wall, Circle) that neither has. Proof compounds belief; belief compounds retention; retention compounds MRR.</div>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:28px;margin:0;">Monetization &amp; the path to $300k MRR</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;">
+      <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:20px;">
+        <div style="font-family:'Newsreader',serif;font-size:30px;font-weight:600;color:#503a6b;">$6.99<span style="font-size:14px;color:rgba(46,36,64,0.5);">/wk</span></div>
+        <div style="font-size:13px;line-height:1.55;color:rgba(46,36,64,0.7);margin-top:6px;">7-day trial, matching Stella but undercutting Aya's $9.99. Add annual ($49.99) at trial-end reminder for LTV + churn insurance.</div>
+      </div>
+      <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:20px;">
+        <div style="font-family:'Newsreader',serif;font-size:30px;font-weight:600;color:#503a6b;">~11k</div>
+        <div style="font-size:13px;line-height:1.55;color:rgba(46,36,64,0.7);margin-top:6px;">paying subscribers needed at $6.99/wk (~$27/mo net of fees) for $300k MRR. Aya's ~2.1k installs/day shows the demand exists.</div>
+      </div>
+      <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:20px;">
+        <div style="font-family:'Newsreader',serif;font-size:30px;font-weight:600;color:#503a6b;">3 loops</div>
+        <div style="font-size:13px;line-height:1.55;color:rgba(46,36,64,0.7);margin-top:6px;">Growth: shareable affirmation + "It happened" cards (TikTok-native), give-a-week referral, anonymized Circle wall as social proof.</div>
+      </div>
+    </div>
+    <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:20px;font-size:14px;line-height:1.65;color:rgba(46,36,64,0.75);">
+      <b>Trust = conversion.</b> Stella's #1 monetization complaint is feeling baited (deep personal onboarding → wall) and surprise charges. Sora keeps the same paywall timing but defuses the resentment: the paywall shows <i>your finished story behind glass</i>, a 1-5-7 day timeline promising a reminder before charging, and "cancel in two taps" — honesty as a conversion tactic. Reviews mentioning "no surprises" become the moat.
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:28px;margin:0;">Roadmap</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <sc-for list="{{roadmap}}" as="r" hint-placeholder-count="4">
+        <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:20px 22px;display:flex;gap:18px;align-items:flex-start;">
+          <span style="flex-shrink:0;min-width:92px;font-size:12px;font-weight:700;letter-spacing:1px;color:#fff;background:#503a6b;border-radius:14px;padding:6px 12px;text-align:center;">{{r.when}}</span>
+          <div>
+            <div style="font-size:15px;font-weight:700;">{{r.t}}</div>
+            <div style="font-size:13.5px;line-height:1.6;color:rgba(46,36,64,0.7);margin-top:4px;">{{r.d}}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:28px;margin:0;">Design system (in the prototype)</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <sc-for list="{{swatches}}" as="s" hint-placeholder-count="6">
+        <div style="display:flex;flex-direction:column;gap:6px;align-items:center;">
+          <span style="width:74px;height:74px;border-radius:20px;background:{{s.c}};border:1px solid rgba(46,36,64,0.1);"></span>
+          <span style="font-size:11px;font-weight:650;color:rgba(46,36,64,0.6);">{{s.n}}</span>
+        </div>
+      </sc-for>
+    </div>
+    <p style="font-size:14px;line-height:1.65;color:rgba(46,36,64,0.7);margin:0;">Warm dawn gradients (sunrise = becoming) instead of Stella's cooler pastels; italic Newsreader serif for anything the "inner voice" says, system sans for UI — a clear voice/interface separation neither competitor has. Full iOS grammar: 44pt+ targets, floating glass tab bar, sheets with grabbers, segmented controls, grouped lists.</p>
+  </section>
+
+  <footer style="font-size:13px;color:rgba(46,36,64,0.55);line-height:1.6;border-top:1px solid rgba(46,36,64,0.1);padding-top:18px;">
+    Sources: your uploaded screen-recording PDFs (research/ folder), App Store &amp; Play Store listings and reviews for both apps, July 2026. Raw notes in research/findings.md.
+  </footer>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      gaps: [
+        { c: "\u201cToday's Moment came late / repeated the same story\u201d — the daily ritual breaks and trust collapses", a: "On-time daily story with visible countdown; never repeats — Signs journal feeds fresh material daily" },
+        { c: "\u201cModify story didn't actually change anything\u201d", a: "Modify rewrites instantly, shows a 'Rewritten with your changes' badge as proof" },
+        { c: "\u201cStuck with a narrator voice I dislike on old stories\u201d", a: "Voice change applies to every story, even old ones — one tap" },
+        { c: "\u201cI can't delete old thoughts; I don't connect with them anymore\u201d", a: "Sora's Memory: every remembered fact is visible and deletable; stories update instantly" },
+        { c: "\u201cWish affirmations were read aloud while I drive\u201d + \u201cneeds a loop button\u201d", a: "Spoken affirmations with loop, plus 8-hour Sleep-on-it whisper mode" },
+        { c: "\u201cI want it in MY voice\u201d", a: "Record 2 minutes → own-voice narration ('Your voice' option at onboarding and in settings)" },
+        { c: "\u201cIt mispronounces my name (Gaelic names)\u201d", a: "'How do we say your name?' phonetic field in Profile" },
+        { c: "\u201cOnly tracks one manifestation; ignores my others\u201d", a: "Manifesting-now goals, each with its own story thread and progress" },
+        { c: "\u201cHome options too limited — I wanted a historic church\u201d", a: "Every chip question accepts free text; your words always win" },
+        { c: "\u201cGave all my personal info, then hit a paywall — felt baited\u201d + surprise charges", a: "Paywall shows your finished story waiting, day-5 reminder promise, cancel-in-two-taps — trust as conversion" },
+        { c: "Aya: \u201ckeyboard blocks the Next button\u201d, silent audio bugs", a: "Input bar floats above keyboard; QA gate: audio is the product, it never fails silently" }
+      ],
+      psych: [
+        { t: "Identity shift", d: "Letters and affirmations come from 'future you', not the app — Aya's mechanic, deepened with personalized letters referencing your real goals." },
+        { t: "Specificity effect", d: "The more real detail, the stronger the emotional response. Onboarding asks 'why does this matter' — a question neither competitor asks — and it powers every story." },
+        { t: "Evidence loop", d: "Signs journal captures small coincidences; tomorrow's story weaves them in. The app visibly 'works' within days — the belief that drives 'it's worth it' reviews." },
+        { t: "Loss-aversion-free trust", d: "Trial timeline, reminder promise, easy cancel. Counterintuitively raises conversion: the #1 review complaint becomes the #1 praise." },
+        { t: "Streaks without shame", d: "Gentle streak + weekly dots (Stella-style) but missing a day never resets to zero language — 'come back once daily' invitation, not punishment." },
+        { t: "Social proof + belonging", d: "The Circle: anonymized real wins scrolling in. 2,847 manifestations this week = 'this works for people like me' at the exact moment doubt creeps in." }
+      ],
+      roadmap: [
+        { when: "WEEKS 1-6", t: "MVP — the belief core", d: "Onboarding → paywall → daily story + player (voice change, modify, read-along), affirmations with audio/loop, gratitude + signs journal, memory management. iOS first, RevenueCat, ElevenLabs voices." },
+        { when: "WEEKS 7-10", t: "Retention layer", d: "Morning/evening rituals, future-self letters, multiple goals, streaks + notifications, lock-screen widget (countdown to Today's Moment), sleep mode." },
+        { when: "WEEKS 11-14", t: "Growth layer", d: "Share cards (affirmation + 'It happened' templates sized for IG/TikTok), give-a-week referral, the Circle wall, App Store optimization: 'manifest', 'dream life', 'future self'." },
+        { when: "MONTH 4+", t: "Moats", d: "Own-voice cloning, Android launch (Aya's Play traction proves the market), annual plan experiments, localization (ES/PT first — manifestation TikTok is huge in LatAm), themed story seasons." }
+      ],
+      swatches: [
+        { n: "Ink #2e2440", c: "#2e2440" },
+        { n: "Iris #503a6b", c: "#503a6b" },
+        { n: "Dawn gradient", c: "linear-gradient(150deg,#fdf0e4,#f9dfe2,#eaddf5,#d8e0fa)" },
+        { n: "Amber #c98d3f", c: "#c98d3f" },
+        { n: "Rose #c76d8b", c: "#c76d8b" },
+        { n: "Sage #3e7d5a", c: "#3e7d5a" },
+        { n: "Paper #ece6dd", c: "#ece6dd" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

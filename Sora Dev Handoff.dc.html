@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#ece6dd;}a{color:#503a6b;}a:hover{color:#6b4a8c;}</style>
+</helmet>
+<div style="min-height:100vh;background:#ece6dd;font-family:system-ui,-apple-system,sans-serif;color:#2e2440;display:flex;justify-content:center;padding:52px 24px 90px;box-sizing:border-box;">
+<div style="max-width:880px;width:100%;display:flex;flex-direction:column;gap:36px;">
+
+  <header style="display:flex;flex-direction:column;gap:10px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:rgba(46,36,64,0.5);">SORA · DEVELOPER HANDOFF · V1</div>
+    <h1 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:38px;line-height:1.15;margin:0;">Build spec — everything a dev team needs to ship Sora</h1>
+    <p style="font-size:15px;line-height:1.6;color:rgba(46,36,64,0.7);margin:0;max-width:660px;">Companion to the <a href="Sora Prototype.dc.html">interactive prototype</a> (source of truth for UI), the <a href="Sora Android Variant.dc.html">Android adaptation</a>, and the <a href="Analysis Report.dc.html">analysis report</a> (the why behind every feature).</p>
+  </header>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:26px;margin:0;">1 · Architecture at a glance</h2>
+    <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:22px;font-size:14px;line-height:1.7;">
+      <b>Clients:</b> SwiftUI (iOS 17+) and Jetpack Compose (Android 8+), thin — all story/affirmation generation server-side.<br>
+      <b>Backend:</b> Supabase or Firebase (auth, Postgres/Firestore, storage for audio) + a worker queue for story-generation jobs.<br>
+      <b>AI:</b> LLM API for story/letter/affirmation text · ElevenLabs for TTS + instant voice cloning · pipeline: profile context → prompt template → text → TTS → cached MP3 in storage/CDN.<br>
+      <b>Subscriptions:</b> RevenueCat (both stores, one SDK) · <b>Analytics:</b> Amplitude or PostHog + RevenueCat webhooks.<br>
+      <b>Notifications:</b> local scheduling for rituals; push (APNs/FCM) for Today's-Moment-ready and the day-5 trial reminder (contractual — see §5).
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:26px;margin:0;">2 · Screen inventory &amp; flows</h2>
+    <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);overflow:hidden;">
+      <div style="display:grid;grid-template-columns:170px 1fr;font-size:12px;font-weight:700;letter-spacing:1px;color:rgba(46,36,64,0.5);padding:12px 20px;border-bottom:1px solid rgba(46,36,64,0.08);"><span>FLOW</span><span>SCREENS (all in prototype)</span></div>
+      <sc-for list="{{flows}}" as="f" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:170px 1fr;gap:14px;padding:12px 20px;border-bottom:1px solid rgba(46,36,64,0.06);font-size:13.5px;line-height:1.55;">
+          <span style="font-weight:700;color:#503a6b;">{{f.n}}</span>
+          <span style="color:rgba(46,36,64,0.75);">{{f.s}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:26px;margin:0;">3 · Data model (core entities)</h2>
+    <div style="border-radius:20px;background:#2e2440;padding:22px;overflow-x:auto;">
+      <pre style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;color:#e8e0f2;">{{schema}}</pre>
+    </div>
+    <p style="font-size:13.5px;line-height:1.6;color:rgba(46,36,64,0.7);margin:0;"><b>Memory is user-editable (review complaint #4):</b> every fact used in prompts lives in <code style="font-family:'JetBrains Mono',monospace;font-size:12px;">memory_facts</code> — never bury context in an opaque blob. Deleting a fact must take effect on the next generation.</p>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:26px;margin:0;">4 · Generation pipeline &amp; voice</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <sc-for list="{{pipeline}}" as="p" hint-placeholder-count="4">
+        <div style="border-radius:18px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:18px 20px;display:flex;flex-direction:column;gap:6px;">
+          <div style="font-size:13.5px;font-weight:700;">{{p.t}}</div>
+          <div style="font-size:13px;line-height:1.6;color:rgba(46,36,64,0.7);">{{p.d}}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:26px;margin:0;">5 · Monetization integration</h2>
+    <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);padding:22px;font-size:14px;line-height:1.75;">
+      RevenueCat offering: <b>weekly $6.99 / 7-day trial</b> (default) + <b>annual $49.99</b> surfaced at the day-5 reminder and in Profile.<br>
+      <b>Day-5 reminder is a product promise</b> — shown on the paywall UI. Implement as a server-scheduled push + in-app banner; if pushes are disabled, in-app banner is mandatory on next open. Breaking this promise breaks the entire trust positioning.<br>
+      Cancel flow: Profile → Manage subscription deep-links to store-native management (two taps). No retention dark patterns — the analysis shows honesty is the conversion strategy.<br>
+      Referral: RevenueCat promotional entitlements — giver and receiver each get 7 days on redemption. Attribute via invite links (Branch or App Store/Play referrer).
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:26px;margin:0;">6 · QA gates (from competitor review mining)</h2>
+    <div style="border-radius:20px;background:rgba(255,255,255,0.72);border:1px solid rgba(255,255,255,0.9);overflow:hidden;">
+      <sc-for list="{{qa}}" as="q" hint-placeholder-count="7">
+        <div style="display:flex;gap:12px;padding:12px 20px;border-bottom:1px solid rgba(46,36,64,0.06);font-size:13.5px;line-height:1.55;align-items:baseline;">
+          <span style="flex-shrink:0;width:8px;height:8px;border-radius:4px;background:#c76d8b;position:relative;top:-1px;"></span>
+          <span style="color:rgba(46,36,64,0.8);">{{q}}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:12px;">
+    <h2 style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:26px;margin:0;">7 · Analytics events (belief funnel)</h2>
+    <div style="border-radius:20px;background:#2e2440;padding:22px;overflow-x:auto;">
+      <pre style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;color:#e8e0f2;">{{events}}</pre>
+    </div>
+    <p style="font-size:13.5px;line-height:1.6;color:rgba(46,36,64,0.7);margin:0;">North-star: <b>signs logged per user per week</b> — it predicts retention better than plays (evidence → belief → renewal). Second metric: day-5 reminder → conversion rate, proving trust-first monetization.</p>
+  </section>
+
+  <footer style="font-size:13px;color:rgba(46,36,64,0.55);line-height:1.6;border-top:1px solid rgba(46,36,64,0.1);padding-top:18px;">
+    Ethical note: launch metrics (wins counts, percentages, testimonials) shown in the prototype are demo placeholders — replace with real, verifiable data before shipping. Trust claims that turn out false destroy exactly the review moat this strategy builds.
+  </footer>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      flows: [
+        { n: "Onboarding", s: "Welcome → 16 mixed steps: typed answers (name, city, desire, why-it-matters) interleaved with tap-quiz questions (want age, doubt voice, ritual time) + mirror interstitials that read the user back, belief stats, home/partner chips w/ free text, voice pick incl. 'Your voice' → personalizing → paywall. Quiz answers feed memory_facts" },
+        { n: "Paywall + welcome", s: "Story-behind-glass, proof badges, 1-5-7 trust timeline, weekly/annual plan picker (annual pre-selected, '$0.96/week' framing — target 60%+ annual mix) → post-trial full-screen welcome (Begin Day 1 / Tell someone)" },
+        { n: "Home", s: "Greeting, live wins ticker, manifest composer + trending chips, Today's Moment + countdown, 14-day belief plan, rituals row, future-self letter, Manifesting-now goals (+ New goal sheet), Recently played, Library" },
+        { n: "Player", s: "Orb + karaoke caption, scrubber, speed, loop, voice sheet (change applies to ALL stories), Read-along, Modify (actually regenerates + badge), Share, end-of-story 'It is done' seal → log sign / share" },
+        { n: "Composer", s: "Free-text desire → composing progress → 3-vision swipe picker → player with custom title. Mini-player pill when backgrounded" },
+        { n: "Affirmations", s: "Daily card stack, spoken audio + loop + 8-hr sleep mode, heart/save, share-card export" },
+        { n: "Vision", s: "Vision board (photo slots), Proof wall (wins + auto share), The Circle (anonymized community wins feed)" },
+        { n: "Journal", s: "Gratitude (streak + weekly dots, prompts) and Signs segments; sign entries feed next story generation" },
+        { n: "Progress", s: "Daily seal ritual (one-tap 'Hold today' → variable 'Sora noticed' reward, re-rollable) above the belief-plan evidence: day counter, streak/signs/stories stats, per-goal momentum, signs timeline. Seal state resets at local midnight" },
+        { n: "Widgets", s: "Lock-screen inline (today's story line, rotates at dawn), small home (affirmation), medium home (streak dots + one-tap seal via deep link). Small is free tier; medium is paid" },
+        { n: "Referral", s: "'Gift 7 Days' pass — sender name travels on it, no card required for recipient, both earn a month on subscribe. Entry points: Profile card + post-milestone share sheet" },
+        { n: "Profile", s: "Basics + pronunciation field, My People, Lifestyle tags, editable Memory list (delete facts), Daily Rhythm (reminders sheet, widgets screen), voice settings, referral, manage subscription" }
+      ],
+      schema: `users(id, name, name_phonetic, city, tz, voice_id, created_at)
+memory_facts(id, user_id, kind, text, source, active, created_at)
+  -- kind: person|place|struggle|desire|lifestyle|note
+goals(id, user_id, title, area, status, created_at)      -- status: active|manifested
+stories(id, user_id, goal_id?, title, script_text, audio_url,
+        voice_id, kind, played_count, favorited, created_at)
+  -- kind: daily_moment|on_demand|ritual|letter
+affirmations(id, user_id, text, audio_url, saved)
+journal_entries(id, user_id, kind, text, photo_url?, created_at)
+  -- kind: gratitude|sign|win        -- win => proof wall + share card
+streaks(user_id, current, longest, week_bitmap)
+subscriptions -> RevenueCat webhooks (entitlement, trial_ends_at)`,
+      pipeline: [
+        { t: "Today's Moment (cron)", d: "Server job per user at local 9:00am: assemble context (active memory facts + newest signs + goal rotation) → LLM → ElevenLabs → MP3 cached. Rotate across goals so no goal is ignored (complaint #1); never reuse a script hash." },
+        { t: "On-demand compose", d: "User text → 3 vision variants (title + angle) in one LLM call → full script for the picked one → TTS. Target < 45s end-to-end; show progress honestly." },
+        { t: "Modify story", d: "Original script + user's change note → rewrite → new TTS → replace audio + show 'Rewritten with your changes' badge. Must visibly differ (complaint #2)." },
+        { t: "Voice", d: "7 stock ElevenLabs voices + instant clone from 2-min sample. Voice change re-renders audio lazily per story on next play (complaint #3). Store name_phonetic and inject into TTS via pronunciation tags (complaint #9)." }
+      ],
+      qa: [
+        "Today's Moment arrives on time in every timezone; DST tested. A late daily story is a P1.",
+        "Modify produces a visibly different script 100% of the time — diff-check before serving.",
+        "Voice change applies to old stories (lazy re-render) — verify oldest story in account.",
+        "Deleting a memory fact excludes it from the very next generation — test with name of a person.",
+        "Audio never fails silently (Aya's bug): every play path has an error state + retry.",
+        "Keyboard never covers the input or CTA (Aya's bug) — test smallest supported device.",
+        "Account/data survives app update + reinstall (Stella lost accounts on update).",
+        "Trial: day-5 reminder fires; cancel deep-link works; no charge after cancel — the whole brand rests on this."
+      ],
+      events: `onboarding_step_completed(step)        paywall_viewed / trial_started
+story_generated(kind, latency_ms)      story_played(pct_completed)
+story_sealed_viewed                    sign_logged(source: seal|journal)
+win_logged -> share_card_opened        share_completed(channel, card_type)
+belief_plan_viewed(day)                referral_sent / referral_redeemed
+trial_reminder_shown -> trial_converted(plan: weekly|annual)
+progress_seal_tapped(day)              widget_added(kind, surface)
+quiz_answer(step, value)               plan_selected(weekly|annual)
+voice_changed(to) / voice_cloned       memory_fact_deleted`
+    };
+  }
+}
+</script>
+</body>
+</html>
