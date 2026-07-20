@@ -6,6 +6,8 @@ import {
 } from '@expo-google-fonts/newsreader';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+
+import { Toast } from '@/components/Toast';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -68,7 +70,9 @@ export default function RootLayout() {
             animation: 'fade',
           }}
         />
+        <Stack.Screen name="journal" options={{ headerShown: false }} />
       </Stack>
+      <Toast />
     </>
   );
 }

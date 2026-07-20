@@ -1,18 +1,11 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import Svg, {
-  Circle,
-  Defs,
-  Ellipse,
-  Path,
-  RadialGradient,
-  Rect,
-  Stop,
-} from 'react-native-svg';
+import Svg, { Defs, Ellipse, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 
 import { Orb } from '@/components/Orb';
 import { Screen } from '@/components/Screen';
+import { VoiceSheet } from '@/components/VoiceSheet';
 import { colors, fonts } from '@/constants/theme';
 import { useOnboarding } from '@/store/onboarding';
 import {
@@ -28,20 +21,11 @@ import {
 // a sheet). Audio is simulated at the prototype's tick rate until the
 // ElevenLabs pipeline lands.
 
-const VOICES = [
-  { name: 'Nova', desc: 'Warm, bright — like a best friend who believes you' },
-  { name: 'Wren', desc: 'Calm, low, unhurried' },
-  { name: 'Atlas', desc: 'Grounded, steady, deep' },
-  { name: 'Mara', desc: 'Soft, motherly, soothing' },
-  { name: 'Your voice', desc: 'Record 2 minutes — hear your dreams in your own voice' },
-];
-
 export default function PlayerScreen() {
   const router = useRouter();
   const pb = usePlayback();
   const name = useOnboarding((s) => s.name) || 'Julia';
   const voice = useOnboarding((s) => s.voice);
-  const setAnswer = useOnboarding((s) => s.setAnswer);
   const [voiceSheet, setVoiceSheet] = useState(false);
 
   // Prototype tick: +0.55%·speed per 550ms while playing.
@@ -210,48 +194,7 @@ export default function PlayerScreen() {
         </View>
       </View>
 
-      {/* Voice sheet — bottom sheet, radius 28, #fbf5ee */}
-      {voiceSheet && (
-        <Pressable style={styles.scrim} onPress={() => setVoiceSheet(false)}>
-          <Pressable style={styles.sheet} onPress={() => {}}>
-            <View style={styles.dragHandle} />
-            <Text style={styles.sheetTitle}>Whose voice carries your story?</Text>
-            <Text style={styles.sheetSub}>Changes apply to every story — even old ones.</Text>
-            <View style={styles.sheetRows}>
-              {VOICES.map((v) => {
-                const sel = voice === v.name;
-                return (
-                  <Pressable
-                    key={v.name}
-                    onPress={() => {
-                      setAnswer('voice', v.name);
-                      setVoiceSheet(false);
-                    }}
-                    style={[styles.voiceRow, sel ? styles.voiceRowOn : styles.voiceRowOff]}>
-                    <View
-                      style={[
-                        styles.voiceDot,
-                        {
-                          borderColor: sel ? colors.primary : 'rgba(46,36,64,0.3)',
-                          backgroundColor: sel ? colors.primary : 'transparent',
-                        },
-                      ]}
-                    />
-                    <View style={styles.voiceMeta}>
-                      <Text style={styles.voiceName}>{v.name}</Text>
-                      <Text style={styles.voiceDesc}>{v.desc}</Text>
-                    </View>
-                    <Svg width={24} height={24} viewBox="0 0 26 26">
-                      <Circle cx={13} cy={13} r={12} fill="rgba(80,58,107,0.1)" />
-                      <Path d="M11 9.5v7l5.5-3.5z" fill={colors.primary} />
-                    </Svg>
-                  </Pressable>
-                );
-              })}
-            </View>
-          </Pressable>
-        </Pressable>
-      )}
+      {voiceSheet && <VoiceSheet onClose={() => setVoiceSheet(false)} />}
     </Screen>
   );
 }
@@ -403,53 +346,4 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(46,36,64,0.2)',
   },
   linkText: { fontSize: 12.5, fontWeight: '600', color: colors.muted },
-  scrim: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(30,22,44,0.35)',
-    justifyContent: 'flex-end',
-  },
-  sheet: {
-    backgroundColor: colors.sheet,
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    paddingTop: 14,
-    paddingHorizontal: 22,
-    paddingBottom: 40,
-    shadowColor: 'rgba(30,22,44,1)',
-    shadowOpacity: 0.25,
-    shadowOffset: { width: 0, height: -12 },
-    shadowRadius: 40,
-    elevation: 16,
-  },
-  dragHandle: {
-    width: 40,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: 'rgba(46,36,64,0.18)',
-    alignSelf: 'center',
-    marginBottom: 14,
-  },
-  sheetTitle: { fontFamily: fonts.serifItalic, fontSize: 20, textAlign: 'center', color: colors.ink },
-  sheetSub: { fontSize: 12.5, color: colors.muted, textAlign: 'center', marginTop: 4 },
-  sheetRows: { gap: 9, marginTop: 16 },
-  voiceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 13,
-    minHeight: 54,
-    paddingVertical: 7,
-    paddingHorizontal: 15,
-    borderRadius: 17,
-    borderWidth: 1.5,
-  },
-  voiceRowOn: { borderColor: colors.primary, backgroundColor: 'rgba(80,58,107,0.1)' },
-  voiceRowOff: { borderColor: 'rgba(255,255,255,0.9)', backgroundColor: 'rgba(255,255,255,0.6)' },
-  voiceDot: { width: 19, height: 19, borderRadius: 9.5, borderWidth: 2 },
-  voiceMeta: { flex: 1 },
-  voiceName: { fontSize: 15, fontWeight: '600', color: colors.ink },
-  voiceDesc: { fontSize: 12, color: colors.muted },
 });

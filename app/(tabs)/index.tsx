@@ -188,7 +188,7 @@ export default function HomeScreen() {
 
         {/* Journal link */}
         <View style={styles.journalRow}>
-          <Pressable style={styles.journalBtn}>
+          <Pressable onPress={() => router.push('/journal')} style={styles.journalBtn}>
             <Text style={styles.journalText}>Journal</Text>
           </Pressable>
         </View>
