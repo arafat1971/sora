@@ -13,6 +13,7 @@ import Svg, { Circle, Defs, Path, RadialGradient, Stop } from 'react-native-svg'
 
 import { Screen } from '@/components/Screen';
 import { colors, fonts, gradients } from '@/constants/theme';
+import { useGoals } from '@/store/goals';
 import { useOnboarding } from '@/store/onboarding';
 import { DEFAULT_TITLE, usePlayback } from '@/store/playback';
 import { useSeal } from '@/store/seal';
@@ -38,12 +39,6 @@ const FOR_YOU = [
   },
 ];
 
-const GOALS = [
-  { t: 'Inner peace that stays', n: '7 stories', p: 64 },
-  { t: 'The studio takes off', n: '5 stories', p: 40 },
-  { t: 'A home that feels like me', n: '4 stories', p: 28 },
-];
-
 const RECENT = [
   { t: 'That evening I stopped rushing and the world slowed down with me', d: '03:18 · yesterday' },
   { t: 'The way my heart stayed steady during the hard conversation', d: '02:41 · Tuesday' },
@@ -64,6 +59,7 @@ export default function HomeScreen() {
   const voice = useOnboarding((s) => s.voice);
   const streak = useSeal((s) => s.streak);
   const open = usePlayback((s) => s.open);
+  const goals = useGoals((s) => s.goals);
   const [composeText, setComposeText] = useState('');
   const [favs, setFavs] = useState<Record<number, boolean>>({});
   const refreshIn = useRefreshClock();
@@ -271,7 +267,7 @@ export default function HomeScreen() {
         {/* Manifesting now */}
         <View style={styles.sectionHead}>
           <Text style={styles.sectionTitleInline}>Manifesting now</Text>
-          <Pressable>
+          <Pressable onPress={() => router.push('/new-goal')}>
             <Text style={styles.sectionLink}>+ New goal</Text>
           </Pressable>
         </View>
@@ -280,7 +276,7 @@ export default function HomeScreen() {
           showsHorizontalScrollIndicator={false}
           style={styles.carousel}
           contentContainerStyle={styles.carouselContent}>
-          {GOALS.map((g) => (
+          {goals.map((g) => (
             <Pressable key={g.t} onPress={() => play()} style={styles.goalCard}>
               <Text style={styles.goalTitle}>{g.t}</Text>
               <Text style={styles.goalMeta}>{g.n}</Text>
@@ -299,7 +295,7 @@ export default function HomeScreen() {
         {/* Recently played */}
         <View style={styles.sectionHead}>
           <Text style={styles.sectionTitleInline}>Recently played</Text>
-          <Pressable>
+          <Pressable onPress={() => router.push('/library')}>
             <Text style={styles.sectionLink}>Library →</Text>
           </Pressable>
         </View>

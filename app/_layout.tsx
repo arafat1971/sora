@@ -71,6 +71,14 @@ export default function RootLayout() {
           options={{ headerShown: false, animation: 'slide_from_bottom' }}
         />
         <Stack.Screen
+          name="library"
+          options={{ headerShown: false, animation: 'slide_from_bottom' }}
+        />
+        <Stack.Screen
+          name="new-goal"
+          options={{ headerShown: false, presentation: 'transparentModal', animation: 'fade' }}
+        />
+        <Stack.Screen
           name="player"
           options={{ headerShown: false, animation: 'slide_from_bottom' }}
         />
